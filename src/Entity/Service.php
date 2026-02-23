@@ -43,21 +43,29 @@ class Service
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $is_partner = null;
-
-    #[ORM\ManyToOne(inversedBy: 'service')]
-    private ?Reservation $reservation = null;
-
     /**
      * @var Collection<int, Category>
      */
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'service')]
     private Collection $category;
 
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'service', orphanRemoval: true)]
+    private Collection $favoris;
+
+    /**
+     * @var Collection<int, Avis>
+     */
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'service')]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,30 +181,6 @@ class Service
         return $this;
     }
 
-    public function isPartner(): ?bool
-    {
-        return $this->is_partner;
-    }
-
-    public function setIsPartner(bool $is_partner): static
-    {
-        $this->is_partner = $is_partner;
-
-        return $this;
-    }
-
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(?Reservation $reservation): static
-    {
-        $this->reservation = $reservation;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Category>
      */
@@ -221,6 +205,66 @@ class Service
             // set the owning side to null (unless already changed)
             if ($category->getService() === $this) {
                 $category->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getService() === $this) {
+                $favori->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): static
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): static
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getService() === $this) {
+                $avi->setService(null);
             }
         }
 
