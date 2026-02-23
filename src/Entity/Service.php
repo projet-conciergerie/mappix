@@ -19,18 +19,6 @@ class Service
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $telephone = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $position = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $hours = null;
 
@@ -61,6 +49,10 @@ class Service
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'service')]
     private Collection $avis;
 
+    #[ORM\ManyToOne(inversedBy: 'service')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Localisation $localisation = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -81,54 +73,6 @@ class Service
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): static
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?int
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?int $telephone): static
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPosition(): ?string
-    {
-        return $this->position;
-    }
-
-    public function setPosition(string $position): static
-    {
-        $this->position = $position;
 
         return $this;
     }
@@ -267,6 +211,18 @@ class Service
                 $avi->setService(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?Localisation
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(?Localisation $localisation): static
+    {
+        $this->localisation = $localisation;
 
         return $this;
     }
