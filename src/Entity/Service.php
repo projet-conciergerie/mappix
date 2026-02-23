@@ -46,9 +46,6 @@ class Service
     #[ORM\Column]
     private ?bool $is_partner = null;
 
-    #[ORM\ManyToOne(inversedBy: 'service')]
-    private ?Reservation $reservation = null;
-
     /**
      * @var Collection<int, Category>
      */
@@ -181,18 +178,6 @@ class Service
     public function setIsPartner(bool $is_partner): static
     {
         $this->is_partner = $is_partner;
-
-        return $this;
-    }
-
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(?Reservation $reservation): static
-    {
-        $this->reservation = $reservation;
 
         return $this;
     }
