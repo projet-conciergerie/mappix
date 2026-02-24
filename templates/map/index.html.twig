@@ -2,8 +2,7 @@
 
 {% block body %}
 	<h1>Welcome to the Mappix application</h1>
-	<div
-		style="width: 100%; height: 400px;">
+	<div class="map-container" style="width: 100%; height: 400px;">
 		{# The map must have a defined height #}
 		{{ ux_map(map, {style: 'height: 100%;'}) }}
 	</div>
