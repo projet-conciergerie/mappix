@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Evenement;
 use App\Entity\Localisation;
+use App\Entity\Reservation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -30,6 +31,7 @@ class TourismeDashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Evénements', 'fas fa-list', Evenement::class);
-        yield MenuItem::linkToCrud('Localisations', 'fas fa-list', Localisation::class);
+        yield MenuItem::linkToCrud('Reservations', 'fas fa-list', Reservation::class);
+        // yield MenuItem::linkToCrud('Localisations', 'fas fa-list', Localisation::class);
     }
 }
