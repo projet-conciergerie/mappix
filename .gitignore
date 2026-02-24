@@ -19,3 +19,7 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 *.sql
+
+###> overpass/cachefile ###
+/public/data/
+###< overpass/cachefile ###
