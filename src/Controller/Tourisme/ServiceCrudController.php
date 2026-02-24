@@ -2,33 +2,41 @@
 
 namespace App\Controller\Tourisme;
 
-use App\Entity\Reservation;
+use App\Entity\Service;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ReservationCrudController extends AbstractCrudController
+class ServiceCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Reservation::class;
+        return Service::class;
     }
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            AssociationField::new('evenement'),
-            AssociationField::new('user'),
+            TextField::new('nom'),
+            TextField::new('hours'),
+            TextField::new('description'),
+            BooleanField::new('pmr'),
+            AssociationField::new('localisation')
+                ->renderAsEmbeddedForm()
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                ])
         ];
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::NEW)     // désactive création
+            // ->disable(Action::NEW)     // désactive création
             ->disable(Action::EDIT)    // désactive modification
             ->disable(Action::DELETE); // optionnel
     }
