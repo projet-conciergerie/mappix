@@ -25,7 +25,11 @@ class EvenementCrudController extends AbstractCrudController
             DateTimeField::new('startAt', 'Date de début'),
             DateTimeField::new('endAt', 'Date de fin'),
             TextareaField::new('description'),
-            AssociationField::new('localisation'),
+            AssociationField::new('localisation')
+                ->renderAsEmbeddedForm()
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                ]),
             AssociationField::new('category', 'Catégories'),
         ];
     }
