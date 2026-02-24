@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Overpass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ use Symfony\UX\Map\Point;
 final class MapController extends AbstractController
 {
     #[Route('/map', name: 'app_map')]
-    public function index(Request $request): Response
+    public function index(Request $request, Overpass $overpass): Response
     {
 
         if ($request->isMethod('POST')) {
@@ -27,7 +28,11 @@ final class MapController extends AbstractController
                 ]);
             }
         }
-
+        /*
+        $icon = MapIcon::url('/icons/bars.png')
+        ->size(40, 40)
+        ->anchor(20, 40);
+*/
         $map = (new Map('default'))
             ->center(new Point(49.433331, 1.08333))
             ->zoom(8)
@@ -49,15 +54,45 @@ final class MapController extends AbstractController
             );
 
         $map->addMarker(new Marker(
-                position: new Point(49.433331, 1.08333),
-                title: 'Ceppic',
+            position: new Point(49.433331, 1.08333),
+            title: 'Ceppic',
+            infoWindow: new InfoWindow(
+                content: '<p>Welcome to Rouen <form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+            )
+        ));
+
+        $bars = $overpass->getInArea('Rouen', 'bars');
+        foreach ($bars as $bar) {
+            $map->addMarker(new Marker(
+                position: new Point($bar['lat'], $bar['lon']),
+                title: $bar['name'],
                 infoWindow: new InfoWindow(
-                    content: '<p>Welcome to Rouen <form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                    content: '<p>' . $bar['name'] . '<br>' . $bar['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
                 )
             ));
+        }
+
+        $hotels = $overpass->getInArea('Rouen', 'hotels');
+        foreach ($hotels as $hotel) {
+            $map->addMarker(new Marker(
+                position: new Point($hotel['lat'], $hotel['lon']),
+                title: $hotel['name'],
+                infoWindow: new InfoWindow(
+                    content: '<p>' . $hotel['name'] . '<br>' . $hotel['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                )
+            ));
+        }
 
         return $this->render('map/index.html.twig', [
             'map' => $map,
         ]);
+    }
+
+    #[Route('/bars')]
+    public function bars(Overpass $overpass): Response
+    {
+        $bars = $overpass->getBarsInArea('Rouen');
+
+        return $this->json($bars);
     }
 }
