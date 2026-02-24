@@ -55,6 +55,8 @@ class Service
 
     public function __construct()
     {
+        $this->localisation = new Localisation();
+        $this->createdAt = new \DateTimeImmutable();
         $this->category = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->avis = new ArrayCollection();
