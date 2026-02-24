@@ -28,7 +28,7 @@ class Service
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
@@ -49,12 +49,14 @@ class Service
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'service')]
     private Collection $avis;
 
-    #[ORM\ManyToOne(inversedBy: 'service')]
+    #[ORM\ManyToOne(inversedBy: 'service', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Localisation $localisation = null;
 
     public function __construct()
     {
+        $this->localisation = new Localisation();
+        $this->createdAt = new \DateTimeImmutable();
         $this->category = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->avis = new ArrayCollection();

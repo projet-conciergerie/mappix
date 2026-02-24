@@ -4,7 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Service;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -22,8 +24,13 @@ class ServiceCrudController extends AbstractCrudController
         return [
             TextField::new('nom'),
             TextField::new('hours'),
-            TextEditorField::new('description'),
+            TextField::new('description'),
             BooleanField::new('pmr'),
+            AssociationField::new('localisation')
+                ->renderAsEmbeddedForm()
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                ])
         ];
     }
 }

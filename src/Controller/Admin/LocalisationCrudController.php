@@ -4,8 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Localisation;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class LocalisationCrudController extends AbstractCrudController
@@ -14,15 +13,20 @@ class LocalisationCrudController extends AbstractCrudController
     {
         return Localisation::class;
     }
-
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('nom'),
+            TextField::new('adresse'),
+            TextField::new('telephone'),
+            TextField::new('email'),
+            ChoiceField::new('position')->setChoices([
+                'Gauche' => 'gauche',
+                'Droite' => 'droite',
+                'Haut' => 'haut',
+                'Bas' => 'bas',
+            ])
         ];
     }
-    */
+
 }
