@@ -23,6 +23,17 @@ class Overpass
     {
         $data = [];
 
+        $overpassCategory = "";
+        if ($category === "hotels") {
+            $overpassCategory = "tourism";
+            $overpassType = "hotel";
+        } else if ($category === "bars") {
+            $overpassCategory = "amenity";
+            $overpassType = "bar";
+        } else {
+            return [];
+        }
+
         $filename = __DIR__ . '/../../public/data/overpass_' . $areaName . '_' . $category . '.json';
 
         if (file_exists($filename)) {
@@ -35,9 +46,9 @@ class Overpass
 [out:json][timeout:25];
 area["name"="$areaName"]->.a;
 (
-  node["amenity"="bar"](area.a);
-  way["amenity"="bar"](area.a);
-  relation["amenity"="bar"](area.a);
+  node["$overpassCategory"="$overpassType"](area.a);
+  way["$overpassCategory"="$overpassType"](area.a);
+  relation["$overpassCategory"="$overpassType"](area.a);
 );
 out center;
 OVERPASS;
@@ -61,7 +72,7 @@ OVERPASS;
             $tags = $el['tags'] ?? [];
 
             $results[] = [
-                'name' => $tags['name'] ?? 'Bar sans nom',
+                'name' => $tags['name'] ?? $category . ' sans nom',
                 'address' => trim(
                     ($tags['addr:housenumber'] ?? '') . ' ' .
                         ($tags['addr:street'] ?? '') . ', ' .

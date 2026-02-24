@@ -29,7 +29,7 @@ final class MapController extends AbstractController
                 ]);
             }
         }
-        
+
         $map = (new Map('default'))
             ->center(new Point(49.433331, 1.08333))
             ->zoom(8)
@@ -61,30 +61,31 @@ final class MapController extends AbstractController
         /*
         $icon = Icon::url ('/icons/bars.png');
         */
-/*
+        /*
         $iconBars = $map.Icon({ options: '/icons/bars.png'  });
 */
-
+        /*
         $iconBars = new Icon()->url('/icons/beer.png');
 
         $iconBars = Icon::url('/icons/beer.png');
+*/
         /*
             ->size(40, 40)
             ->anchor(20, 40);
 */
-         $bars = $overpass->getInArea('Rouen', 'bars');
+        $bars = $overpass->getInArea('Rouen', 'bars');
         foreach ($bars as $bar) {
             $marker = new Marker(
                 position: new Point($bar['lat'], $bar['lon']),
                 title: $bar['name'],
                 infoWindow: new InfoWindow(
-                    content: '<p>' . $bar['name'] . '<br>' . $bar['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                    content: '<h3>Bar</h3><p>' . $bar['name'] . '<br>' . $bar['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
                 )
             );
 
-            $marker->icon();
+            // $marker->icon();
 
-            $map->addMarker( $marker);
+            $map->addMarker($marker);
         }
 
         $hotels = $overpass->getInArea('Rouen', 'hotels');
@@ -93,7 +94,7 @@ final class MapController extends AbstractController
                 position: new Point($hotel['lat'], $hotel['lon']),
                 title: $hotel['name'],
                 infoWindow: new InfoWindow(
-                    content: '<p>' . $hotel['name'] . '<br>' . $hotel['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                    content: '<h3>Hotel</h3><p>' . $hotel['name'] . '<br>' . $hotel['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
                 )
             ));
         }
@@ -101,13 +102,5 @@ final class MapController extends AbstractController
         return $this->render('map/index.html.twig', [
             'map' => $map,
         ]);
-    }
-
-    #[Route('/bars')]
-    public function bars(Overpass $overpass): Response
-    {
-        $bars = $overpass->getBarsInArea('Rouen');
-
-        return $this->json($bars);
     }
 }
