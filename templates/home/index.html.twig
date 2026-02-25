@@ -1,19 +1,299 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    {% block stylesheets %}
-      {{ encore_entry_link_tags('app') }}
-    {% endblock %}
-  </head>
-  <body>
-    <h1 class="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-    <h2 class="text-2xl underline">Blablabla</h2>
-  </body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block title %}Mappix – Accueil{% endblock %}
+
+{% block body %}
+
+{# ──────────────────────────────────────────
+   NAVBAR
+─────────────────────────────────────────── #}
+<header class="sticky top-0 z-50 bg-gray-900 shadow-lg">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+
+            {# Logo #}
+            <a href="{{ path('app_home') }}"
+               class="text-xl font-extrabold tracking-widest text-white uppercase">
+                Mappix
+            </a>
+
+            {# Desktop links #}
+            <ul class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+                <li>
+                    <a href="{{ path('app_home') }}"
+                       class="hover:text-white transition-colors">Accueil</a>
+                </li>
+                <li>
+                    <a href=""
+                       class="hover:text-white transition-colors">Contact</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_register') }}"
+                       class="rounded-full border border-white px-4 py-1.5 hover:bg-white hover:text-gray-900 transition-all">
+                        S'inscrire
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_login') }}"
+                       class="rounded-full bg-white text-gray-900 px-4 py-1.5 font-semibold hover:bg-gray-200 transition-all">
+                        Se connecter
+                    </a>
+                </li>
+            </ul>
+
+            {# Langue + burger #}
+            <div class="flex items-center gap-3">
+                {# Sélecteur de langue #}
+                <form method="get" class="hidden sm:block">
+                    <select name="lang"
+                            onchange="this.form.submit()"
+                            class="bg-gray-800 text-gray-300 text-sm rounded-md px-2 py-1 border border-gray-600 focus:outline-none cursor-pointer">
+                        <option value="fr">🇫🇷 FR</option>
+                        <option value="en">🇬🇧 EN</option>
+                    </select>
+                </form>
+
+                {# Burger (mobile) #}
+                <button id="menu-toggle"
+                        class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path id="icon-open" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        <path id="icon-close" class="hidden" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {# Mobile menu #}
+        <div id="mobile-menu"
+             class="hidden md:hidden pb-4 flex flex-col gap-3 text-sm font-medium text-gray-300">
+            <a href="{{ path('app_home') }}" class="hover:text-white">Accueil</a>
+            <a href="" class="hover:text-white">Contact</a>
+            <a href="{{ path('app_register') }}"
+               class="w-fit rounded-full border border-white px-4 py-1.5 hover:bg-white hover:text-gray-900 transition-all">
+                S'inscrire
+            </a>
+            <a href="{{ path('app_login') }}"
+               class="w-fit rounded-full bg-white text-gray-900 px-4 py-1.5 font-semibold hover:bg-gray-200 transition-all">
+                Se connecter
+            </a>
+        </div>
+    </nav>
+</header>
+
+
+{# ──────────────────────────────────────────
+   HERO
+─────────────────────────────────────────── #}
+<section class="relative flex flex-col items-center justify-center
+                bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900
+                min-h-[420px] px-4 py-20 text-center overflow-hidden">
+
+    {# Cercle décoratif en arrière-plan #}
+    <div class="absolute -top-20 -right-20 h-80 w-80 rounded-full
+                bg-white/5 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full
+                bg-white/5 blur-3xl pointer-events-none"></div>
+
+    {# Icône caméra #}
+    <div class="relative mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-32 w-32 text-gray-200 drop-shadow-xl"
+             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0
+                     0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0
+                     0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2
+                     0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        {# Petit + dans le coin supérieur droit de l'icône #}
+        <span class="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center
+                     rounded-full bg-white text-gray-900 text-xl font-bold shadow-lg">
+            +
+        </span>
+    </div>
+
+    {# CTA #}
+    <a href="{{ path('app_register') }}"
+       class="rounded-full bg-white text-gray-900 font-semibold
+              px-8 py-3 text-base shadow-xl
+              hover:bg-gray-200 hover:scale-105
+              transition-all duration-200">
+        S'inscrire
+    </a>
+</section>
+
+
+{# ──────────────────────────────────────────
+   SECTION NOUVEAUTÉS + SERVICES
+─────────────────────────────────────────── #}
+<main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+
+    {# ----- Nouveautés ----- #}
+    <div>
+        <h2 class="mb-6 text-2xl font-extrabold text-gray-800 uppercase tracking-wide">
+            Nouveautés
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {% set nouveautes = [
+                { titre: 'Nouveauté 1', description: 'Description succincte de la nouveauté. Découvrez les dernières fonctionnalités ajoutées à la plateforme Mappix pour améliorer votre expérience.' },
+                { titre: 'Nouveauté 2', description: 'Description succincte de la nouveauté. Découvrez les dernières fonctionnalités ajoutées à la plateforme Mappix pour améliorer votre expérience.' },
+                { titre: 'Nouveauté 3', description: 'Description succincte de la nouveauté. Découvrez les dernières fonctionnalités ajoutées à la plateforme Mappix pour améliorer votre expérience.' }
+            ] %}
+
+            {% for item in nouveautes %}
+            <article class="group rounded-2xl border border-gray-200 bg-white
+                            shadow-sm hover:shadow-lg hover:-translate-y-1
+                            transition-all duration-200 overflow-hidden">
+                <div class="border-b border-gray-100 px-6 py-4">
+                    <h3 class="text-lg font-bold text-gray-900">{{ item.titre }}</h3>
+                </div>
+                <div class="px-6 py-5">
+                    <p class="text-sm leading-relaxed text-gray-600">
+                        {{ item.description }}
+                    </p>
+                </div>
+                <div class="px-6 pb-5">
+                    <a href="#"
+                       class="inline-flex items-center gap-1 text-sm font-semibold
+                              text-gray-800 hover:text-gray-500 transition-colors">
+                        En savoir plus
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {# ----- Services ----- #}
+    <div>
+        <h2 class="mb-6 text-2xl font-extrabold text-gray-800 uppercase tracking-wide">
+            Services
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {% set services = [
+                { titre: 'Service 1', description: 'Description succincte du service. Profitez de nos outils performants pour gérer, partager et explorer vos contenus cartographiques facilement.' },
+                { titre: 'Service 2', description: 'Description succincte du service. Profitez de nos outils performants pour gérer, partager et explorer vos contenus cartographiques facilement.' },
+                { titre: 'Service 3', description: 'Description succincte du service. Profitez de nos outils performants pour gérer, partager et explorer vos contenus cartographiques facilement.' }
+            ] %}
+
+            {% for item in services %}
+            <article class="group rounded-2xl border border-gray-200 bg-white
+                            shadow-sm hover:shadow-lg hover:-translate-y-1
+                            transition-all duration-200 overflow-hidden">
+                <div class="border-b border-gray-100 px-6 py-4">
+                    <h3 class="text-lg font-bold text-gray-900">{{ item.titre }}</h3>
+                </div>
+                <div class="px-6 py-5">
+                    <p class="text-sm leading-relaxed text-gray-600">
+                        {{ item.description }}
+                    </p>
+                </div>
+                <div class="px-6 pb-5">
+                    <a href="#"
+                       class="inline-flex items-center gap-1 text-sm font-semibold
+                              text-gray-800 hover:text-gray-500 transition-colors">
+                        Découvrir
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</main>
+
+
+{# ──────────────────────────────────────────
+   FOOTER
+─────────────────────────────────────────── #}
+<footer class="bg-gray-900 text-gray-400 mt-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+            {# Logo #}
+            <span class="text-xl font-extrabold tracking-widest text-white uppercase">
+                Mappix
+            </span>
+
+            {# Liens légaux #}
+            <ul class="flex flex-wrap gap-x-5 gap-y-2 text-xs">
+                <li><a href="#" class="hover:text-white transition-colors">Mentions légales</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">CGU</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Informations sur les cookies</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Confidentialité</a></li>
+                <li><a href="" class="hover:text-white transition-colors">Nous contacter</a></li>
+            </ul>
+        </div>
+
+        <div class="mt-8 border-t border-gray-700 pt-6 text-center text-xs text-gray-500">
+            Copyright © 2013 – {{ "now"|date("Y") }} Mappix
+        </div>
+    </div>
+</footer>
+
+{# ──────────────────────────────────────────
+   Scroll-to-top button
+─────────────────────────────────────────── #}
+<button id="scroll-top"
+        onclick="window.scrollTo({top:0, behavior:'smooth'})"
+        class="fixed bottom-6 right-6 z-50
+               flex h-11 w-11 items-center justify-center
+               rounded-full bg-gray-900 text-white shadow-lg
+               opacity-0 pointer-events-none
+               transition-opacity duration-300
+               hover:bg-gray-700">
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" d="M5 15l7-7 7 7"/>
+    </svg>
+</button>
+
+{# ──────────────────────────────────────────
+   JS minimal (burger + scroll-top)
+─────────────────────────────────────────── #}
+<script>
+    // ----- Burger menu -----
+    const toggle  = document.getElementById('menu-toggle');
+    const menu    = document.getElementById('mobile-menu');
+    const iconOpen  = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    toggle.addEventListener('click', () => {
+        const isHidden = menu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden', !isHidden);
+        iconClose.classList.toggle('hidden', isHidden);
+    });
+
+    // ----- Scroll-to-top -----
+    const btn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+        const show = window.scrollY > 300;
+        btn.classList.toggle('opacity-0',        !show);
+        btn.classList.toggle('pointer-events-none', !show);
+        btn.classList.toggle('opacity-100',       show);
+    });
+</script>
+
+{% endblock %}
