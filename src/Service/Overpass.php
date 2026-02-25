@@ -30,6 +30,9 @@ class Overpass
         } else if ($category === "bars") {
             $overpassCategory = "amenity";
             $overpassType = "bar";
+        } else if ($category === "restaurants") {
+            $overpassCategory = "amenity";
+            $overpassType = "restaurant";
         } else {
             return [];
         }
