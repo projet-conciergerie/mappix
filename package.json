@@ -7,8 +7,11 @@
         "@symfony/stimulus-bridge": "^3.2.0 || ^4.0.0",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
         "@symfony/webpack-encore": "^5.1.0",
+        "autoprefixer": "^10.4.24",
         "core-js": "^3.38.0",
+        "postcss": "^8.5.6",
         "regenerator-runtime": "^0.13.9",
+        "tailwindcss": "^3.4.4",
         "webpack": "^5.74.0",
         "webpack-cli": "^5.1.0"
     },
@@ -21,9 +24,24 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@tailwindcss/postcss": "^4.2.1",
-        "postcss": "^8.5.6",
-        "postcss-loader": "^8.2.1",
-        "tailwindcss": "^4.2.1"
-    }
+        "@material-tailwind/html": "^1.0.1",
+        "postcss-loader": "^8.2.1"
+    },
+    "name": "mappix",
+    "version": "1.0.0",
+    "description": "��#\u0000 \u0000m\u0000a\u0000p\u0000p\u0000i\u0000x\u0000\r\u0000 \u0000",
+    "main": "tailwind.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/projet-conciergerie/mappix.git"
+    },
+    "keywords": [],
+    "author": "",
+    "bugs": {
+        "url": "https://github.com/projet-conciergerie/mappix/issues"
+    },
+    "homepage": "https://github.com/projet-conciergerie/mappix#readme"
 }
