@@ -24,8 +24,12 @@ class ServiceCrudController extends AbstractCrudController
         return [
             TextField::new('nom'),
             TextField::new('hours'),
+            AssociationField::new('category', 'Catégories')
+                ->formatValue(function ($value, $entity) {
+                    return implode (', ', $value->map(fn($cat) => $cat->getNom())->toArray());
+                }),
             TextField::new('description'),
-            BooleanField::new('pmr'),
+            BooleanField::new('pmr', 'PMR'),
             AssociationField::new('localisation')
                 ->renderAsEmbeddedForm()
                 ->setFormTypeOptions([

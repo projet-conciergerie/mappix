@@ -28,7 +28,7 @@ class ReservationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
 
             // Affiche le nom de l'événement
             AssociationField::new('evenement')
@@ -37,8 +37,6 @@ class ReservationCrudController extends AbstractCrudController
             // Affiche l’utilisateur
             AssociationField::new('user')
                 ->setLabel('Utilisateur'),
-
-            DateTimeField::new('createdAt')->hideOnForm(),
         ];
     }
 }
