@@ -99,8 +99,28 @@ final class MapController extends AbstractController
             ));
         }
 
+        $restaurants = $overpass->getInArea('Rouen', 'restaurants');
+        foreach ($restaurants as $restaurant) {
+            $map->addMarker(new Marker(
+                position: new Point($restaurant['lat'], $restaurant['lon']),
+                title: $restaurant['name'],
+                infoWindow: new InfoWindow(
+                    content: '<h3>Restaurant</h3><p>' . $restaurant['name'] . '<br>' . $restaurant['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                )
+            ));
+        }
+
+        $pois = [];
+
+        $markers = array_map(fn($poi) => [
+            'lat' => $poi->lat,
+            'lng' => $poi->lon,
+            'popup' => $poi->name ?? null,
+        ], $pois);
+
         return $this->render('map/index.html.twig', [
             'map' => $map,
+            'markers' => $markers
         ]);
     }
 }
