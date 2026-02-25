@@ -29,7 +29,11 @@ class ServiceCrudController extends AbstractCrudController
                 ->renderAsEmbeddedForm()
                 ->setFormTypeOptions([
                     'by_reference' => false,
-                ])
+                ]),
+            AssociationField::new('category', 'Catégories')
+                ->formatValue(function ($value, $entity) {
+                    return implode(', ', $value->map(fn($cat) => $cat->getNom())->toArray());
+                })
         ];
     }
 
