@@ -94,16 +94,6 @@ final class MapController extends AbstractController
                     ))
             );
 
-
-        // Ajout d'icones specifiques
-        /*
-        $icon = Icon::url ('/icons/bars.png');
-        $iconBars = $map.Icon({ options: '/icons/bars.png'  });
-        $iconBars = new Icon()->url('/icons/beer.png');
-        $iconBars = Icon::url('/icons/beer.png');
-            ->size(40, 40)
-            ->anchor(20, 40);
-        */
         $iconBars = Icon::url('icons/marker_bars.png')
             ->width(64)
             ->height(64);
