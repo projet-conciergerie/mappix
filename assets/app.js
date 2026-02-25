@@ -1,4 +1,13 @@
 import './stimulus_bootstrap.js';
+
+/*
+ * Leaflet MarkerCluster CSS
+ */
+
+import './vendor/leaflet/dist/leaflet.min.css';             // already present
+import './vendor/leaflet-markercluster/MarkerCluster.css';
+import './vendor/leaflet-markercluster/MarkerCluster.Default.css';
+
 /*
  * Welcome to your app's main JavaScript file!
  *

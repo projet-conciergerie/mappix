@@ -33,16 +33,8 @@ final class MapController extends AbstractController
         $map = (new Map('default'))
             ->center(new Point(49.433331, 1.08333))
             ->zoom(8)
-
-            ->addMarker(new Marker(
-                position: new Point(49.490034, 1.140310),
-                title: 'Ceppic',
-                infoWindow: new InfoWindow(
-                    content: '<p>Welcome to CEPPIC <form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Isneauville"><input type="submit" value="Infos"></form></p>',
-                )
-            ))
-
-            ->options((new LeafletOptions())
+            ->options(
+                (new LeafletOptions())
                     ->tileLayer(new TileLayer(
                         url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -50,6 +42,7 @@ final class MapController extends AbstractController
                     ))
             );
 
+        /*
         $map->addMarker(new Marker(
             position: new Point(49.433331, 1.08333),
             title: 'Ceppic',
@@ -57,6 +50,7 @@ final class MapController extends AbstractController
                 content: '<p>Welcome to Rouen <form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
             )
         ));
+        */
 
         /*
         $icon = Icon::url ('/icons/bars.png');
@@ -73,6 +67,7 @@ final class MapController extends AbstractController
             ->size(40, 40)
             ->anchor(20, 40);
 */
+/*
         $bars = $overpass->getInArea('Rouen', 'bars');
         foreach ($bars as $bar) {
             $marker = new Marker(
@@ -109,14 +104,28 @@ final class MapController extends AbstractController
                 )
             ));
         }
+        */
 
-        $pois = [];
+        $markers = [];
 
-        $markers = array_map(fn($poi) => [
-            'lat' => $poi->lat,
-            'lng' => $poi->lon,
-            'popup' => $poi->name ?? null,
-        ], $pois);
+        $restaurants = $overpass->getInArea('Rouen', 'restaurants');
+        foreach ($restaurants as $restaurant) {
+            /*
+            $map->addMarker(new Marker(
+                position: new Point($restaurant['lat'], $restaurant['lon']),
+                title: $restaurant['name'],
+                infoWindow: new InfoWindow(
+                    content: '<h3>Restaurant</h3><p>' . $restaurant['name'] . '<br>' . $restaurant['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>',
+                )
+            ));
+            */
+
+            $markers[] = [
+                'lat' => $restaurant['lat'],
+                'lng' => $restaurant['lon'],
+                'popup' => '<h3>Restaurant</h3><p>' . $restaurant['name'] . '<br>' . $restaurant['address'] . '<form data-turbo-frame="local_data" method="post"><input type="hidden" name="idElement" value="Rouen"><input type="submit" value="Infos"></form></p>'
+            ];
+        }
 
         return $this->render('map/index.html.twig', [
             'map' => $map,
