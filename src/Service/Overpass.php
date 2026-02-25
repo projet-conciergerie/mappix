@@ -10,7 +10,8 @@ class Overpass
 
     public function __construct(
         private HttpClientInterface $client
-    ) {}
+    ) {
+    }
 
     /**
      * Récupère tous les bars dans une zone géographique définie.
@@ -33,6 +34,12 @@ class Overpass
         } else if ($category === "restaurants") {
             $overpassCategory = "amenity";
             $overpassType = "restaurant";
+        } else if ($category === "fontaines") {
+            $overpassCategory = "amenity";
+            $overpassType = "drinking_water";
+        } else if ($category === "toilettes") {
+            $overpassCategory = "amenity";
+            $overpassType = "toilets";
         } else {
             return [];
         }
@@ -74,13 +81,22 @@ OVERPASS;
 
             $tags = $el['tags'] ?? [];
 
+            $address = "";
+            if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
+                $address = ($tags['addr:housenumber'] ?? '') . ' '
+                    . ($tags['addr:street'] ?? '') . ', '
+                    . ($tags['addr:postcode'] ?? '') . ' '
+                    . ($tags['addr:city'] ?? '');
+            } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
+                $address =  ($tags['contact:housenumber'] ?? '') . ' '
+                    . ($tags['contact:street'] ?? '') . ', '
+                    . ($tag['contact:postcode'] ?? '') . ' '
+                    . ($tags['contact:city'] ?? '');
+            }
+
             $results[] = [
                 'name' => $tags['name'] ?? $category . ' sans nom',
-                'address' => trim(
-                    ($tags['addr:housenumber'] ?? '') . ' ' .
-                        ($tags['addr:street'] ?? '') . ', ' .
-                        ($tags['addr:city'] ?? '')
-                ),
+                'address' => trim($address),
                 'lat' => $lat,
                 'lon' => $lon,
                 'tags' => $tags

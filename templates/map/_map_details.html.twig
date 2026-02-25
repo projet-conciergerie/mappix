@@ -1,6 +1,13 @@
 <turbo-frame id="local_data">
-	<p>Choose a position to see full details.</p>
 	<div>
-		{{ items }}
+		<h2>Informations détaillées
+			{{ category }}</h2>
+		<h3>{{ name }}</h3>
+		<p>Adresse : {{ address }}</p>
+		{% for key, value in datas %}
+			<p>{{ key }}
+				:
+				{{ value }}</p>
+		{% endfor %}
 	</div>
 </turbo-frame>
