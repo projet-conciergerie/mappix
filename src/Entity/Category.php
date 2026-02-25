@@ -90,6 +90,6 @@ class Category
 
     public function __toString(): string
     {
-        return $this->nom ?? 'Category';
+        return $this->nom ?? '';
     }
 }
