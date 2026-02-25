@@ -82,7 +82,8 @@ OVERPASS;
                         ($tags['addr:city'] ?? '')
                 ),
                 'lat' => $lat,
-                'lon' => $lon
+                'lon' => $lon,
+                'tags' => $tags
             ];
         }
 
