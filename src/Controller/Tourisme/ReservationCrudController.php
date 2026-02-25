@@ -28,8 +28,8 @@ class ReservationCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::NEW)     // désactive création
-            ->disable(Action::EDIT)    // désactive modification
-            ->disable(Action::DELETE); // optionnel
+            ->disable(Action::NEW)
+            ->disable(Action::EDIT)
+            ->disable(Action::DELETE);
     }
 }
