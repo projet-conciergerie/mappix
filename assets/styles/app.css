@@ -12,3 +12,8 @@ body {
     right: 1.5rem;
     bottom: 1.5rem;
 }
+#calendar {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: 'Poppins', sans-serif;
+}

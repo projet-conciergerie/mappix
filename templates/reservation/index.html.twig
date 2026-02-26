@@ -16,14 +16,23 @@
         {% for reservation in reservations %}
             <li>
                 {{ reservation.evenement.nom }}
-                <form method="post" action="{{ path('app_reservation_delete', {id: reservation.id}) }}" style="display:inline;">
-                    <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+
+                <a href="{{ path('app_evenement_show', { id: reservation.evenement.id }) }}">
+                    Voir l'évènement
+                </a>
+
+                <form method="post"
+                    action="{{ path('app_reservation_delete', { id: reservation.id }) }}"
+                    style="display:inline;">
+                    <button type="submit"
+                            onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
                         Annuler
                     </button>
                 </form>
             </li>
         {% else %}
             <p>Aucune réservation</p>
+            <a href="{{path('app_evenements')}}" data-turbo="false">Voir le calendrier</a>
         {% endfor %}
     </ul>
 {% endblock %}

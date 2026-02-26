@@ -13,19 +13,5 @@
     {% endfor %}
 {% endfor %}
 
-{% for evenement in evenements %}
-
-    <h3>{{ evenement.nom }}</h3>
-    <p>Places restantes : {{ evenement.placesRestantes }}</p>
-
-    {% if evenement.placesRestantes > 0 %}
-        <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
-            Réserver
-        </a>
-    {% else %}
-        <p>Complet</p>
-    {% endif %}
-
-{% endfor %}
 
 {% endblock %}
