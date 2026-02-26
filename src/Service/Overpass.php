@@ -10,8 +10,7 @@ class Overpass
 
     public function __construct(
         private HttpClientInterface $client
-    ) {
-    }
+    ) {}
 
     /**
      * Récupère tous les bars dans une zone géographique définie.
@@ -31,6 +30,9 @@ class Overpass
         } else if ($category === "bars") {
             $overpassCategory = "amenity";
             $overpassType = "bar";
+        } else if ($category === "pubs") {
+            $overpassCategory = "amenity";
+            $overpassType = "pub";
         } else if ($category === "restaurants") {
             $overpassCategory = "amenity";
             $overpassType = "restaurant";
@@ -71,14 +73,19 @@ area["name"="$areaName"]->.a;
 out center;
 OVERPASS;
 
-            $response = $this->client->request('POST', self::ENDPOINT, [
-                'body' => ['data' => $query],
-            ]);
+            try {
+                $response = $this->client->request('POST', self::ENDPOINT, [
+                    'body' => ['data' => $query],
+                ]);
 
-            $data = $response->toArray();
+                $data = $response->toArray();
 
-            $jsondata = json_encode($data);
-            file_put_contents($filename, $jsondata);
+                $jsondata = json_encode($data);
+                file_put_contents($filename, $jsondata);
+            } catch (\RuntimeException $e) {
+                $data['error'] = 'Datas collect from Overpass was rejected';
+                $data['elements'] = [];
+            }
         }
 
         $results = [];

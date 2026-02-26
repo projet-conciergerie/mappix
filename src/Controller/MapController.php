@@ -60,6 +60,8 @@ final class MapController extends AbstractController
 
             if ($category === "Bars") {
                 $datas = $overpass->getInArea('Rouen', 'bars');
+            } else if ($category === "Pubs") {
+                $datas = $overpass->getInArea('Rouen', 'pubs');
             } else if ($category === "Hotels") {
                 $datas = $overpass->getInArea('Rouen', 'hotels');
             } else if ($category === 'Restaurants') {
@@ -178,6 +180,24 @@ final class MapController extends AbstractController
                 icon: $iconToilets,
                 infoWindow: new InfoWindow(
                     content: '<h3>Toilettes</h3><p>' . $toilette['name'] . '<br>' . $toilette['address'] . '</p>' . $this->addSelectionForm($token, "Toilettes", $key),
+                )
+            );
+
+            $map->addMarker($marker);
+        }
+
+        $iconPubs = Icon::url('icons/marker_pubs.png')
+            ->width(64)
+            ->height(64);
+
+        $pubs = $overpass->getInArea('Rouen', 'pubs');
+        foreach ($pubs as $key => $pub) {
+            $marker = new Marker(
+                position: new Point($pub['lat'], $pub['lon']),
+                title: $pub['name'],
+                icon: $iconPubs,
+                infoWindow: new InfoWindow(
+                    content: '<h3>Pub</h3><p>' . $pub['name'] . '<br>' . $pub['address'] . '</p>' . $this->addSelectionForm($token, "Pubs", $key),
                 )
             );
 
