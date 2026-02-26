@@ -2,37 +2,34 @@
 
 namespace App\Controller\Tourisme;
 
-use App\Entity\User;
+use App\Entity\Reservation;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class UserCrudController extends AbstractCrudController
+class TourismeReservationCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return Reservation::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            IdField::new('id')->hideOnForm(),
+            AssociationField::new('evenement'),
+            AssociationField::new('user'),
         ];
     }
-    */
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable(Action::NEW)      // désactive création
-            ->disable(Action::EDIT)     // désactive modification
-            ->disable(Action::DELETE);  // optionnel
+            ->disable(Action::NEW)
+            ->disable(Action::EDIT)
+            ->disable(Action::DELETE);
     }
 }

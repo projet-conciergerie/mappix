@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class LocalisationCrudController extends AbstractCrudController
+class TourismeLocalisationCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
