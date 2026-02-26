@@ -15,3 +15,81 @@
     right: 20px; /* ou left: 20px; */
     z-index: 1050; /* au-dessus du contenu */
 }
+
+/* ===== Hero Section avec Image ===== */
+.hero-section {
+    position: relative;
+    height: 500px; /* Ajuste la hauteur selon tes besoins */
+    overflow: hidden;
+}
+
+.hero-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image remplit tout l'espace */
+    object-position: center;
+}
+
+/* Overlay sombre pour améliorer la lisibilité du texte */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Assombrit l'image de 40% */
+}
+
+/* Contenu du hero (titre + bouton) */
+.hero-content {
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content .btn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-content .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 400px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-content .btn {
+        font-size: 1rem;
+        padding: 0.75rem 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        height: 350px;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+}
