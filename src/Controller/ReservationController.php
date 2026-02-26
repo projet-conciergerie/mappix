@@ -31,13 +31,13 @@ final class ReservationController extends AbstractController
 
         if ($existingReservation) {
             $this->addFlash('error', 'Vous avez déjà réservé cet événement.');
-            return $this->redirectToRoute('app_evenement');
+            return $this->redirectToRoute('my_reservation_list');
         }
 
         // Vérifier places restantes
         if ($evenement->getPlacesRestantes() <= 0) {
             $this->addFlash('error', 'Il n’y a plus de places disponibles.');
-            return $this->redirectToRoute('app_evenement');
+            return $this->redirectToRoute('my_reservation_list');
         }
 
         $reservation = new Reservation();
@@ -49,7 +49,7 @@ final class ReservationController extends AbstractController
 
         $this->addFlash('success', 'Réservation confirmée !');
 
-        return $this->redirectToRoute('app_evenement');
+        return $this->redirectToRoute('my_reservation_list');
     }
 
     #[Route('/reservation', name: 'my_reservation_list')]

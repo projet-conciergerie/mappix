@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ evenement.nom }}{% endblock %}
+
+{% block body %}
+
+<h1>{{ evenement.nom }}</h1>
+
+<p><strong>Début :</strong> {{ evenement.startAt|date('d/m/Y H:i') }}</p>
+<p><strong>Fin :</strong> {{ evenement.endAt|date('d/m/Y H:i') }}</p>
+<p><strong>Places restantes :</strong> {{ evenement.placesRestantes }}</p>
+
+<p>{{ evenement.description }}</p>
+
+{% if evenement.placesRestantes > 0 %}
+    <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
+        Réserver
+    </a>
+    <a href="{{path('app_evenements')}}" data-turbo="false">Retourner au calendrier</a>
+{% else %}
+    <p style="color:red;">Complet</p>
+{% endif %}
+
+{% endblock %}
