@@ -82,6 +82,11 @@ class Evenement
         return $this;
     }
 
+    public function getPlacesRestantes(): int
+    {
+        return $this->places - $this->reservation->count();
+    }
+
     public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
@@ -182,5 +187,9 @@ class Evenement
         $this->localisation = $localisation;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Evenement';
     }
 }
