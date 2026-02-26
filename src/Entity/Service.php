@@ -60,6 +60,7 @@ class Service
         $this->category = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

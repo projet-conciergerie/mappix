@@ -43,7 +43,7 @@ class Evenement
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'evenement')]
+    #[ORM\ManyToOne(inversedBy: 'evenement', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Localisation $localisation = null;
 
@@ -188,6 +188,7 @@ class Evenement
 
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->nom ?? 'Evenement';
