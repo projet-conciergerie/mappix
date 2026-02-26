@@ -82,6 +82,11 @@ class Evenement
         return $this;
     }
 
+    public function getPlacesRestantes(): int
+    {
+        return $this->places - $this->reservation->count();
+    }
+
     public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;

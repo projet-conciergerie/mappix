@@ -55,6 +55,8 @@ class Service
 
     public function __construct()
     {
+        $this->localisation = new Localisation();
+        $this->createdAt = new \DateTimeImmutable();
         $this->category = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->avis = new ArrayCollection();
@@ -226,5 +228,9 @@ class Service
         $this->localisation = $localisation;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Service';
     }
 }
