@@ -10,7 +10,7 @@
 
 {% block body %}
 <!-- Header / Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100" style="z-index: 1030;">
   <div class="container-fluid px-4">
     <a class="navbar-brand fw-bold" href="{{ path('app_home') }}">MAPPIX</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -60,7 +60,7 @@
 </section>
 
 <!-- Section Nouveautés -->
-<section class="py-5">
+<section class="py-5 bg-light">
   <div class="container">
     <div class="row g-4">
       <div class="col-md-4">
@@ -152,6 +152,54 @@
     </div>
   </div>
 </section>
+
+<!-- Section Evénement -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-dark">
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-center mb-3">Evénement 1</h5>
+            <p class="card-text">
+              Description succincte lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-dark">
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-center mb-3">Evénement 2</h5>
+            <p class="card-text">
+              Description succincte lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-dark">
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-center mb-3">Evénement 3</h5>
+            <p class="card-text">
+              Description succincte lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+              lorem ipsum lorem ipsum lorem ipsum
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- Bouton de retour en haut -->
 <div class="float-end btn-fixed-10">
