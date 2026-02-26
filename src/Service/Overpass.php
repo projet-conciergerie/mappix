@@ -44,7 +44,15 @@ class Overpass
             return [];
         }
 
-        $filename = __DIR__ . '/../../public/data/overpass_' . $areaName . '_' . $category . '.json';
+        // Directory to save cache files
+        $filedir = __DIR__ . '/../../public/data';
+
+        if (!file_exists($filedir)) {
+            mkdir($filedir, 0777);
+        }
+
+        // File to save / restore cache files 
+        $filename = $filedir . '/overpass_' . $areaName . '_' . $category . '.json';
 
         if (file_exists($filename)) {
             // Return a pre loaded request
