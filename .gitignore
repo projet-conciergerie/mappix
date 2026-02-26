@@ -8,6 +8,8 @@
 /var/
 /vendor/
 /.sql
+/composer.lock
+/package-lock.json
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
