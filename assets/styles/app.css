@@ -8,3 +8,10 @@
     right: 1.5rem;
     bottom: 1.5rem;
 }
+
+.btn-fixed-10 {
+    position: fixed;
+    bottom: 10%;
+    right: 20px; /* ou left: 20px; */
+    z-index: 1050; /* au-dessus du contenu */
+}
