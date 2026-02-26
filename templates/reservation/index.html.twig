@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Réservations{% endblock %}
+
+{% block body %}
+    <h1>Mes réservations</h1>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <ul>
+        {% for reservation in reservations %}
+            <li>
+                {{ reservation.evenement.nom }}
+                <form method="post" action="{{ path('app_reservation_delete', {id: reservation.id}) }}" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                        Annuler
+                    </button>
+                </form>
+            </li>
+        {% else %}
+            <p>Aucune réservation</p>
+        {% endfor %}
+    </ul>
+{% endblock %}
