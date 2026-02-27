@@ -2,6 +2,10 @@ import { Controller } from '@hotwired/stimulus'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+import 'leaflet.markercluster'
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+
 export default class extends Controller {
     static values = {
         categories: Object,
@@ -16,6 +20,9 @@ export default class extends Controller {
             attribution: '© OpenStreetMap'
         }).addTo(this.map)
 
+        this.clusterGroup = L.markerClusterGroup()
+        this.map.addLayer(this.clusterGroup)
+
         this.loadMarkers()
     }
 
@@ -27,7 +34,7 @@ export default class extends Controller {
                     iconSize: [64, 64]
                 })
 
-                const marker = L.marker([item.lat, item.lon], { icon }).addTo(this.map)
+                const marker = L.marker([item.lat, item.lon], { icon })
 
                 const popup = `
                     <h3>${category}</h3>
@@ -41,6 +48,8 @@ export default class extends Controller {
                 `
 
                 marker.bindPopup(popup)
+
+                this.clusterGroup.addLayer(marker)
             })
         }
     }
