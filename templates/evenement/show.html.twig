@@ -12,13 +12,18 @@
 
 <p>{{ evenement.description }}</p>
 
-{% if evenement.placesRestantes > 0 %}
-    <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
-        Réserver
+<div class="actions">
+    {% if evenement.placesRestantes > 0 %}
+        <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
+            Réserver
+        </a>
+    {% else %}
+        <p>Complet</p>
+    {% endif %}
+
+    <a href="{{ path('app_evenements') }}" data-turbo="false">
+        Retour au calendrier
     </a>
-    <a href="{{path('app_evenements')}}" data-turbo="false">Retourner au calendrier</a>
-{% else %}
-    <p style="color:red;">Complet</p>
-{% endif %}
+</div>
 
 {% endblock %}
