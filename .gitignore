@@ -31,3 +31,8 @@ yarn-error.log
 ###> overpass/cachefile ###
 /public/data/*
 ###< overpass/cachefile ###
+
+###> pentatrion/vite-bundle ###
+/node_modules/
+/public/build/
+###< pentatrion/vite-bundle ###
