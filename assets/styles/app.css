@@ -17,3 +17,23 @@ body {
     margin: 40px auto;
     font-family: 'Poppins', sans-serif;
 }
+
+body {
+    background-color: #212529;
+}
+
+.login-page {
+    min-height: 95vh;
+    padding: 2rem;
+}
+
+.register-form {
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #ffffff;
+    box-shadow: none;
+}
