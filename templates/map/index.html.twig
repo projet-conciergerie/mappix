@@ -3,9 +3,11 @@
 {% block body %}
 	<h1>Welcome to the Mappix application</h1>
 
-	<div data-controller="map" data-map-categories-value="{{ categories|json_encode }}" data-map-token-value="{{ csrf_token }}" style="height: 600px;"></div>
+	<div class="map-container" style="width: 100%; height: 400px;">
 
-	<div id="local_data"></div>
+		<div data-controller="map" data-map-categories-value="{{ categories|json_encode }}" data-map-token-value="{{ csrf_token }}" style="height: 100%; width: 100%;"></div>
 
-    {% include 'map/_map_details_none.html.twig' %}
+	</div>
+
+	{% include 'map/_map_details_none.html.twig' %}
 {% endblock %}
