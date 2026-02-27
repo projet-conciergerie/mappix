@@ -15,16 +15,14 @@
     img {
         width: 50%;
         height: 100%;
-        object-fit: cover;
-        object-position: center;
+        object-fit: contain;
     }
 }
 
 .hero-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
 }
 
 /* Overlay sombre pour améliorer la lisibilité du texte */
