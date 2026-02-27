@@ -34,7 +34,7 @@ export default class extends Controller {
                 this.marker.setLatLng([lat, lng]);
             } else {
                 const icon = L.icon({
-                    iconUrl: '/icon/marker_ici.png',
+                    iconUrl: '/icons/marker_ici.png',
                     iconSize: [64, 64]
                 })
 
