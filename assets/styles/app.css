@@ -1,5 +1,6 @@
 body {
-    background-color: skyblue;
+    background-color: #212529;
+    color: #F8F8F8;
 }
 
 /*
@@ -13,7 +14,28 @@ body {
     bottom: 1.5rem;
 }
 #calendar {
-    max-width: 900px;
-    margin: 40px auto;
+    background-color: #f8f8f8;
+    color: black;
+    border-radius: 12px 12px 0 0;
     font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin: unset;
+    padding: 1.5rem 1rem;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+}
+.fc .fc-toolbar-title {
+    font-size: 1.75em;
+    margin: 0px;
+    text-transform: capitalize;
+}
+.fc .fc-toolbar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: #FFA500;
+    margin-bottom: unset;
 }
