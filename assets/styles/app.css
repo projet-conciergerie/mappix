@@ -1,5 +1,5 @@
 body {
-    background-color: skyblue;
+    background-color: #212529;
 }
 
 /*
@@ -16,4 +16,19 @@ body {
     max-width: 900px;
     margin: 40px auto;
     font-family: 'Poppins', sans-serif;
+}
+
+.login-page {
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 380px;
+}
+
+.login-form .form-control:focus {
+    border-color: #ffffff;
+    box-shadow: none;
 }
