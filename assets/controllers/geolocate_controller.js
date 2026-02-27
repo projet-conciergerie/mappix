@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     connect() {
-        
+
         // assume map controller is registered on the same element
         const mapCtrl = this.application.getControllerForElementAndIdentifier(
             this.element,
@@ -25,21 +25,52 @@ export default class extends Controller {
             return;
         }
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
+        // helper that sets/updates a marker and recenters once
+        const updateMarker = (coords) => {
+            const lat = coords.latitude;
+            const lng = coords.longitude;
 
-                // Center map
-                map.setView([lat, lng], 13);
-            },
-            (error) => {
-                console.warn('GPS error', error);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 5000
+            if (this.marker) {
+                this.marker.setLatLng([lat, lng]);
+            } else {
+                const icon = L.icon({
+                    iconUrl: '/icon/marker_ici.png',
+                    iconSize: [64, 64]
+                })
+
+                this.marker = L.marker([lat, lng], { icon, pane: 'markerPane' }).addTo(map);
             }
+
+            // center the map on the first location fix only
+            if (!this.hasCentered) {
+                map.setView([lat, lng], 13);
+                this.hasCentered = true;
+            }
+        };
+
+        const geoOptions = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => updateMarker(position.coords),
+            (error) => console.warn('GPS error', error),
+            geoOptions
         );
+
+        // watchPosition returns an id that we clear on disconnect
+        this.watchId = navigator.geolocation.watchPosition(
+            (position) => updateMarker(position.coords),
+            (error) => console.warn('GPS watch error', error),
+            geoOptions
+        );
+    }
+
+    disconnect() {
+        if (this.watchId != null && navigator.geolocation.clearWatch) {
+            navigator.geolocation.clearWatch(this.watchId);
+        }
     }
 }
