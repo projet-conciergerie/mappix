@@ -36,6 +36,7 @@ final class MapController extends AbstractController
                     'category' => $category,
                     'name' => $data['name'],
                     'address' => $data['address'],
+                    'email' => $data['email'],
                     'phone' => $data['phone'],
                     'website' => $data['website'],
                     'instagram' => $data['instagram'],

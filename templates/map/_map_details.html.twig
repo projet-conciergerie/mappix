@@ -1,34 +1,53 @@
 <turbo-frame id="local_data">
 	<div>
+
 		<h2 class="text-2xl font-bold">Informations détaillées
 			{{ category }}</h2>
+
 		<h3 class="text-xl font-bold">{{ name }}</h3>
+
 		{% if address %}
-			<p>Adresse : {{ address }}</p>
+			<p>Adresse :
+				{{ address }}</p>
 		{% endif %}
 
 		{% if phone %}
-			<p>Téléphone : {{ phone }}</p>
+			<p>Téléphone :
+				{{ phone }}</p>
+		{% endif %}
+
+		{% if email %}
+			<p>Email :
+				{{ email }}</p>
 		{% endif %}
 
 		{% if website %}
-			<p>Site web : <a href="{{ website }}" class="text-blue-500 hover:underline">{{ website }}</a></p>
+			<p>Site web :
+				<a href="{{ website }}" class="text-blue-500 hover:underline">{{ website }}</a>
+			</p>
 		{% endif %}
 
 		{% if instagram %}
-			<p>Instagram : <a href="{{ instagram }}" class="text-blue-500 hover:underline">{{ instagram }}</a></p>
+			<p>Instagram :
+				<a href="{{ instagram }}" class="text-blue-500 hover:underline">{{ instagram }}</a>
+			</p>
 		{% endif %}
 
 		{% if facebook %}
-			<p>Facebook : <a href="{{ facebook }}" class="text-blue-500 hover:underline">{{ facebook }}</a></p>
+			<p>Facebook :
+				<a href="{{ facebook }}" class="text-blue-500 hover:underline">{{ facebook }}</a>
+			</p>
 		{% endif %}
 
-		<br>
-		<p>Remaining raw datas :</p>
-		{% for key, value in datas %}
-			<p>{{ key }}
-				:
-				{{ value }}</p>
-		{% endfor %}
+		{% if datas|length > 0 %}
+			<br>
+			<p>Remaining raw datas :</p>
+			{% for key, value in datas %}
+				<p>{{ key }}
+					:
+					{{ value }}</p>
+			{% endfor %}
+		{% endif %}
+
 	</div>
 </turbo-frame>

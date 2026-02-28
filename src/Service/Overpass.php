@@ -111,6 +111,7 @@ OVERPASS;
             // Liste des tags utilisés
             $usedTags = [
                 'name',
+                'email',
                 'website',
                 'facebook',
                 'contact:facebook',
@@ -159,8 +160,9 @@ OVERPASS;
                 'name' => $tags['name'] ?? $category . ' sans nom',
                 'address' => trim($address),
                 'phone' => $tags['phone'] ?? null,
+                'email' => $tags['email'] ?? null,
                 'website' => $tags['website'] ?? null,
-                'instagram' => $tags['contact:instagram'] ?? null,
+                'instagram' => $instagram,
                 'facebook' => $facebook,
                 'lat' => $lat,
                 'lon' => $lon,
