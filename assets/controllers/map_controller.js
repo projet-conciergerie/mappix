@@ -37,13 +37,14 @@ export default class extends Controller {
                 const marker = L.marker([item.lat, item.lon], { icon })
 
                 const popup = `
-                    <h3>${category}</h3>
-                    <p>${item.name}<br>${item.address}</p>
+                    <h3 class="text-2xl font-bold">${category}</h3>
+                    <p class="text-xl font-bold">${item.name}</p>
+                    <p class="text-lg">${item.address}</p>
                     <form data-turbo-frame="local_data" method="post">
                         <input type="hidden" name="_token" value="${this.tokenValue}">
                         <input type="hidden" name="category" value="${category}">
                         <input type="hidden" name="idElement" value="${index}">
-                        <input type="submit" value="Infos">
+                        <input class="cursor-pointer bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Infos">
                     </form>
                 `
 

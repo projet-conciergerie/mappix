@@ -1,9 +1,11 @@
 <turbo-frame id="local_data">
 	<div>
-		<h2>Informations détaillées
+		<h2 class="text-2xl font-bold">Informations détaillées
 			{{ category }}</h2>
-		<h3>{{ name }}</h3>
+		<h3 class="text-xl font-bold">{{ name }}</h3>
 		<p>Adresse : {{ address }}</p>
+
+		<p>Raw datas :</p>
 		{% for key, value in datas %}
 			<p>{{ key }}
 				:
