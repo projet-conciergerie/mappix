@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@tailwindcss/postcss": "^4.2.1",
+        "@tailwindcss/vite": "^4.2.1",
         "leaflet": "^1.9.4",
         "leaflet.markercluster": "^1.5.3",
         "postcss": "^8.5.6",

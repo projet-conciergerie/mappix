@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import symfonyPlugin from 'vite-plugin-symfony'
+import tailwindcss from '@tailwindcss/vite'
 import fs from 'fs'
 
 const url = new URL(process.env.VITE_DEV_SERVER_URL || 'https://localhost:5173')
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => {
         },
         plugins: [
             symfonyPlugin(),
+            tailwindcss()
         ],
         build: {
             rollupOptions: {
