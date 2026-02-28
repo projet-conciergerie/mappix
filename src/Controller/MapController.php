@@ -36,6 +36,10 @@ final class MapController extends AbstractController
                     'category' => $category,
                     'name' => $data['name'],
                     'address' => $data['address'],
+                    'phone' => $data['phone'],
+                    'website' => $data['website'],
+                    'instagram' => $data['instagram'],
+                    'facebook' => $data['facebook'],
                     'datas' => $data['tags']
                 ]);
             }
@@ -49,6 +53,11 @@ final class MapController extends AbstractController
             'Restaurants' => $overpass->getInArea('Rouen', 'restaurants'),
             'Fontaines' => $overpass->getInArea('Rouen', 'fontaines'),
             'Toilettes' => $overpass->getInArea('Rouen', 'toilettes'),
+            'Musees' => $overpass->getInArea('Rouen', 'musees'),
+            'Monuments' => $overpass->getInArea('Rouen', 'monuments'),
+            'Parcs' => $overpass->getInArea('Rouen', 'parcs'),
+            'Monuments Historiques' => $overpass->getInArea('Rouen', 'monuments_historiques'),
+            'Attractions' => $overpass->getInArea('Rouen', 'attractions')
         ];
 
         return $this->render('map/index.html.twig', [

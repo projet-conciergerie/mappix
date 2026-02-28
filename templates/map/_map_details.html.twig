@@ -3,9 +3,28 @@
 		<h2 class="text-2xl font-bold">Informations détaillées
 			{{ category }}</h2>
 		<h3 class="text-xl font-bold">{{ name }}</h3>
-		<p>Adresse : {{ address }}</p>
+		{% if address %}
+			<p>Adresse : {{ address }}</p>
+		{% endif %}
 
-		<p>Raw datas :</p>
+		{% if phone %}
+			<p>Téléphone : {{ phone }}</p>
+		{% endif %}
+
+		{% if website %}
+			<p>Site web : <a href="{{ website }}" class="text-blue-500 hover:underline">{{ website }}</a></p>
+		{% endif %}
+
+		{% if instagram %}
+			<p>Instagram : <a href="{{ instagram }}" class="text-blue-500 hover:underline">{{ instagram }}</a></p>
+		{% endif %}
+
+		{% if facebook %}
+			<p>Facebook : <a href="{{ facebook }}" class="text-blue-500 hover:underline">{{ facebook }}</a></p>
+		{% endif %}
+
+		<br>
+		<p>Remaining raw datas :</p>
 		{% for key, value in datas %}
 			<p>{{ key }}
 				:

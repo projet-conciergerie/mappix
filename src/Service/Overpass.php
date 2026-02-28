@@ -8,9 +8,24 @@ class Overpass
 {
     private const ENDPOINT = 'https://overpass-api.de/api/interpreter';
 
+    private const CATEGORIES = [
+        'hotels' => ['tourism', 'hotel'],
+        'bars' => ['amenity', 'bar'],
+        'pubs' => ['amenity', 'pub'],
+        'restaurants' => ['amenity', 'restaurant'],
+        'fontaines' => ['amenity', 'drinking_water'],
+        'toilettes' => ['amenity', 'toilets'],
+        'musees' => ['tourism', 'museum'],
+        'monuments' => ['historic', 'monument'],
+        'parcs' => ['leisure', 'park'],
+        'monuments_historiques' => ['historic', 'monument'],
+        'attractions' => ['tourism', 'attraction'],
+    ];
+
     public function __construct(
         private HttpClientInterface $client
-    ) {}
+    ) {
+    }
 
     /**
      * Récupère tous les bars dans une zone géographique définie.
@@ -23,28 +38,11 @@ class Overpass
     {
         $data = [];
 
-        $overpassCategory = "";
-        if ($category === "hotels") {
-            $overpassCategory = "tourism";
-            $overpassType = "hotel";
-        } else if ($category === "bars") {
-            $overpassCategory = "amenity";
-            $overpassType = "bar";
-        } else if ($category === "pubs") {
-            $overpassCategory = "amenity";
-            $overpassType = "pub";
-        } else if ($category === "restaurants") {
-            $overpassCategory = "amenity";
-            $overpassType = "restaurant";
-        } else if ($category === "fontaines") {
-            $overpassCategory = "amenity";
-            $overpassType = "drinking_water";
-        } else if ($category === "toilettes") {
-            $overpassCategory = "amenity";
-            $overpassType = "toilets";
-        } else {
+        if (!isset(self::CATEGORIES[$category])) {
             return [];
         }
+
+        [$overpassCategory, $overpassType] = self::CATEGORIES[$category];
 
         // Directory to save cache files
         $filedir = __DIR__ . '/../../public/data';
@@ -100,21 +98,73 @@ OVERPASS;
             if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
                 $address = ($tags['addr:housenumber'] ?? '') . ' '
                     . ($tags['addr:street'] ?? '') . ', '
+                    . ($tags['addr:housename'] ?? '') . ', '
                     . ($tags['addr:postcode'] ?? '') . ' '
                     . ($tags['addr:city'] ?? '');
             } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
-                $address =  ($tags['contact:housenumber'] ?? '') . ' '
+                $address = ($tags['contact:housenumber'] ?? '') . ' '
                     . ($tags['contact:street'] ?? '') . ', '
-                    . ($tag['contact:postcode'] ?? '') . ' '
+                    . ($tags['contact:postcode'] ?? '') . ' '
                     . ($tags['contact:city'] ?? '');
+            }
+
+            // Liste des tags utilisés
+            $usedTags = [
+                'name',
+                'website',
+                'facebook',
+                'contact:facebook',
+                'instagram',
+                'contact:instagram',
+
+                // address
+                'addr:housenumber',
+                'addr:street',
+                'addr:housename',
+                'addr:postcode',
+                'addr:city',
+
+                // contact address
+                'contact:housenumber',
+                'contact:street',
+                'contact:postcode',
+                'contact:city',
+
+                // Phone number
+                'phone',
+            ];
+
+            $remainingTags = array_diff_key(
+                $tags,
+                array_flip($usedTags)
+            );
+
+            // Uniformisation des liens Facebook
+            $facebook = $tags['contact:facebook'] ?? $tags['facebook'] ?? null;
+            if ($facebook) {
+                if (!str_starts_with($facebook, 'http')) {
+                    $facebook = 'https://www.facebook.com/' . ltrim($facebook, '/');
+                }
+            }
+
+            // Uniformisation des liens Instagram
+            $instagram = $tags['contact:instagram'] ?? $tags['instagram'] ?? null;
+            if ($instagram) {
+                if (!str_starts_with($instagram, 'http')) {
+                    $instagram = 'https://www.instagram.com/' . ltrim($instagram, '/');
+                }
             }
 
             $results[] = [
                 'name' => $tags['name'] ?? $category . ' sans nom',
                 'address' => trim($address),
+                'phone' => $tags['phone'] ?? null,
+                'website' => $tags['website'] ?? null,
+                'instagram' => $tags['contact:instagram'] ?? null,
+                'facebook' => $facebook,
                 'lat' => $lat,
                 'lon' => $lon,
-                'tags' => $tags
+                'tags' => $remainingTags
             ];
         }
 
