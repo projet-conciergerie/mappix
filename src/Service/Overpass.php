@@ -96,9 +96,11 @@ OVERPASS;
 
             $address = "";
             if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
+                $housename = $tags['addr:housename'] ?? '';
+
                 $address = ($tags['addr:housenumber'] ?? '') . ' '
                     . ($tags['addr:street'] ?? '') . ', '
-                    . ($tags['addr:housename'] ?? '') . ', '
+                    . ($housename ? $housename . ', ' : '')
                     . ($tags['addr:postcode'] ?? '') . ' '
                     . ($tags['addr:city'] ?? '');
             } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
@@ -172,4 +174,23 @@ OVERPASS;
 
         return $results;
     }
+
+    public function getInAreaShort(string $areaName, string $category): array
+    {
+        $data = $this->getInArea($areaName, $category);
+
+        $results = [];
+
+        foreach ($data as $item) {
+            $results[] = [
+                'name' => $item['name'],
+                'address' => $item['address'],
+                'lat' => $item['lat'],
+                'lon' => $item['lon']
+            ];
+        }
+
+        return $results;
+    }
+
 }

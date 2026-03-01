@@ -28,16 +28,17 @@ export default class extends Controller {
 
     loadMarkers() {
         for (const [category, items] of Object.entries(this.categoriesValue)) {
-            items.forEach((item, index) => {
+            
+            items.datas.forEach((item, index) => {
                 const icon = L.icon({
-                    iconUrl: `/icons/marker_${category.toLowerCase()}.png`,
+                    iconUrl: `/icons/${items.icon}`,
                     iconSize: [64, 64]
                 })
 
                 const marker = L.marker([item.lat, item.lon], { icon })
 
                 const popup = `
-                    <h3 class="text-2xl font-bold">${category}</h3>
+                    <h3 class="text-2xl font-bold">${items.display}</h3>
                     <p class="text-xl font-bold">${item.name}</p>
                     <p class="text-lg">${item.address}</p>
                     <form data-turbo-frame="local_data" method="post">

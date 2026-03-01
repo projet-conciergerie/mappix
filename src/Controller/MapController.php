@@ -48,17 +48,61 @@ final class MapController extends AbstractController
 
         // Toutes les catégories
         $categories = [
-            'Bars' => $overpass->getInArea('Rouen', 'bars'),
-            'Pubs' => $overpass->getInArea('Rouen', 'pubs'),
-            'Hotels' => $overpass->getInArea('Rouen', 'hotels'),
-            'Restaurants' => $overpass->getInArea('Rouen', 'restaurants'),
-            'Fontaines' => $overpass->getInArea('Rouen', 'fontaines'),
-            'Toilettes' => $overpass->getInArea('Rouen', 'toilettes'),
-            'Musees' => $overpass->getInArea('Rouen', 'musees'),
-            'Monuments' => $overpass->getInArea('Rouen', 'monuments'),
-            'Parcs' => $overpass->getInArea('Rouen', 'parcs'),
-            'Monuments Historiques' => $overpass->getInArea('Rouen', 'monuments_historiques'),
-            'Attractions' => $overpass->getInArea('Rouen', 'attractions')
+            'bars' => [
+                'display' => 'Bars',
+                'icon' => 'marker_bars.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'bars')
+            ],
+            'pubs' => [
+                'display' => 'Pubs',
+                'icon' => 'marker_pubs.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'pubs')
+            ],
+            'hotels' => [
+                'display' => 'Hotels',
+                'icon' => 'marker_hotels.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'hotels')
+            ],
+            'restaurants' => [
+                'display' => 'Restaurants',
+                'icon' => 'marker_restaurants.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'restaurants')
+            ],
+            'fontaines' => [
+                'display' => 'Fontaines',
+                'icon' => 'marker_fontaines.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'fontaines')
+            ],
+            'toilettes' => [
+                'display' => 'Toilettes',
+                'icon' => 'marker_toilettes.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'toilettes')
+            ],
+            'musees' => [
+                'display' => 'Musées',
+                'icon' => 'marker_musees.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'musees')
+            ],
+            'monuments' => [
+                'display' => 'Monuments',
+                'icon' => 'marker_monuments.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'monuments')
+            ],
+            'parcs' => [
+                'display' => 'Parcs',
+                'icon' => 'marker_parcs.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'parcs')
+            ],
+            'monuments_historiques' => [
+                'display' => 'Monuments Historiques',
+                'icon' => 'marker_monuments_historiques.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'monuments_historiques')
+            ],
+            'attractions' => [
+                'display' => 'Attractions',
+                'icon' => 'marker_attractions.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'attractions')
+            ],
         ];
 
         return $this->render('map/index.html.twig', [
