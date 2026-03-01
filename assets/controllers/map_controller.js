@@ -28,12 +28,13 @@ export default class extends Controller {
 
     loadMarkers() {
         for (const [category, items] of Object.entries(this.categoriesValue)) {
-            
+
+            const icon = L.icon({
+                iconUrl: `/icons/${items.icon}`,
+                iconSize: [48, 48]
+            })
+
             items.datas.forEach((item, index) => {
-                const icon = L.icon({
-                    iconUrl: `/icons/${items.icon}`,
-                    iconSize: [64, 64]
-                })
 
                 const marker = L.marker([item.lat, item.lon], { icon })
 

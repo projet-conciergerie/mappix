@@ -35,7 +35,7 @@ export default class extends Controller {
             } else {
                 const icon = L.icon({
                     iconUrl: '/icons/marker_ici.png',
-                    iconSize: [64, 64]
+                    iconSize: [48, 48]
                 })
 
                 this.marker = L.marker([lat, lng], { icon, pane: 'markerPane' }).addTo(map);

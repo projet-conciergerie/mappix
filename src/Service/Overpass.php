@@ -159,7 +159,7 @@ OVERPASS;
             }
 
             $results[] = [
-                'name' => $tags['name'] ?? $category . ' sans nom',
+                'name' => $tags['name'] ?? '',
                 'address' => trim($address),
                 'phone' => $tags['phone'] ?? null,
                 'email' => $tags['email'] ?? null,
