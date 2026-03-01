@@ -91,6 +91,7 @@
     padding: 0.5rem;
     border-radius: 0.25rem;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
         background-color: #e0e0e0;
@@ -106,6 +107,8 @@
     background-color: #c0c0c0;
     box-shadow: none;
     color: #333;
+
+    transition: all 0.3s ease;
 }
 
 .map-layers,

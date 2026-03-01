@@ -114,11 +114,23 @@ OVERPASS;
                     . ($tags['contact:city'] ?? '');
             }
 
+            $website = $tags['website'] ?? $tags['url'] ?? $tags['brand:website'] ?? null;
+
+            $name = $tags['name'] ?? $tags['official_name'] ?? null;
+
             // Liste des tags utilisés
             $usedTags = [
                 'name',
+                'official_name',
+
                 'email',
+
+                // website
                 'website',
+                'url',
+                'brand:website',
+
+                // social media
                 'facebook',
                 'contact:facebook',
                 'instagram',
@@ -163,11 +175,11 @@ OVERPASS;
             }
 
             $results[] = [
-                'name' => $tags['name'] ?? '',
+                'name' => $name,
                 'address' => trim($address),
                 'phone' => $tags['phone'] ?? null,
                 'email' => $tags['email'] ?? null,
-                'website' => $tags['website'] ?? null,
+                'website' => $website,
                 'instagram' => $instagram,
                 'facebook' => $facebook,
                 'lat' => $lat,
