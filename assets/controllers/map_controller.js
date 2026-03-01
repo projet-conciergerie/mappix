@@ -71,7 +71,7 @@ export default class extends Controller {
         mapLayers.appendChild(groupdiv);
 
         // open layer menu on first click on control button
-        document.querySelector('.map-layer-icon').addEventListener('click', () => {
+        document.querySelector('.map-layers-icon').addEventListener('click', () => {
             this.layerMenuOpenned = !this.layerMenuOpenned;
             groupdiv.classList.toggle('hidden', !this.layerMenuOpenned);
         });
