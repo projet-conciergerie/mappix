@@ -72,12 +72,6 @@
     margin-bottom: 0.5rem;
 }
 
-.map-layers-icon {
-    margin: 0.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
 .map-layer-icon {
     width: 1.5rem;
     height: 1.5rem;
@@ -123,7 +117,6 @@
     box-shadow: 0.1rem 0.1rem 0.5rem black;
     color: white;
     border-radius: 0.25rem;
-    cursor: pointer;
 }
 
 .map-layers {
@@ -133,17 +126,19 @@
     bottom: auto;
 }
 
+.map-layers-icon,
+.map-center-icon {
+    margin: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
 .map-center {
     top: 1.5rem;
     left: auto;
     right: 1.5rem;
     bottom: auto;
-
-    img {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin: 0.5rem;
-    }
 }
 
 .map-details {
