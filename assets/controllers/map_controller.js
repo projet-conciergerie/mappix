@@ -6,11 +6,17 @@ import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
+import 'leaflet.featuregroup.subgroup'
+
 export default class extends Controller {
     static values = {
         categories: Object,
         token: String
     }
+
+    layerMenuOpenned = false;
+
+    groups = [];
 
     connect() {
         this.map = L.map(this.element).setView([49.433331, 1.08333], 13)
@@ -24,14 +30,86 @@ export default class extends Controller {
         this.map.addLayer(this.clusterGroup)
 
         this.loadMarkers()
+
+        // create layer toggles
+
+        const mapLayers = document.querySelector('.map-layers')
+
+        const groupdiv = document.createElement('div');
+        groupdiv.classList.add('hidden', 'map-layer-group', 'flex', 'flex-col', 'gap-2');
+
+        this.groups.forEach((group, index) => {
+
+            const toggle = document.createElement('button');
+            toggle.classList.add('map-layer-toggle', 'flex', 'items-center', 'gap-2', 'px-2', 'py-1', 'rounded', 'bg-white', 'shadow');
+            toggle.dataset.index = index;
+
+            const icon = document.createElement('img');
+            icon.src = `/icons/${group.icon}`;
+            icon.alt = group.name;
+            icon.classList.add('map-layer-icon');
+
+            const label = document.createElement('span');
+            label.textContent = group.name;
+
+            toggle.appendChild(icon);
+            toggle.appendChild(label);
+            groupdiv.appendChild(toggle);
+
+            // add / remove layer to map for initial state
+
+            if (group.active) {
+                this.map.addLayer(group.layer);
+                toggle.classList.add('map-layer-toggle-active');
+            } else {
+                this.map.removeLayer(group.layer);
+                toggle.classList.remove('map-layer-toggle-active');
+            }
+
+        });
+
+        mapLayers.appendChild(groupdiv);
+
+        // open layer menu on first click on control button
+        document.querySelector('.map-layer-icon').addEventListener('click', () => {
+            this.layerMenuOpenned = !this.layerMenuOpenned;
+            groupdiv.classList.toggle('hidden', !this.layerMenuOpenned);
+        });
+
+        mapLayers.addEventListener('click', (e) => {
+            if (e.target.classList.contains('map-layer-toggle')) {
+                const index = e.target.dataset.index;
+
+                const layer = this.groups[index].layer;
+
+                if (this.map.hasLayer(layer)) {
+                    this.map.removeLayer(layer);
+                    e.target.classList.remove('map-layer-toggle-active');
+                } else {
+                    this.map.addLayer(layer);
+                    e.target.classList.add('map-layer-toggle-active');
+                }
+            }
+        })
     }
 
     loadMarkers() {
+        this.group = [];
+
         for (const [category, items] of Object.entries(this.categoriesValue)) {
 
             const icon = L.icon({
                 iconUrl: `/icons/${items.icon}`,
                 iconSize: [48, 48]
+            })
+
+            const subgroup = L.featureGroup.subGroup(this.clusterGroup)
+
+            this.groups.push({
+                name: items.display,
+                layer: subgroup,
+                icon: items.icon,
+                active: true
             })
 
             items.datas.forEach((item, index) => {
@@ -52,7 +130,7 @@ export default class extends Controller {
 
                 marker.bindPopup(popup)
 
-                this.clusterGroup.addLayer(marker)
+                subgroup.addLayer(marker)
             })
         }
     }

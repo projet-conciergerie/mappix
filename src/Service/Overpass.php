@@ -95,7 +95,11 @@ OVERPASS;
             $tags = $el['tags'] ?? [];
 
             $address = "";
-            if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
+            if (isset($tags['addr:full'])) {
+                $address = $tags['addr:full'];
+            } else if (isset($tags['contact:full'])) {
+                $address = $tags['contact:full'];
+            } else if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
                 $housename = $tags['addr:housename'] ?? '';
 
                 $address = ($tags['addr:housenumber'] ?? '') . ' '

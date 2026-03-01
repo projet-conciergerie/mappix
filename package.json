@@ -18,6 +18,7 @@
         "@tailwindcss/postcss": "^4.2.1",
         "@tailwindcss/vite": "^4.2.1",
         "leaflet": "^1.9.4",
+        "leaflet.featuregroup.subgroup": "^1.0.2",
         "leaflet.markercluster": "^1.5.3",
         "postcss": "^8.5.6",
         "postcss-loader": "^8.2.1",
