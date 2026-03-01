@@ -66,6 +66,12 @@ export default class extends Controller {
             (error) => console.warn('GPS watch error', error),
             geoOptions
         );
+
+        document.querySelector('.map-center-icon').addEventListener('click', () => {
+            if (this.marker) {
+                map.setView(this.marker.getLatLng(), 13);
+            }
+        });
     }
 
     disconnect() {
