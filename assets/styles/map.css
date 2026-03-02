@@ -93,14 +93,35 @@
     cursor: pointer;
     transition: all 0.3s ease;
 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
     &:hover {
         background-color: #e0e0e0;
     }
 
     img,
-    span {
+    span,
+    .map-layer-toggle-led {
         pointer-events: none;
+        user-select: none;
     }
+
+    span {
+        text-align: left;
+        flex: 1;
+    }
+}
+
+.map-layer-toggle-led {
+    z-index: 2000;
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: rgb(12, 136, 12);
+    box-shadow: 0 0 0.2rem rgb(7, 82, 7);
+    border-radius: 50%;
 }
 
 .map-layer-toggle-active {
@@ -109,10 +130,20 @@
     color: #333;
 
     transition: all 0.3s ease;
+
+    .map-layer-toggle-led {
+        z-index: 2000;
+        width: 0.8rem;
+        height: 0.8rem;
+        background-color: #d23131;
+        box-shadow: 0 0 0.2rem #7c2121;
+        border-radius: 50%;
+    }
 }
 
+
 .map-layers,
-.map-center {
+.map-center-button {
     position: absolute;
     z-index: 1000;
     background-color: #f4f4f4;
@@ -129,19 +160,27 @@
     bottom: auto;
 }
 
+.map-layers-button {
+    cursor: pointer;
+    width: fit-content;
+}
+
 .map-layers-icon,
 .map-center-icon {
     margin: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
-    cursor: pointer;
+    user-select: none;
+    pointer-events: none;
+    display: inline-block;
 }
 
-.map-center {
+.map-center-button {
     top: 1.5rem;
     left: auto;
     right: 1.5rem;
     bottom: auto;
+    cursor: pointer;
 }
 
 .map-details {

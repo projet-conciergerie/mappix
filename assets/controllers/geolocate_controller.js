@@ -67,7 +67,7 @@ export default class extends Controller {
             geoOptions
         );
 
-        document.querySelector('.map-center-icon').addEventListener('click', () => {
+        document.querySelector('.map-center-button').addEventListener('click', () => {
             if (this.marker) {
                 map.setView(this.marker.getLatLng(), 13);
             }

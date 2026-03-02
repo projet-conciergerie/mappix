@@ -52,8 +52,13 @@ export default class extends Controller {
             const label = document.createElement('span');
             label.textContent = group.name;
 
+            const led = document.createElement('div');
+            led.classList.add('map-layer-toggle-led');
+
             toggle.appendChild(icon);
             toggle.appendChild(label);
+            toggle.appendChild(led);
+            
             groupdiv.appendChild(toggle);
 
             // add / remove layer to map for initial state
@@ -71,7 +76,7 @@ export default class extends Controller {
         mapLayers.appendChild(groupdiv);
 
         // open layer menu on first click on control button
-        document.querySelector('.map-layers-icon').addEventListener('click', () => {
+        document.querySelector('.map-layers-button').addEventListener('click', () => {
             this.layerMenuOpenned = !this.layerMenuOpenned;
             groupdiv.classList.toggle('hidden', !this.layerMenuOpenned);
         });
