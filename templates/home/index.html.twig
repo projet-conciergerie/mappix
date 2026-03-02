@@ -3,37 +3,6 @@
 {% block title %}MAPPIX - Conciergerie Rouen{% endblock %}
 
 {% block body %}
-<!-- Header / Navigation -->
-<nav class="fixed top-0 w-full bg-gray-900 text-white z-50">
-  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
-
-    <a href="{{ path('app_home') }}">
-      <img src="{{ asset('images/logo1.png') }}" alt="Logo Mappix" class="w-32">
-    </a>
-
-    <div class="flex items-center space-x-8">
-      <ul class="flex space-x-6 font-medium">
-        <li><a class="hover:text-gray-300" href="{{ path('app_home') }}">ACCUEIL</a></li>
-        <li><a class="hover:text-gray-300" href="#">CONTACT</a></li>
-        <li><a class="hover:text-gray-300" href="{{ path('app_register') }}">S'INSCRIRE</a></li>
-        <li><a class="hover:text-gray-300" href="{{ path('app_login') }}">SE CONNECTER</a></li>
-      </ul>
-
-      <!-- Dropdown langue -->
-      <div class="relative group">
-        <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">
-          LANGUE
-        </button>
-        <div
-          class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition">
-          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Français</a>
-          <a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
-          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Español</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
 
 <div class="w-full max-w-1920px mx-auto">
 
@@ -156,26 +125,4 @@
   </a>
 </div>
 
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-8">
-  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
-
-    <div>
-      <p class="font-bold">MAPPIX</p>
-    </div>
-
-    <div class="md:text-right text-sm">
-      <p>Copyright © 2013 - 2025 Mappix</p>
-      <p class="space-x-2">
-        <a href="#" class="hover:underline">Mentions légales</a> /
-        <a href="#" class="hover:underline">CGU</a> /
-        <a href="#" class="hover:underline">Informations sur les cookies</a> /
-        <a href="#" class="hover:underline">Confidentialité</a> /
-        <a href="#" class="hover:underline">Nous contacter</a>
-      </p>
-    </div>
-  </div>
-
-  <div data-controller="return_home"></div>
-</footer>
 {% endblock %}
