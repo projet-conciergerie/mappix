@@ -1,38 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion - Mappix{% endblock %}
 
 {% block body %}
-    <form method="post">
+
+<div class="min-h-screen flex items-center justify-center bg-gray-900 px-6 py-12">
+
+    <form method="post" class="w-full max-w-md">
+
+        <!-- Logo + Titre -->
+        <div class="text-center mb-10 flex flex-col items-center">
+            <img src="{{ asset('images/logo1.png') }}" alt="Mappix" class="w-48">
+            <h1 class="text-2xl text-white font-semibold mt-6">
+                Connexion
+            </h1>
+        </div>
+
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="mb-6 p-4 rounded bg-red-500/20 border border-red-500 text-red-400 text-sm">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
         {% endif %}
 
         {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-            </div>
+        <div class="mb-6 p-4 rounded bg-blue-500/20 border border-blue-500 text-blue-300 text-sm">
+            Connecté en tant que {{ app.user.userIdentifier }},
+            <br>
+            <a href="{{ logout_path() }}" class="underline hover:text-white">
+                Se déconnecter
+            </a>
+        </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <!-- Email -->
+        <div class="mb-5">
+            <label for="email" class="block text-gray-400 mb-2 text-sm">
+                Adresse email
+            </label>
+            <input type="email"
+                   value="{{ last_username }}"
+                   name="_username"
+                   id="email"
+                   autocomplete="email"
+                   required
+                   autofocus
+                   class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
+                          focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition">
+        </div>
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+        <!-- Password -->
+        <div class="mb-6">
+            <label for="password" class="block text-gray-400 mb-2 text-sm">
+                Mot de passe
+            </label>
+            <input type="password"
+                   name="_password"
+                   id="password"
+                   required
+                   class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
+                          focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition">
+        </div>
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+        <!-- Remember me -->
+        <div class="flex items-center mb-6">
+            <input type="checkbox"
+                   name="_remember_me"
+                   id="remember_me"
+                   class="w-4 h-4 bg-gray-800 border-gray-600 rounded focus:ring-white">
+            <label for="remember_me" class="ml-3 text-gray-400 text-sm">
+                Se souvenir de moi
+            </label>
+        </div>
+
+        <!-- Bouton -->
+        <button type="submit"
+            class="w-full bg-white text-black font-semibold py-3 rounded
+                   hover:bg-gray-200 transition duration-300 shadow-lg hover:shadow-2xl">
+            Se connecter
         </button>
+
+        <!-- Footer -->
+        <p class="mt-10 text-center text-gray-500 text-sm">
+            © {{ "now"|date("Y") }} Mappix
+        </p>
+
     </form>
+
+</div>
+
 {% endblock %}

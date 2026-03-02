@@ -1,23 +1,123 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription - Mappix{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+<div class="min-h-screen flex items-center justify-center bg-gray-800">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.pseudo) }}
-        {{ form_row(registrationForm.langue) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        
-        {{ form_row(registrationForm.agreeTerms) }}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    <div class="w-full max-w-md">
+
+        <!-- Logo + Titre -->
+        <div class="text-center mb-10 flex flex-col items-center">
+            <img src="{{ asset('images/logo1.png') }}" alt="Mappix" class="w-48">
+            <h1 class="text-2xl text-white font-semibold mt-4">
+                Créer un compte
+            </h1>
+        </div>
+
+        {{ form_start(registrationForm) }}
+
+        {{ form_errors(registrationForm) }}
+
+        <!-- Nom -->
+        <div class="mb-5">
+            {{ form_widget(registrationForm.nom, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Nom'
+            }
+            }) }}
+        </div>
+
+        <!-- Prénom -->
+        <div class="mb-5">
+            {{ form_widget(registrationForm.prenom, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Prénom'
+            }
+            }) }}
+        </div>
+
+        <!-- Pseudo -->
+        <div class="mb-5">
+            {{ form_widget(registrationForm.pseudo, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Pseudo'
+            }
+            }) }}
+        </div>
+
+        <!-- Email -->
+        <div class="mb-5">
+            {{ form_widget(registrationForm.email, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Email'
+            }
+            }) }}
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="mb-2">
+            {{ form_widget(registrationForm.plainPassword, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Mot de passe'
+            }
+            }) }}
+        </div>
+
+        <!-- Langue -->
+        <div class="mb-5">
+            {{ form_label(registrationForm.langue, null, {
+            label_attr: { class: 'block text-gray-400 mb-2 text-lg' }
+            }) }}
+            {{ form_widget(registrationForm.langue, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition'
+            }
+            }) }}
+        </div>
+
+        <!-- Checkbox -->
+        <div class="flex items-center mb-6">
+            {{ form_widget(registrationForm.agreeTerms, {
+            attr: {
+            class: 'w-4 h-4 text-white bg-gray-800 border-gray-600 rounded focus:ring-white'
+            }
+            }) }}
+            {{ form_label(registrationForm.agreeTerms, null, {
+            label_attr: { class: 'ml-3 text-gray-400 text-sm' }
+            }) }}
+        </div>
+
+        <!-- Bouton -->
+        <button type="submit" class="w-full bg-white text-black font-semibold py-3 rounded
+                   hover:bg-gray-200 transition duration-300 shadow-lg hover:shadow-2xl">
+            S'inscrire
+        </button>
+
+        <!-- Lien login -->
+        <p class="mt-6 text-center text-gray-400 text-sm">
+            Déjà un compte ?
+            <a href="{{ path('app_login') }}" class="text-white hover:underline">
+                Se connecter
+            </a>
+        </p>
+
+        {{ form_end(registrationForm) }}
+
+    </div>
+
+</div>
+
 {% endblock %}
