@@ -6,7 +6,7 @@
 <!-- Header / Navigation -->
 <nav class="fixed top-0 w-full bg-gray-900 text-white z-50">
   <div class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
-    
+
     <a href="{{ path('app_home') }}">
       <img src="{{ asset('images/logo1.png') }}" alt="Logo Mappix" class="w-32">
     </a>
@@ -24,7 +24,8 @@
         <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">
           LANGUE
         </button>
-        <div class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition">
+        <div
+          class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition">
           <a href="#" class="block px-4 py-2 hover:bg-gray-100">Français</a>
           <a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
           <a href="#" class="block px-4 py-2 hover:bg-gray-100">Español</a>
@@ -37,26 +38,26 @@
 <div class="w-full max-w-1920px mx-auto">
 
   <!-- Hero Section -->
-  <section class="relative h-screen overflow-hidden">
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
 
-    <img src="{{ asset('images/img_hero_homepage.jpg') }}"
-         alt="Rouen - Conciergerie"
-         class="absolute inset-0 w-full h-full object-cover">
+  <!-- Image -->
+  <img src="{{ asset('images/img_hero_homepage.jpg') }}"
+       alt="Rouen - Conciergerie"
+       class="absolute inset-0 w-full h-full object-cover">
 
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/40"></div>
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Contenu centré -->
+  <div class="relative z-10 flex flex-col items-center text-center gap-10 px-6">
 
     <!-- Titre -->
-    <div class="absolute top-[30%] left-1/2 -translate-x-1/2 text-center z-10">
-      <h1 class="text-white text-5xl md:text-7xl font-bold drop-shadow-lg">
-        Bienvenue sur Mappix
-      </h1>
-    </div>
+    <h1 class="text-white text-5xl md:text-7xl font-bold drop-shadow-lg">
+      Bienvenue sur Mappix
+    </h1>
 
     <!-- Bloc description -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                bg-black/50 w-11/12 md:w-2/5 p-8 text-center z-10 rounded">
-
+    <div class="bg-black/50 w-full max-w-xl p-8 rounded">
       <h2 class="text-white text-base md:text-lg mb-6">
         Repérez-vous en un instant et découvrez tout ce dont
         vous avez besoin pendant votre séjour grâce à notre carte interactive.
@@ -68,91 +69,89 @@
         S'inscrire
       </a>
     </div>
-  </section>
 
-  <!-- Section Evénements -->
-  {% if recentEvents is defined and recentEvents|length > 0 %}
-  <section class="py-16 bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-center text-3xl font-bold mb-10">Événements à venir</h2>
+  </div>
+</section>
+</div>
 
-      <div class="grid md:grid-cols-3 gap-8">
-        {% for event in recentEvents %}
-        <div class="bg-white text-black rounded shadow-lg flex flex-col p-6 hover:shadow-2xl transition">
+<!-- Section Evénements -->
+{% if recentEvents is defined and recentEvents|length > 0 %}
+<section class="py-16 bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-center text-3xl font-bold mb-10">Événements à venir</h2>
 
-          <h5 class="font-bold text-center mb-4">{{ event.nom }}</h5>
+    <div class="grid md:grid-cols-3 gap-8">
+      {% for event in recentEvents %}
+      <div class="bg-white text-black rounded shadow-lg flex flex-col p-6 hover:shadow-2xl transition">
 
-          <p class="grow text-sm">
-            {{ event.description|length > 150 ? event.description|slice(0, 150) ~ '...' : event.description }}
-          </p>
+        <h5 class="font-bold text-center mb-4">{{ event.nom }}</h5>
 
-          {% if event.startAt %}
-          <div class="text-gray-500 text-sm mt-3 mb-3">
-            {{ event.startAt|date('d/m/Y') }}
-          </div>
-          {% endif %}
+        <p class="grow text-sm">
+          {{ event.description|length > 150 ? event.description|slice(0, 150) ~ '...' : event.description }}
+        </p>
 
-          <a href="#"
-             class="mt-auto border border-black px-4 py-2 text-center rounded
-                    hover:bg-black hover:text-white transition">
-            En savoir plus
-          </a>
+        {% if event.startAt %}
+        <div class="text-gray-500 text-sm mt-3 mb-3">
+          {{ event.startAt|date('d/m/Y') }}
         </div>
-        {% endfor %}
-      </div>
+        {% endif %}
 
-      <div class="text-center mt-10">
-        <a href="#"
-           class="bg-white text-black px-8 py-3 rounded text-lg font-semibold
-                  hover:bg-gray-200 transition">
-          Voir tous les événements
+        <a href="#" class="mt-auto border border-black px-4 py-2 text-center rounded
+                    hover:bg-black hover:text-white transition">
+          En savoir plus
         </a>
       </div>
+      {% endfor %}
     </div>
-  </section>
-  {% endif %}
 
-  <!-- Section Services -->
-  {% if services is defined and services|length > 0 %}
-  <section class="py-16 bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-center text-3xl font-bold mb-10">Nos Services</h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        {% for service in services %}
-        <div class="bg-white text-black rounded shadow-lg flex flex-col p-6 hover:shadow-2xl transition">
-
-          <h5 class="font-bold text-center mb-4">{{ service.nom }}</h5>
-
-          <p class="grow text-sm">
-            {{ service.description|length > 150 ? service.description|slice(0, 150) ~ '...' : service.description }}
-          </p>
-
-          <a href="#"
-             class="mt-auto border border-black px-4 py-2 text-center rounded
-                    hover:bg-black hover:text-white transition">
-            Découvrir
-          </a>
-        </div>
-        {% endfor %}
-      </div>
-
-      <div class="text-center mt-10">
-        <a href="#"
-           class="bg-white text-black px-8 py-3 rounded text-lg font-semibold
+    <div class="text-center mt-10">
+      <a href="#" class="bg-white text-black px-8 py-3 rounded text-lg font-semibold
                   hover:bg-gray-200 transition">
-          Voir tous les services
+        Voir tous les événements
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Section Services -->
+{% if services is defined and services|length > 0 %}
+<section class="py-16 bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-center text-3xl font-bold mb-10">Nos Services</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {% for service in services %}
+      <div class="bg-white text-black rounded shadow-lg flex flex-col p-6 hover:shadow-2xl transition">
+
+        <h5 class="font-bold text-center mb-4">{{ service.nom }}</h5>
+
+        <p class="grow text-sm">
+          {{ service.description|length > 150 ? service.description|slice(0, 150) ~ '...' : service.description }}
+        </p>
+
+        <a href="#" class="mt-auto border border-black px-4 py-2 text-center rounded
+                    hover:bg-black hover:text-white transition">
+          Découvrir
         </a>
       </div>
+      {% endfor %}
     </div>
-  </section>
-  {% endif %}
+
+    <div class="text-center mt-10">
+      <a href="#" class="bg-white text-black px-8 py-3 rounded text-lg font-semibold
+                  hover:bg-gray-200 transition">
+        Voir tous les services
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
 </div>
 
 <!-- Bouton scroll top -->
 <div class="fixed bottom-[10%] right-5 z-50">
-  <a href="#"
-     class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition">
+  <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition">
     ↑
   </a>
 </div>
@@ -160,7 +159,7 @@
 <!-- Footer -->
 <footer class="bg-gray-900 text-white py-8">
   <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
-    
+
     <div>
       <p class="font-bold">MAPPIX</p>
     </div>
