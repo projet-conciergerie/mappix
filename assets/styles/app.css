@@ -1,18 +1,11 @@
+@import "tailwindcss";
+@source not "../../public";
+
 body {
     background-color: #212529;
     color: #F8F8F8;
 }
 
-/*
- * Map CSS
- */
-
-.map-container .leaflet-top.leaflet-left {
-    top: auto;
-    left: auto;
-    right: 1.5rem;
-    bottom: 1.5rem;
-}
 #calendar {
     background-color: #f8f8f8;
     color: black;
