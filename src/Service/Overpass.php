@@ -1,116 +1,113 @@
 <?php
 
-namespace App\Service;
+namespace App\Controller;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Service\Overpass;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-class Overpass
+final class MapController extends AbstractController
 {
-    private const ENDPOINT = 'https://overpass-api.de/api/interpreter';
-
-    public function __construct(
-        private HttpClientInterface $client
-    ) {
-    }
-
-    /**
-     * Récupère tous les bars dans une zone géographique définie.
-     *
-     * @param string $areaName Nom de la zone (ex: "Rouen", "Normandie")
-     * @return array Liste des bars (nom, adresse, lat, lon)
-     */
-
-    public function getInArea(string $areaName, string $category): array
+    #[Route('/map', name: 'app_map')]
+    public function index(Request $request, Overpass $overpass, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
-        $data = [];
+        $token = $csrfTokenManager->getToken('map_form')->getValue();
 
-        $overpassCategory = "";
-        if ($category === "hotels") {
-            $overpassCategory = "tourism";
-            $overpassType = "hotel";
-        } else if ($category === "bars") {
-            $overpassCategory = "amenity";
-            $overpassType = "bar";
-        } else if ($category === "restaurants") {
-            $overpassCategory = "amenity";
-            $overpassType = "restaurant";
-        } else if ($category === "fontaines") {
-            $overpassCategory = "amenity";
-            $overpassType = "drinking_water";
-        } else if ($category === "toilettes") {
-            $overpassCategory = "amenity";
-            $overpassType = "toilets";
-        } else {
-            return [];
-        }
+        if ($request->isMethod('POST')) {
+            $submittedToken = $request->request->get('_token');
 
-        // Directory to save cache files
-        $filedir = __DIR__ . '/../../public/data';
-
-        if (!file_exists($filedir)) {
-            mkdir($filedir, 0777);
-        }
-
-        // File to save / restore cache files 
-        $filename = $filedir . '/overpass_' . $areaName . '_' . $category . '.json';
-
-        if (file_exists($filename)) {
-            // Return a pre loaded request
-            $jsondata = file_get_contents($filename);
-            $data = json_decode($jsondata, true);
-        } else {
-            // Requête Overpass
-            $query = <<<OVERPASS
-[out:json][timeout:25];
-area["name"="$areaName"]->.a;
-(
-  node["$overpassCategory"="$overpassType"](area.a);
-  way["$overpassCategory"="$overpassType"](area.a);
-  relation["$overpassCategory"="$overpassType"](area.a);
-);
-out center;
-OVERPASS;
-
-            $response = $this->client->request('POST', self::ENDPOINT, [
-                'body' => ['data' => $query],
-            ]);
-
-            $data = $response->toArray();
-
-            $jsondata = json_encode($data);
-            file_put_contents($filename, $jsondata);
-        }
-
-        $results = [];
-
-        foreach ($data['elements'] as $el) {
-            $lat = $el['lat'] ?? $el['center']['lat'] ?? null;
-            $lon = $el['lon'] ?? $el['center']['lon'] ?? null;
-
-            $tags = $el['tags'] ?? [];
-
-            $address = "";
-            if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
-                $address = ($tags['addr:housenumber'] ?? '') . ' '
-                    . ($tags['addr:street'] ?? '') . ', '
-                    . ($tags['addr:postcode'] ?? '') . ' '
-                    . ($tags['addr:city'] ?? '');
-            } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
-                $address =  ($tags['contact:housenumber'] ?? '') . ' '
-                    . ($tags['contact:street'] ?? '') . ', '
-                    . ($tag['contact:postcode'] ?? '') . ' '
-                    . ($tags['contact:city'] ?? '');
+            if (!$csrfTokenManager->isTokenValid(new CsrfToken('map_form', $submittedToken))) {
+                throw $this->createAccessDeniedException('Token CSRF invalide');
             }
 
-            $results[] = [
-                'name' => $tags['name'] ?? $category . ' sans nom',
-                'address' => trim($address),
-                'lat' => $lat,
-                'lon' => $lon,
-                'tags' => $tags
-            ];
+            $idElement = $request->request->get('idElement');
+            $category = $request->request->get('category');
+
+            $datas = $overpass->getInArea('Rouen', strtolower($category));
+
+            if (!empty($idElement) && !empty($category)) {
+                $data = $datas[$idElement];
+
+                return $this->render('map/_map_details.html.twig', [
+                    'category' => $category,
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'website' => $data['website'],
+                    'instagram' => $data['instagram'],
+                    'facebook' => $data['facebook'],
+                    'datas' => $data['tags']
+                ]);
+            }
         }
 
-        return $results;
+        // Toutes les catégories
+        $categories = [
+            'bars' => [
+                'display' => 'Bars',
+                'icon' => 'marker_bars.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'bars')
+            ],
+            'pubs' => [
+                'display' => 'Pubs',
+                'icon' => 'marker_pubs.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'pubs')
+            ],
+            'hotels' => [
+                'display' => 'Hotels',
+                'icon' => 'marker_hotels.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'hotels')
+            ],
+            'restaurants' => [
+                'display' => 'Restaurants',
+                'icon' => 'marker_restaurants.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'restaurants')
+            ],
+            'fontaines' => [
+                'display' => 'Fontaines',
+                'icon' => 'marker_fontaines.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'fontaines')
+            ],
+            'toilettes' => [
+                'display' => 'Toilettes',
+                'icon' => 'marker_toilettes.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'toilettes')
+            ],
+            'musees' => [
+                'display' => 'Musées',
+                'icon' => 'marker_musees.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'musees')
+            ],
+            'monuments' => [
+                'display' => 'Monuments',
+                'icon' => 'marker_monuments.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'monuments')
+            ],
+            'parcs' => [
+                'display' => 'Parcs',
+                'icon' => 'marker_parcs.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'parcs')
+            ],
+            'monuments_historiques' => [
+                'display' => 'Monuments Historiques',
+                'icon' => 'marker_monuments_historiques.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'monuments_historiques')
+            ],
+            'attractions' => [
+                'display' => 'Attractions',
+                'icon' => 'marker_attractions.png',
+                'datas' => $overpass->getInAreaShort('Rouen', 'attractions')
+            ],
+        ];
+
+        return $this->render('map/index.html.twig', [
+            'categories' => $categories,
+            'csrf_token' => $token,
+        ]);
     }
 }

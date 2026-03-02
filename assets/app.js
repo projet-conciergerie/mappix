@@ -1,4 +1,5 @@
-import './stimulus_bootstrap.js';
+import '@hotwired/turbo';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -8,3 +9,7 @@ import './stimulus_bootstrap.js';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+import './styles/map.css';
+
+// start the Stimulus application
+import './bootstrap.js';
