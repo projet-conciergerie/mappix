@@ -19,7 +19,7 @@
 /* ===== Hero Section avec Image ===== */
 .hero-section {
     position: relative;
-    height: 500px; /* Ajuste la hauteur selon tes besoins */
+    height: 100vh; /* Ajuste la hauteur selon tes besoins */
     overflow: hidden;
 }
 
