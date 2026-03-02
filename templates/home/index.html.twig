@@ -34,7 +34,7 @@
   </div>
 </nav>
 
-<div class="w-full max-w-[1920px] mx-auto">
+<div class="w-full max-w-1920px mx-auto">
 
   <!-- Hero Section -->
   <section class="relative h-screen overflow-hidden">
@@ -82,7 +82,7 @@
 
           <h5 class="font-bold text-center mb-4">{{ event.nom }}</h5>
 
-          <p class="flex-grow text-sm">
+          <p class="grow text-sm">
             {{ event.description|length > 150 ? event.description|slice(0, 150) ~ '...' : event.description }}
           </p>
 
@@ -124,7 +124,7 @@
 
           <h5 class="font-bold text-center mb-4">{{ service.nom }}</h5>
 
-          <p class="flex-grow text-sm">
+          <p class="grow text-sm">
             {{ service.description|length > 150 ? service.description|slice(0, 150) ~ '...' : service.description }}
           </p>
 
