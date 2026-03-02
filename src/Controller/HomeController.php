@@ -15,6 +15,12 @@ class HomeController extends AbstractController
         EvenementRepository $evenementRepository,
         ServiceRepository $serviceRepository
     ): Response {
+
+        // Rediriger vers /map si l'utilisateur est connecté
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_map'); // Assure-toi que la route s'appelle bien 'app_map'
+        }
+
         // Récupérer les 3 derniers événements à venir
         $recentEvents = $evenementRepository->findBy(
             [],

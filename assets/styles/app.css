@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-    background-color: #212529;
+    background-color: #19243b;
     color: #F8F8F8;
 }
 
@@ -30,13 +30,6 @@ body {
     justify-content: space-between;
     background-color: #FFA500;
     margin-bottom: unset;
-}
-
-.btn-fixed-10 {
-    position: fixed;
-    bottom: 10%;
-    right: 20px; /* ou left: 20px; */
-    z-index: 1050; /* au-dessus du contenu */
 }
 
 /* ===== Hero Section avec Image ===== */
