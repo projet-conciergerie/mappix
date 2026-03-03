@@ -11,6 +11,7 @@ import 'leaflet.featuregroup.subgroup'
 export default class extends Controller {
     static values = {
         categories: Object,
+        position: Object,
         token: String
     }
 
@@ -19,6 +20,9 @@ export default class extends Controller {
     groups = [];
 
     connect() {
+        // if position value is provided, we consider the position is fixed by the user search and not by geolocation
+        this.positionSet = Object.keys(this.positionValue).length !== 0;
+        
         this.map = L.map(this.element).setView([49.433331, 1.08333], 13)
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -30,6 +34,11 @@ export default class extends Controller {
         this.map.addLayer(this.clusterGroup)
 
         this.loadMarkers()
+
+        // Center map on searched object if position value is provided
+        if (this.positionSet) {
+            this.map.setView([this.positionValue.lat, this.positionValue.lon], 19)
+        }
 
         // create layer toggles
 
@@ -104,6 +113,18 @@ export default class extends Controller {
                 groupdiv.classList.add('hidden');
             }
         });
+
+        // dispatch event to let know the map is loaded and provide the map instance for other controllers
+        // Let know if the position is fixed by the user search or if we should use geolocation
+
+        queueMicrotask(() => {
+            this.dispatch("loaded", {
+                detail: {
+                    map: this.map,
+                    positionSet: this.positionSet
+                }
+            });
+        });
     }
 
     disconnect() {
@@ -122,11 +143,18 @@ export default class extends Controller {
 
             const subgroup = L.featureGroup.subGroup(this.clusterGroup)
 
+            let active = true;
+            if (this.positionSet) {
+                if (category !== this.positionValue.category) {
+                    active = false;
+                }
+            }
+
             this.groups.push({
                 name: items.display,
                 layer: subgroup,
                 icon: items.icon,
-                active: true
+                active: active
             })
 
             items.datas.forEach((item, index) => {
@@ -135,7 +163,7 @@ export default class extends Controller {
 
                 const popup = `
                     <h3 class="text-2xl font-bold">${items.display}</h3>
-                    <p class="text-xl font-bold">${item.name?item.name:'Pas de Nom disponible'}</p>
+                    <p class="text-xl font-bold">${item.name ? item.name : 'Pas de Nom disponible'}</p>
                     <p class="text-lg">${item.address}</p>
                     <form data-turbo="false">
                         <input type="hidden" name="_token" value="${this.tokenValue}">

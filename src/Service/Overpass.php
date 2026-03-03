@@ -144,6 +144,11 @@ OVERPASS;
 
                 'email',
 
+                // description
+                'description:fr',
+                'description:en',
+                'description',
+                
                 // website
                 'website',
                 'url',
@@ -249,7 +254,17 @@ OVERPASS;
 
             $wikidata = $tags['wikidata'] ?? $tags['brand:wikidata'] ?? null;
 
+            $description = null;
+            if (isset($tags['description:fr'])) {
+                $description = $tags['description:fr'];
+            } else if (isset($tags['description'])) {
+                $description = $tags['description'];
+            } else if (isset($tags['description:en'])) {
+                $description = $tags['description:en'];
+            }
+
             $results[] = [
+                'description' => $description,
                 'name' => $name,
                 'address' => trim($address),
                 'phone' => $tags['phone'] ?? null,

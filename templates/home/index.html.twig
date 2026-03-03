@@ -174,7 +174,7 @@
         </div>
 
         {# Bouton d'action #}
-        <a href="{{ path('app_map') }}" class="mt-auto border border-white px-4 py-2 text-center rounded
+        <a href="{{ path('app_map_goto') }}?id={{ service.id }}&category={{ service.categoryKey }}" class="mt-auto border border-white px-4 py-2 text-center rounded
                     hover:bg-white hover:text-gray-900 transition">
           Voir sur la carte
         </a>
