@@ -135,7 +135,7 @@ export default class extends Controller {
 
                 const popup = `
                     <h3 class="text-2xl font-bold">${items.display}</h3>
-                    <p class="text-xl font-bold">${item.name?item.name:'Nom non disponible'}</p>
+                    <p class="text-xl font-bold">${item.name?item.name:'Pas de Nom disponible'}</p>
                     <p class="text-lg">${item.address}</p>
                     <form data-turbo="false">
                         <input type="hidden" name="_token" value="${this.tokenValue}">
