@@ -2,76 +2,98 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     connect() {
+        console.log('Return home controller connected!'); // Debug
         
-        document.addEventListener('DOMContentLoaded', function () {
+        // Attendre un court instant pour être sûr que le DOM est prêt
+        setTimeout(() => {
+            this.setupScrollButton();
+            this.setupSmoothScrollLinks();
+            this.setupCardAnimations();
+        }, 100);
+    }
 
-            // ===== Bouton Scroll to Top =====
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
+    setupScrollButton() {
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        
+        if (!scrollTopBtn) {
+            console.error('Bouton scroll to top introuvable !');
+            return;
+        }
 
-            if (scrollTopBtn) {
-                // Afficher/masquer le bouton selon le scroll
-                window.addEventListener('scroll', function () {
-                    if (window.pageYOffset > 300) {
-                        scrollTopBtn.classList.add('show');
-                    } else {
-                        scrollTopBtn.classList.remove('show');
-                    }
-                });
+        console.log('Bouton trouvé !', scrollTopBtn); // Debug
 
-                // Smooth scroll vers le haut
-                scrollTopBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
+        // Fonction pour gérer l'affichage du bouton
+        const handleScroll = () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                scrollTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                scrollTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
             }
+        };
 
-            // ===== Smooth scroll pour tous les liens d'ancrage =====
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if (href !== '#' && href !== '') {
-                        e.preventDefault();
-                        const target = document.querySelector(href);
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }
-                });
+        // Écouter le scroll
+        window.addEventListener('scroll', handleScroll);
+
+        // Clic sur le bouton
+        scrollTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Clic détecté, scroll vers le haut...'); // Debug
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
+        });
 
-            // ===== Animation des cartes au scroll (optionnel) =====
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+        // Vérifier l'état initial
+        handleScroll();
+    }
 
-            const observer = new IntersectionObserver(function (entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '0';
-                        entry.target.style.transform = 'translateY(20px)';
-
-                        setTimeout(() => {
-                            entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }, 100);
-
-                        observer.unobserve(entry.target);
+    setupSmoothScrollLinks() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
                     }
-                });
-            }, observerOptions);
-
-            // Observer toutes les cartes
-            document.querySelectorAll('.card').forEach(card => {
-                observer.observe(card);
+                }
             });
+        });
+    }
+
+    setupCardAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+
+                    setTimeout(() => {
+                        entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
         });
     }
 }

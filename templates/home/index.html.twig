@@ -51,7 +51,7 @@
 
     <div class="grid md:grid-cols-3 gap-8">
       {% for event in recentEvents %}
-      <div class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border-gray-100 border">
+      <div class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border-gray-100 border card">
 
         <h5 class="font-bold text-center mb-4 text-lg">{{ event.nom }}</h5>
 
@@ -93,7 +93,7 @@
 
     <div class="grid md:grid-cols-3 gap-8">
       {% for service in services %}
-      <div class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border border-gray-100">
+      <div class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border border-gray-100 card">
 
         {# En-tête avec catégorie #}
         <div class="flex items-start justify-between mb-4">
@@ -173,9 +173,11 @@
 </section>
 {% endif %}
 
-<!-- Bouton scroll top -->
-<div class="fixed bottom-[20%] right-5 z-50">
-  <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition text-black flex items-center justify-center w-12 h-12">
+<!-- Bouton scroll top - VOTRE STRUCTURE ORIGINALE -->
+<div class="fixed bottom-[20%] right-5 z-50" id="scrollTopContainer">
+  <a href="javascript:void(0);" 
+     id="scrollTopBtn"
+     class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 text-black flex items-center justify-center w-12 h-12">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
     </svg>
