@@ -12,18 +12,51 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final class MapController extends AbstractController
 {
-    private $categoriesNames = [
-        'bars' => 'Bars',
-        'pubs' => 'Pubs',
-        'hotels' => 'Hotels',
-        'restaurants' => 'Restaurants',
-        'fontaines' => 'Fontaines',
-        'toilettes' => 'Toilettes',
-        'musees' => 'Musées',
-        'monuments' => 'Monuments',
-        'parcs' => 'Parcs',
-        'monuments_historiques' => 'Monuments Historiques',
-        'attractions' => 'Attractions'
+    private $categories = [
+        'bars' => [
+            'display' => 'Bars',
+            'icon' => 'marker_bars.png'
+        ],
+        'pubs' => [
+            'display' => 'Pubs',
+            'icon' => 'marker_pubs.png'
+        ],
+        'hotels' => [
+            'display' => 'Hotels',
+            'icon' => 'marker_hotels.png'
+        ],
+        'restaurants' => [
+            'display' => 'Restaurants',
+            'icon' => 'marker_restaurants.png'
+        ],
+        'fontaines' => [
+            'display' => 'Fontaines',
+            'icon' => 'marker_fontaines.png'
+        ],
+        'toilettes' => [
+            'display' => 'Toilettes',
+            'icon' => 'marker_toilettes.png'
+        ],
+        'musees' => [
+            'display' => 'Musées',
+            'icon' => 'marker_musees.png'
+        ],
+        'monuments' => [
+            'display' => 'Monuments',
+            'icon' => 'marker_monuments.png'
+        ],
+        'parcs' => [
+            'display' => 'Parcs',
+            'icon' => 'marker_parcs.png'
+        ],
+        'monuments_historiques' => [
+            'display' => 'Monuments Historiques',
+            'icon' => 'marker_monuments_historiques.png'
+        ],
+        'attractions' => [
+            'display' => 'Attractions',
+            'icon' => 'marker_attractions.png'
+        ]
     ];
 
     #[Route('/map', name: 'app_map', methods: ['GET'])]
@@ -31,67 +64,22 @@ final class MapController extends AbstractController
     {
         $token = $csrfTokenManager->getToken('map_form')->getValue();
 
-        // Toutes les catégories
-        $categories = [
-            'bars' => [
-                'display' => 'Bars',
-                'icon' => 'marker_bars.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'bars')
-            ],
-            'pubs' => [
-                'display' => 'Pubs',
-                'icon' => 'marker_pubs.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'pubs')
-            ],
-            'hotels' => [
-                'display' => 'Hotels',
-                'icon' => 'marker_hotels.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'hotels')
-            ],
-            'restaurants' => [
-                'display' => 'Restaurants',
-                'icon' => 'marker_restaurants.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'restaurants')
-            ],
-            'fontaines' => [
-                'display' => 'Fontaines',
-                'icon' => 'marker_fontaines.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'fontaines')
-            ],
-            'toilettes' => [
-                'display' => 'Toilettes',
-                'icon' => 'marker_toilettes.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'toilettes')
-            ],
-            'musees' => [
-                'display' => 'Musées',
-                'icon' => 'marker_musees.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'musees')
-            ],
-            'monuments' => [
-                'display' => 'Monuments',
-                'icon' => 'marker_monuments.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'monuments')
-            ],
-            'parcs' => [
-                'display' => 'Parcs',
-                'icon' => 'marker_parcs.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'parcs')
-            ],
-            'monuments_historiques' => [
-                'display' => 'Monuments Historiques',
-                'icon' => 'marker_monuments_historiques.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'monuments_historiques')
-            ],
-            'attractions' => [
-                'display' => 'Attractions',
-                'icon' => 'marker_attractions.png',
-                'datas' => $overpass->getInAreaShort('Rouen', 'attractions')
-            ],
-        ];
+        // Toutes les catégories a afficher sur la carte
+        $shownCategories = $this->categories;
+        $shownCategories['bars']['datas'] = $overpass->getInAreaShort('Rouen', 'bars');
+        $shownCategories['pubs']['datas'] = $overpass->getInAreaShort('Rouen', 'pubs');
+        $shownCategories['hotels']['datas'] = $overpass->getInAreaShort('Rouen', 'hotels');
+        $shownCategories['restaurants']['datas'] = $overpass->getInAreaShort('Rouen', 'restaurants');
+        $shownCategories['fontaines']['datas'] = $overpass->getInAreaShort('Rouen', 'fontaines');
+        $shownCategories['toilettes']['datas'] = $overpass->getInAreaShort('Rouen', 'toilettes');
+        $shownCategories['musees']['datas'] = $overpass->getInAreaShort('Rouen', 'musees');
+        $shownCategories['monuments']['datas'] = $overpass->getInAreaShort('Rouen', 'monuments');
+        $shownCategories['parcs']['datas'] = $overpass->getInAreaShort('Rouen', 'parcs');
+        $shownCategories['monuments_historiques']['datas'] = $overpass->getInAreaShort('Rouen', 'monuments_historiques');
+        $shownCategories['attractions']['datas'] = $overpass->getInAreaShort('Rouen', 'attractions');
 
         return $this->render('map/index.html.twig', [
-            'categories' => $categories,
+            'categories' => $shownCategories,
             'csrf_token' => $token,
         ]);
     }
@@ -127,7 +115,7 @@ final class MapController extends AbstractController
                 }
 
                 return $this->render('map/_map_details.html.twig', [
-                    'category' => $this->categoriesNames[$category] ?? $category,
+                    'category' => $this->categories[$category]['display'] ?? $category,
                     'name' => $data['name'],
                     'address' => $data['address'],
                     'email' => $data['email'],
