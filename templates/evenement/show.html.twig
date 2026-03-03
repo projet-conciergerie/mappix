@@ -4,26 +4,75 @@
 
 {% block body %}
 
-<h1>{{ evenement.nom }}</h1>
+<div class="min-h-screen bg-[#19243b] text-[#f8f8f8] py-12 px-6">
 
-<p><strong>Début :</strong> {{ evenement.startAt|date('d/m/Y H:i') }}</p>
-<p><strong>Fin :</strong> {{ evenement.endAt|date('d/m/Y H:i') }}</p>
-<p><strong>Places restantes :</strong> {{ evenement.placesRestantes }}</p>
+    <div class="max-w-3xl mx-auto bg-[#101828] rounded-2xl shadow-2xl p-8">
 
-<p>{{ evenement.description }}</p>
+        <h1 class="text-3xl font-bold text-[#E6D4B5] mb-6">
+            {{ evenement.nom }}
+        </h1>
 
-<div class="actions">
-    {% if evenement.placesRestantes > 0 %}
-        <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
-            Réserver
-        </a>
-    {% else %}
-        <p>Complet</p>
-    {% endif %}
+        <div class="space-y-3 text-sm md:text-base">
+            <p>
+                <span class="font-semibold text-[#E6D4B5]">Début :</span>
+                {{ evenement.startAt|date('d/m/Y H:i') }}
+            </p>
 
-    <a href="{{ path('app_evenements') }}" data-turbo="false">
-        Retour au calendrier
-    </a>
+            <p>
+                <span class="font-semibold text-[#E6D4B5]">Fin :</span>
+                {{ evenement.endAt|date('d/m/Y H:i') }}
+            </p>
+
+            <p>
+                <span class="font-semibold text-[#E6D4B5]">Places restantes :</span>
+                {{ evenement.placesRestantes }}
+            </p>
+        </div>
+
+        <div class="mt-6 text-gray-300 leading-relaxed">
+            {{ evenement.description }}
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+
+            {% if evenement.placesRestantes > 0 %}
+                <a href="{{ path('app_reservation_create', {id: evenement.id}) }}"
+                   class="relative inline-block
+                    px-8 py-3 rounded-lg text-lg font-semibold
+                    text-gray-900 shadow-md overflow-hidden
+                    bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+                    before:absolute before:inset-0
+                    before:bg-linear-to-tr
+                    before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+                    before:opacity-0
+                    before:transition-opacity before:duration-600 before:ease-in-out
+                    hover:before:opacity-100
+                    before:content-['']">
+
+        <span class="relative z-10">
+                    Réserver
+                </a>
+            {% else %}
+                <span class="px-6 py-3 rounded-lg bg-red-500 text-white font-semibold">
+                    Complet
+                </span>
+            {% endif %}
+
+            <a href="{{ path('app_evenements') }}" data-turbo="false"
+               class="px-6 py-3 rounded-lg border border-[#E6D4B5] text-[#E6D4B5]
+                      hover:bg-[#E6D4B5] hover:text-[#101828]
+                      transition duration-200">
+                Retour au calendrier
+            </a>
+
+            <a href="{{ path('my_reservation_list')}}"
+                    class="px-6 py-3 rounded-lg border border-[#E6D4B5] text-[#E6D4B5]
+                    hover:bg-[#E6D4B5] hover:text-[#101828]
+                    transition duration-200"> Voir mes reservations</a>
+
+        </div>
+
+    </div>
 </div>
 
 {% endblock %}

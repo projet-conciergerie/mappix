@@ -20,7 +20,7 @@
 
 <body>
 	<!-- Header / Navigation -->
-	<nav class="fixed top-0 w-full bg-gray-900 text-white z-50" style="height: 112px;">
+	<nav class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
 		<div class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
 
 			<a href="{{ path('app_home') }}">
@@ -34,6 +34,9 @@
 				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">S'INSCRIRE</a></li>
 				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_login') }}">SE CONNECTER</a></li>
 				{% else %}
+                <li><a class="hover:text-[#e6d4b6]" href="{{ path('app_map') }}">CARTE</a></li>
+                <li><a class="hover:text-[#e6d4b6]" href="{{ path('app_evenements') }}">CALENDRIER</a></li>
+                <li><a class="hover:text-[#e6d4b6]" href="{{ path('my_reservation_list') }}">RESERVATIONS</a></li>
 				<li><a class="hover:text-[#e6d4b6]" href="#">PROFIL</a></li>
 				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
 				{% endif %}
@@ -76,7 +79,7 @@
 		</div>
 
 	</footer>
-	
+
 	<div data-controller="return_home"></div>
 </body>
 
