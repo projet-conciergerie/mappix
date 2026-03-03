@@ -12,13 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class EvenementController extends AbstractController
 {
-    // #[Route('/evenement', name: 'app_evenement')]
-    // public function index(EvenementRepository $evenementRepository): Response
-    // {
-    //     return $this->render('evenement/index.html.twig', [
-    //         'evenements' => $evenementRepository->findAll(),
-    //     ]);
-    // }
+    #[Route('/evenements', name: 'app_evenement')]
+    public function index(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('evenement/index.html.twig', [
+            'evenements' => $evenementRepository->findAll(),
+        ]);
+    }
     #[Route('/api/evenements', name: 'api_evenements')]
     public function api(EvenementRepository $repo): JsonResponse
     {
@@ -40,7 +40,7 @@ final class EvenementController extends AbstractController
 
         return $this->json($events);
     }
-    #[Route('/evenements', name: 'app_evenements')]
+    #[Route('/calendrier', name: 'app_evenements')]
     public function calendrier(): Response
     {
         return $this->render('evenement/calendar.html.twig');

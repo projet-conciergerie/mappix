@@ -4,28 +4,89 @@
 
 {% block body %}
 
+<div class="max-w-7xl mx-auto px-6 py-14">
 
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }}" role="alert">
-            {{ message }}
+    <h1 class="text-4xl font-bold text-center text-[#f8f8f8] mb-14">
+        Événements
+    </h1>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+        {% for evenement in evenements %}
+
+        <div class="bg-[#101828] rounded-2xl shadow-xl border border-[#E6D4B5]/20
+                    p-6 flex flex-col justify-between
+                    hover:shadow-2xl hover:-translate-y-1 transition duration-300">
+
+            <div>
+
+                <h3 class="text-2xl font-semibold text-[#E6D4B5] mb-4">
+                    {{ evenement.nom }}
+                </h3>
+
+                <div class="space-y-2 text-[#f8f8f8] text-sm">
+
+                    <p>
+                        <span class="font-medium">Début :</span>
+                        {{ evenement.startAt|date('d/m/Y H:i') }}
+                    </p>
+
+                    <p>
+                        <span class="font-medium">Fin :</span>
+                        {{ evenement.endAt|date('d/m/Y H:i') }}
+                    </p>
+
+                    {% if evenement.lieu is defined %}
+                        <p>
+                            <span class="font-medium">Lieu :</span>
+                            {{ evenement.lieu }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+                <p class="mt-4 text-[#f8f8f8]/80 text-sm line-clamp-3">
+                    {{ evenement.description }}
+                </p>
+
+            </div>
+
+            <div class="mt-6">
+
+                <div class="mb-4 text-sm">
+                    Places restantes :
+                    <span class="font-bold text-[#E6D4B5]">
+                        {{ evenement.placesRestantes }}
+                    </span>
+                </div>
+
+                {% if evenement.placesRestantes > 0 %}
+                    <a href="{{ path('app_reservation_create', {id: evenement.id}) }}"
+                       class="block text-center px-6 py-3 rounded-lg font-semibold
+                       text-[#101828] shadow-md
+                       bg-gradient-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+                       transition duration-200 hover:scale-105">
+                        Réserver
+                    </a>
+                {% else %}
+                    <span class="block text-center px-6 py-3 rounded-lg
+                                 bg-red-600 text-white font-semibold">
+                        Complet
+                    </span>
+                {% endif %}
+
+            </div>
+
         </div>
-    {% endfor %}
-{% endfor %}
 
-{% for evenement in evenements %}
+        {% else %}
+            <p class="text-center text-[#f8f8f8] col-span-full">
+                Aucun événement disponible.
+            </p>
+        {% endfor %}
 
-    <h3>{{ evenement.nom }}</h3>
-    <p>Places restantes : {{ evenement.placesRestantes }}</p>
+    </div>
 
-    {% if evenement.placesRestantes > 0 %}
-        <a href="{{ path('app_reservation_create', {id: evenement.id}) }}">
-            Réserver
-        </a>
-    {% else %}
-        <p>Complet</p>
-    {% endif %}
-
-{% endfor %}
+</div>
 
 {% endblock %}
