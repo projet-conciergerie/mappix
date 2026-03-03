@@ -58,7 +58,7 @@ export default class extends Controller {
             toggle.appendChild(icon);
             toggle.appendChild(label);
             toggle.appendChild(led);
-            
+
             groupdiv.appendChild(toggle);
 
             // add / remove layer to map for initial state
@@ -135,15 +135,35 @@ export default class extends Controller {
 
                 const popup = `
                     <h3 class="text-2xl font-bold">${items.display}</h3>
-                    <p class="text-xl font-bold">${item.name}</p>
+                    <p class="text-xl font-bold">${item.name?item.name:'Nom non disponible'}</p>
                     <p class="text-lg">${item.address}</p>
-                    <form data-turbo-frame="local_data" method="post">
+                    <form data-turbo="false">
                         <input type="hidden" name="_token" value="${this.tokenValue}">
                         <input type="hidden" name="category" value="${category}">
                         <input type="hidden" name="idElement" value="${index}">
                         <input class="cursor-pointer bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Infos">
                     </form>
                 `
+
+                marker.on('popupopen', (e) => {
+                    const popupElement = e.popup.getElement();
+                    const form = popupElement.querySelector('form');
+
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+
+                        const formData = new FormData(form);
+
+                        fetch('/map/data', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('map-details').innerHTML = html;
+                            })
+                    })
+                })
 
                 marker.bindPopup(popup)
 

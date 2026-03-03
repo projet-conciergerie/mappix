@@ -12,41 +12,10 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final class MapController extends AbstractController
 {
-    #[Route('/map', name: 'app_map')]
+    #[Route('/map', name: 'app_map', methods: ['GET'])]
     public function index(Request $request, Overpass $overpass, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
         $token = $csrfTokenManager->getToken('map_form')->getValue();
-
-        if ($request->isMethod('POST')) {
-            $submittedToken = $request->request->get('_token');
-
-            if (!$csrfTokenManager->isTokenValid(new CsrfToken('map_form', $submittedToken))) {
-                throw $this->createAccessDeniedException('Token CSRF invalide');
-            }
-
-            $idElement = $request->request->get('idElement');
-            $category = $request->request->get('category');
-
-            $datas = $overpass->getInArea('Rouen', strtolower($category));
-
-            if (!empty($idElement) && !empty($category)) {
-                $data = $datas[$idElement];
-
-                return $this->render('map/_map_details.html.twig', [
-                    'category' => $category,
-                    'name' => $data['name'],
-                    'address' => $data['address'],
-                    'email' => $data['email'],
-                    'phone' => $data['phone'],
-                    'website' => $data['website'],
-                    'instagram' => $data['instagram'],
-                    'facebook' => $data['facebook'],
-                    'wikipedia' => $data['wikipedia'],
-                    'thumbnail' => $data['thumbnail'],
-                    'datas' => $data['tags']
-                ]);
-            }
-        }
 
         // Toutes les catégories
         $categories = [
@@ -111,5 +80,42 @@ final class MapController extends AbstractController
             'categories' => $categories,
             'csrf_token' => $token,
         ]);
+    }
+
+    #[Route('/map/data', name: 'app_map_data', methods: ['POST'])]
+    public function getData(Request $request, Overpass $overpass, CsrfTokenManagerInterface $csrfTokenManager): Response
+    {
+        $token = $csrfTokenManager->getToken('map_form')->getValue();
+
+        if ($request->isMethod('POST')) {
+            $submittedToken = $request->request->get('_token');
+
+            if (!$csrfTokenManager->isTokenValid(new CsrfToken('map_form', $submittedToken))) {
+                throw $this->createAccessDeniedException('Token CSRF invalide');
+            }
+
+            $idElement = $request->request->get('idElement');
+            $category = $request->request->get('category');
+
+            $datas = $overpass->getInArea('Rouen', strtolower($category));
+
+            if (!empty($idElement) && !empty($category)) {
+                $data = $datas[$idElement];
+
+                return $this->render('map/_map_details.html.twig', [
+                    'category' => $category,
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'website' => $data['website'],
+                    'instagram' => $data['instagram'],
+                    'facebook' => $data['facebook'],
+                    'wikipedia' => $data['wikipedia'],
+                    'thumbnail' => $data['thumbnail'],
+                    'datas' => $data['tags']
+                ]);
+            }
+        }
     }
 }

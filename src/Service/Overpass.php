@@ -101,17 +101,26 @@ OVERPASS;
                 $address = $tags['contact:full'];
             } else if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
                 $housename = $tags['addr:housename'] ?? '';
+                $housenumber = $tags['addr:housenumber'] ?? '';
+                $street = $tags['addr:street'] ?? '';
+                $postcode = $tags['addr:postcode'] ?? '';
+                $city = $tags['addr:city'] ?? '';
 
-                $address = ($tags['addr:housenumber'] ?? '') . ' '
-                    . ($tags['addr:street'] ?? '') . ', '
+                $address = ($housenumber ? $housenumber . ' ' : '')
+                    . ($street ? $street . ', ' : '')
                     . ($housename ? $housename . ', ' : '')
-                    . ($tags['addr:postcode'] ?? '') . ' '
-                    . ($tags['addr:city'] ?? '');
+                    . ($postcode ? $postcode . ' ' : '')
+                    . ($city ? $city : '');
             } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
-                $address = ($tags['contact:housenumber'] ?? '') . ' '
-                    . ($tags['contact:street'] ?? '') . ', '
-                    . ($tags['contact:postcode'] ?? '') . ' '
-                    . ($tags['contact:city'] ?? '');
+                $housenumber = $tags['contact:housenumber'] ?? '';
+                $street = $tags['contact:street'] ?? '';
+                $postcode = $tags['contact:postcode'] ?? '';
+                $city = $tags['contact:city'] ?? '';
+
+                $address = ($housenumber ? $housenumber . ' ' : '')
+                    . ($street ? $street . ', ' : '')
+                    . ($postcode ? $postcode . ' ' : '')
+                    . ($city ? $city : '');
             }
 
             $website = $tags['website'] ??
