@@ -32,8 +32,11 @@ export default class extends Controller {
 
         this.loadMarkers()
 
+        // if position value is provided, we consider the position is fixed by the user search and not by geolocation
+        this.positionSet = Object.keys(this.positionValue).length !== 0;
+
         // Center map on searched object if position value is provided
-        if ( Object.keys(this.positionValue).length !== 0 ) {
+        if (this.positionSet) {
             this.map.setView([this.positionValue.lat, this.positionValue.lon], 19)
         }
 
@@ -110,6 +113,18 @@ export default class extends Controller {
                 groupdiv.classList.add('hidden');
             }
         });
+
+        // dispatch event to let know the map is loaded and provide the map instance for other controllers
+        // Let know if the position is fixed by the user search or if we should use geolocation
+
+        queueMicrotask(() => {
+            this.dispatch("loaded", {
+                detail: {
+                    map: this.map,
+                    positionSet: this.positionSet
+                }
+            });
+        });
     }
 
     disconnect() {
@@ -129,7 +144,7 @@ export default class extends Controller {
             const subgroup = L.featureGroup.subGroup(this.clusterGroup)
 
             let active = true;
-            if ( Object.keys(this.positionValue).length !== 0 ) {
+            if (this.positionSet) {
                 if (category !== this.positionValue.category) {
                     active = false;
                 }
@@ -183,13 +198,5 @@ export default class extends Controller {
                 subgroup.addLayer(marker)
             })
         }
-    }
-
-    // Let know if the position is fixed by the user search or if we should use geolocation
-    isPositionSet() {
-        if (this.positionValue !== undefined) {
-            return true;
-        }
-        return false;
     }
 }

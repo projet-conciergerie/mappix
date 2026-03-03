@@ -1,27 +1,25 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
+    static values = {}
+    static targets = []
+
     connect() {
-
-        // assume map controller is registered on the same element
-        const mapCtrl = this.application.getControllerForElementAndIdentifier(
-            this.element,
-            'map'
-        );
-
-        if (!mapCtrl) {
-            console.warn('Map controller not found on element');
-            return;
-        }
-
-        const map = mapCtrl.map;
-        if (!map) {
-            console.warn('Map instance not ready');
-            return;
-        }
-
         if (!navigator.geolocation) {
             console.warn('Geolocation not supported');
+            return;
+        }
+    }
+
+    disconnect() {
+        if (this.watchId != null && navigator.geolocation.clearWatch) {
+            navigator.geolocation.clearWatch(this.watchId);
+        }
+    }
+
+    startGeolocate() {
+
+        if (!navigator.geolocation) {
             return;
         }
 
@@ -38,17 +36,17 @@ export default class extends Controller {
                     iconSize: [48, 48]
                 })
 
-                this.marker = L.marker([lat, lng], { icon, pane: 'markerPane' }).addTo(map);
+                this.marker = L.marker([lat, lng], { icon, pane: 'markerPane' }).addTo(this.map);
             }
 
             // if the position is fixed by the user search, we don't want to recenter on geolocation updates
-            if (map.isPositionSet()) {
+            if (this.positionSet) {
                 this.hasCentered = true;
             }
 
             // center the map on the first location fix only
             if (!this.hasCentered) {
-                map.setView([lat, lng], 13);
+                this.map.setView([lat, lng], 13);
                 this.hasCentered = true;
             }
         };
@@ -74,14 +72,15 @@ export default class extends Controller {
 
         document.querySelector('.map-center-button').addEventListener('click', () => {
             if (this.marker) {
-                map.setView(this.marker.getLatLng(), 13);
+                this.map.setView(this.marker.getLatLng(), 13);
             }
         });
     }
 
-    disconnect() {
-        if (this.watchId != null && navigator.geolocation.clearWatch) {
-            navigator.geolocation.clearWatch(this.watchId);
-        }
+    onMapLoaded(event) {
+        this.map = event.detail.map;
+        this.positionSet = event.detail.positionSet;
+
+        this.startGeolocate();
     }
 }

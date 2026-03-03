@@ -144,6 +144,11 @@ OVERPASS;
 
                 'email',
 
+                // description
+                'description:fr',
+                'description:en',
+                'description',
+                
                 // website
                 'website',
                 'url',
