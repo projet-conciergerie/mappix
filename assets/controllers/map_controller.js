@@ -20,6 +20,9 @@ export default class extends Controller {
     groups = [];
 
     connect() {
+        // if position value is provided, we consider the position is fixed by the user search and not by geolocation
+        this.positionSet = Object.keys(this.positionValue).length !== 0;
+        
         this.map = L.map(this.element).setView([49.433331, 1.08333], 13)
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -31,9 +34,6 @@ export default class extends Controller {
         this.map.addLayer(this.clusterGroup)
 
         this.loadMarkers()
-
-        // if position value is provided, we consider the position is fixed by the user search and not by geolocation
-        this.positionSet = Object.keys(this.positionValue).length !== 0;
 
         // Center map on searched object if position value is provided
         if (this.positionSet) {
