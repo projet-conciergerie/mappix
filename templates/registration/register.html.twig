@@ -65,12 +65,23 @@
         </div>
 
         <!-- Mot de passe -->
-        <div class="mb-2">
+        <div class="mb-5">
             {{ form_widget(registrationForm.plainPassword, {
             attr: {
             class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
             focus:ring-2 focus:ring-white focus:border-white transition',
             placeholder: 'Mot de passe'
+            }
+            }) }}
+        </div>
+
+        <!-- Confirmation du mot de passe -->
+        <div class="mb-2">
+            {{ form_widget(registrationForm.confirmPassword, {
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Confirmer le mot de passe'
             }
             }) }}
         </div>
@@ -101,10 +112,22 @@
         </div>
 
         <!-- Bouton -->
-        <button type="submit" class="w-full bg-white text-black font-semibold py-3 rounded
-                   hover:bg-gray-200 transition duration-300 shadow-lg hover:shadow-2xl">
-            S'inscrire
-        </button>
+        <Button class="relative w-full inline-block cursor-pointer
+            px-8 py-3 rounded-lg text-lg font-semibold
+            text-gray-900 shadow-md overflow-hidden text-center
+            bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+            before:absolute before:inset-0
+            before:bg-linear-to-tr
+            before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+            before:opacity-0
+            before:transition-opacity before:duration-600 before:ease-in-out
+            hover:before:opacity-100
+            before:content-['']">
+
+            <span class="relative z-10">
+                S'inscrire
+            </span>
+        </Button>
 
         <!-- Lien login -->
         <p class="mt-6 text-center text-gray-400 text-sm">

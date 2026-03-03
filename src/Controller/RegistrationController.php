@@ -25,6 +25,13 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
+            /** @var string $confirmPassword */
+            $confirmPassword = $form->get('confirmPassword')->getData();
+
+            if ($plainPassword !== $confirmPassword) {
+                $this->addFlash('error', 'Les mots de passe ne correspondent pas !');
+                return $this->redirectToRoute('app_register');
+            }
 
             $user->setCreatedAt(new \DateTimeImmutable());
             $user->setLastConnectedAt(new \DateTimeImmutable());

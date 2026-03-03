@@ -32,9 +32,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'J\'accepte les conditions d\'utilisation du site.',
                 'constraints' => [
                     new IsTrue(
-                        message: 'You should agree to our terms.',
+                        message: 'Vous devez accepter nos conditions pour vous inscrire.',
                     ),
                 ],
             ])
@@ -45,12 +46,26 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank(
-                        message: 'Please enter a password',
+                        message: 'Vous devez entrer un mot de passe.',
                     ),
                     new Length(
-                        min: 6,
-                        minMessage: 'Your password should be at least {{ limit }} characters',
+                        min: 8,
+                        minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
+                        max: 4096,
+                    ),
+                ],
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Vous devez confirmer votre mot de passe.',
+                    ),
+                    new Length(
+                        min: 8,
+                        minMessage: 'Votre mot de passe doit correspondre au mot de passe saisi précédemment.',
                         max: 4096,
                     ),
                 ],
