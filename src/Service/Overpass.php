@@ -132,8 +132,15 @@ OVERPASS;
 
             // Liste des tags utilisés
             $usedTags = [
+                // category
+                'tourism',
+                'amenity',
+                'historic',
+                'leisure',
+
                 'name',
                 'official_name',
+                'operator',
 
                 'email',
 
@@ -150,6 +157,8 @@ OVERPASS;
                 'contact:instagram',
                 'wikipedia',
                 'brand:wikipedia',
+                'twitter',
+                'contact:twitter',
 
                 // address
                 'addr:housenumber',
@@ -157,12 +166,14 @@ OVERPASS;
                 'addr:housename',
                 'addr:postcode',
                 'addr:city',
+                'addr:full',
 
                 // contact address
                 'contact:housenumber',
                 'contact:street',
                 'contact:postcode',
                 'contact:city',
+                'contact:full',
 
                 // Phone number
                 'phone',
@@ -174,6 +185,9 @@ OVERPASS;
                 'logo',
                 'contact:logo',
                 'brand:logo',
+
+                'wikidata',
+                'brand:wikidata',
             ];
 
             $remainingTags = array_diff_key(
@@ -194,6 +208,13 @@ OVERPASS;
             if ($instagram) {
                 if (!str_starts_with($instagram, 'http')) {
                     $instagram = 'https://www.instagram.com/' . ltrim($instagram, '/');
+                }
+            }
+
+            $twitter = $tags['contact:twitter'] ?? $tags['twitter'] ?? null;
+            if ($twitter) {
+                if (!str_starts_with($twitter, 'http')) {
+                    $twitter = 'https://www.twitter.com/' . ltrim($twitter, '/');
                 }
             }
 
@@ -226,6 +247,7 @@ OVERPASS;
                 $thumbnail = $tags['brand:logo'];
             }
 
+            $wikidata = $tags['wikidata'] ?? $tags['brand:wikidata'] ?? null;
 
             $results[] = [
                 'name' => $name,
@@ -235,8 +257,10 @@ OVERPASS;
                 'website' => $website,
                 'instagram' => $instagram,
                 'facebook' => $facebook,
+                'twitter' => $twitter,
                 'wikipedia' => $wikipedia,
                 'thumbnail' => $thumbnail,
+                'wikidata' => $wikidata,
                 'lat' => $lat,
                 'lon' => $lon,
                 'tags' => $remainingTags
@@ -264,4 +288,31 @@ OVERPASS;
         return $results;
     }
 
+    public function getWikidataThumbnail(string $wikidataId): ?string
+    {
+        $endpoint = 'https://www.wikidata.org/w/api.php';
+
+        try {
+            $response = $this->client->request('GET', $endpoint, [
+                'query' => [
+                    'action' => 'wbgetentities',
+                    'ids' => $wikidataId,
+                    'format' => 'json',
+                    'props' => 'claims'
+                ]
+            ]);
+
+            $data = $response->toArray();
+
+            if (isset($data['entities'][$wikidataId]['claims']['P18'][0]['mainsnak']['datavalue']['value'])) {
+                $url = 'https://commons.wikimedia.org/wiki/Special:FilePath/';
+                $url .= $data['entities'][$wikidataId]['claims']['P18'][0]['mainsnak']['datavalue']['value'];
+                return $url;
+            }
+        } catch (\RuntimeException $e) {
+            // Handle error if needed
+        }
+
+        return null;
+    }
 }

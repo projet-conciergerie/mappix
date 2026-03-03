@@ -12,6 +12,20 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final class MapController extends AbstractController
 {
+    private $categoriesNames = [
+        'bars' => 'Bars',
+        'pubs' => 'Pubs',
+        'hotels' => 'Hotels',
+        'restaurants' => 'Restaurants',
+        'fontaines' => 'Fontaines',
+        'toilettes' => 'Toilettes',
+        'musees' => 'Musées',
+        'monuments' => 'Monuments',
+        'parcs' => 'Parcs',
+        'monuments_historiques' => 'Monuments Historiques',
+        'attractions' => 'Attractions'
+    ];
+
     #[Route('/map', name: 'app_map', methods: ['GET'])]
     public function index(Request $request, Overpass $overpass, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
@@ -102,8 +116,18 @@ final class MapController extends AbstractController
             if (!empty($idElement) && !empty($category)) {
                 $data = $datas[$idElement];
 
+                $thumbnail = null;
+                if (isset($data['thumbnail'])) {
+                    $thumbnail = $data['thumbnail'];
+                } else {
+                    $wikidata = $data['wikidata'] ?? null;
+                    if ($wikidata) {
+                        $thumbnail = $overpass->getWikidataThumbnail($wikidata);
+                    }
+                }
+
                 return $this->render('map/_map_details.html.twig', [
-                    'category' => $category,
+                    'category' => $this->categoriesNames[$category] ?? $category,
                     'name' => $data['name'],
                     'address' => $data['address'],
                     'email' => $data['email'],
@@ -111,8 +135,9 @@ final class MapController extends AbstractController
                     'website' => $data['website'],
                     'instagram' => $data['instagram'],
                     'facebook' => $data['facebook'],
+                    'twitter' => $data['twitter'],
                     'wikipedia' => $data['wikipedia'],
-                    'thumbnail' => $data['thumbnail'],
+                    'thumbnail' => $thumbnail,
                     'datas' => $data['tags']
                 ]);
             }
