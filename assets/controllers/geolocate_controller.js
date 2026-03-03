@@ -41,6 +41,11 @@ export default class extends Controller {
                 this.marker = L.marker([lat, lng], { icon, pane: 'markerPane' }).addTo(map);
             }
 
+            // if the position is fixed by the user search, we don't want to recenter on geolocation updates
+            if (map.isPositionSet()) {
+                this.hasCentered = true;
+            }
+
             // center the map on the first location fix only
             if (!this.hasCentered) {
                 map.setView([lat, lng], 13);

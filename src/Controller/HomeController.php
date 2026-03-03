@@ -52,21 +52,13 @@ class HomeController extends AbstractController
         foreach ($categories as $categoryKey => $categoryDisplay) {
             $servicesData = $overpass->getInArea('Rouen', $categoryKey);
             
-            foreach ($servicesData as $service) {
+            foreach ($servicesData as $id => $service) {
                 // Ne garder que les services avec un nom
                 if (empty($service['name'])) {
                     continue;
                 }
 
-                // Chercher une description dans les tags
-                $description = null;
-                if (isset($service['tags']['description:fr'])) {
-                    $description = $service['tags']['description:fr'];
-                } elseif (isset($service['tags']['description'])) {
-                    $description = $service['tags']['description'];
-                } elseif (isset($service['tags']['description:en'])) {
-                    $description = $service['tags']['description:en'];
-                }
+                $description = $service['description'];
 
                 // Si pas de description, créer une description générique
                 if (!$description) {
@@ -79,6 +71,7 @@ class HomeController extends AbstractController
                 }
 
                 $allServices[] = [
+                    'id' => $id,
                     'nom' => $service['name'],
                     'description' => $description,
                     'category' => $categoryDisplay,
