@@ -35,28 +35,41 @@
 
         <div class="mt-8 flex flex-wrap gap-4">
 
-            {% if evenement.placesRestantes > 0 %}
-                <a href="{{ path('app_reservation_create', {id: evenement.id}) }}"
-                   class="relative inline-block
-                    px-8 py-3 rounded-lg text-lg font-semibold
-                    text-gray-900 shadow-md overflow-hidden
-                    bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
-                    before:absolute before:inset-0
-                    before:bg-linear-to-tr
-                    before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
-                    before:opacity-0
-                    before:transition-opacity before:duration-600 before:ease-in-out
-                    hover:before:opacity-100
-                    before:content-['']">
+            {% if dejaReserve %}
+
+    <span class="inline-block px-8 py-3 rounded-lg text-lg font-semibold
+                 bg-green-500/20 text-green-400 border border-green-400">
+        ✓ Vous avez déjà réservé cet événement
+    </span>
+
+{% elseif evenement.placesRestantes > 0 %}
+
+    <a href="{{ path('app_reservation_create', {id: evenement.id}) }}"
+       class="relative inline-block
+        px-8 py-3 rounded-lg text-lg font-semibold
+        text-[#101828] shadow-md overflow-hidden
+        bg-gradient-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+        before:absolute before:inset-0
+        before:bg-gradient-to-tr
+        before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+        before:opacity-0
+        before:transition-opacity before:duration-500 before:ease-in-out
+        hover:before:opacity-100
+        before:content-['']
+        transition duration-200 hover:scale-105">
 
         <span class="relative z-10">
-                    Réserver
-                </a>
-            {% else %}
-                <span class="px-6 py-3 rounded-lg bg-red-500 text-white font-semibold">
-                    Complet
-                </span>
-            {% endif %}
+            Réserver
+        </span>
+    </a>
+
+{% else %}
+
+    <span class="px-8 py-3 rounded-lg bg-red-500/20 text-red-400 font-semibold border border-red-400">
+        Complet
+    </span>
+
+{% endif %}
 
             <a href="{{ path('app_evenements') }}" data-turbo="false"
                class="px-6 py-3 rounded-lg border border-[#E6D4B5] text-[#E6D4B5]
@@ -68,7 +81,8 @@
             <a href="{{ path('my_reservation_list')}}"
                     class="px-6 py-3 rounded-lg border border-[#E6D4B5] text-[#E6D4B5]
                     hover:bg-[#E6D4B5] hover:text-[#101828]
-                    transition duration-200"> Voir mes reservations</a>
+                    transition duration-200"> Voir mes reservations
+            </a>
 
         </div>
 

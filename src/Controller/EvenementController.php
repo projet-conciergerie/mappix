@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Repository\EvenementRepository;
+use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +46,23 @@ final class EvenementController extends AbstractController
         return $this->render('evenement/calendar.html.twig');
     }
     #[Route('/evenement/{id}', name: 'app_evenement_show')]
-    public function show(Evenement $evenement): Response
-    {
-        return $this->render('evenement/show.html.twig', [
+public function show(Evenement $evenement, ReservationRepository $reservationRepository): Response
+{
+    $dejaReserve = false;
+
+    // On vérifie seulement si l'utilisateur est connecté
+    if ($this->getUser()) {
+        $reservation = $reservationRepository->findOneBy([
             'evenement' => $evenement,
+            'user' => $this->getUser(),
         ]);
+
+        $dejaReserve = $reservation !== null;
     }
+
+    return $this->render('evenement/show.html.twig', [
+        'evenement' => $evenement,
+        'dejaReserve' => $dejaReserve,
+    ]);
+}
 }
