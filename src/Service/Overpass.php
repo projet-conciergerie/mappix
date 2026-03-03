@@ -182,6 +182,7 @@ OVERPASS;
 
                 // Phone number
                 'phone',
+                'contact:phone',
 
                 // Thumbnail
                 'image',
@@ -263,11 +264,13 @@ OVERPASS;
                 $description = $tags['description:en'];
             }
 
+            $phone = $tags['phone'] ?? $tags['contact:phone'] ?? null;
+
             $results[] = [
                 'description' => $description,
                 'name' => $name,
                 'address' => trim($address),
-                'phone' => $tags['phone'] ?? null,
+                'phone' => $phone,
                 'email' => $tags['email'] ?? null,
                 'website' => $website,
                 'instagram' => $instagram,
