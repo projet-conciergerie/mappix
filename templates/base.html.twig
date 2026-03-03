@@ -28,24 +28,24 @@
 			</a>
 
 			<ul class="flex space-x-6 font-medium">
-				<li><a class="hover:text-gray-300" href="{{ path('app_home') }}">ACCUEIL</a></li>
-				<li><a class="hover:text-gray-300" href="#">CONTACT</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_home') }}">ACCUEIL</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="#">CONTACT</a></li>
 				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-				<li><a class="hover:text-gray-300" href="{{ path('app_register') }}">S'INSCRIRE</a></li>
-				<li><a class="hover:text-gray-300" href="{{ path('app_login') }}">SE CONNECTER</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">S'INSCRIRE</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_login') }}">SE CONNECTER</a></li>
 				{% else %}
-				<li><a class="hover:text-gray-300" href="#">PROFIL</a></li>
-				<li><a class="hover:text-gray-300" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="#">PROFIL</a></li>
+				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
 				{% endif %}
 			</ul>
 
 			<!-- Dropdown langue -->
 			<div class="relative group">
-				<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">
+				<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
 					LANGUE
 				</button>
 				<div
-					class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+					class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
 					<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-t">Français</a>
 					<a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
 					<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-b">Español</a>
@@ -63,7 +63,7 @@
 				<img src="{{ asset('images/logo1.png') }}" alt="" class="w-32">
 			</div>
 
-			<div class="md:text-right text-sm">
+			<div class="md:text-right text-sm mt-4">
 				<p>Copyright © 2013 - 2025 Mappix</p>
 				<p class="space-x-2">
 					<a href="#" class="hover:underline">Mentions légales</a> /
@@ -75,8 +75,9 @@
 			</div>
 		</div>
 
-		<div data-controller="return_home"></div>
 	</footer>
+	
+	<div data-controller="return_home"></div>
 </body>
 
 </html>
