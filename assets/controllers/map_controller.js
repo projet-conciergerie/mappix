@@ -1,6 +1,9 @@
 import { Controller } from '@hotwired/stimulus'
 import L from 'leaflet'
+import GestureHandling from 'leaflet-gesture-handling'
+
 import 'leaflet/dist/leaflet.css'
+import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
 import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -23,7 +26,16 @@ export default class extends Controller {
         // if position value is provided, we consider the position is fixed by the user search and not by geolocation
         this.positionSet = Object.keys(this.positionValue).length !== 0;
         
-        this.map = L.map(this.element).setView([49.433331, 1.08333], 13)
+        this.map = L.map(this.element, {
+            gestureHandling: true,
+            gestureHandlingOptions: {
+                text: {
+                    touch: "Use two fingers to move the map",
+                    scroll: "Use ctrl + scroll to zoom the map",
+                    scrollMac: "Use ⌘ + scroll to zoom the map"
+                }
+            }
+        }).setView([49.433331, 1.08333], 13)
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
