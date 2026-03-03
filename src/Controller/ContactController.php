@@ -25,7 +25,10 @@ class ContactController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre message a bien été envoyé.');
+            $this->addFlash(
+                'success',
+                'Votre message a bien été envoyé et sera traité dans les meilleurs délais.'
+            );
 
             return $this->redirectToRoute('app_contact');
         }

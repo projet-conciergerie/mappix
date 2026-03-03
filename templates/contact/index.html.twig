@@ -20,35 +20,46 @@
 
         {{ form_errors(contactForm) }}
 
+        {% for message in app.flashes('success') %}
+        <div class="mb-6 p-4 rounded-lg 
+                bg-emerald-800 
+                text-white text-center shadow-lg">
+            {{ message }}
+        </div>
+        {% endfor %}
+        
         <!-- Email -->
         <div class="mb-5">
             {{ form_widget(contactForm.email, {
-                attr: {
-                    class: 'w-full bg-gray-800 placeholder:text-white border border-gray-600 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
-                    placeholder: 'Adresse email'
-                }
+            attr: {
+            class: 'w-full bg-gray-800 placeholder:text-white border border-gray-600 rounded px-4 py-3
+            focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Adresse email'
+            }
             }) }}
         </div>
 
         <!-- Type (SELECT basé sur ENUM) -->
         <div class="mb-5">
             {{ form_label(contactForm.type, null, {
-                label_attr: { class: 'block text-gray-400 mb-2 text-lg' }
+            label_attr: { class: 'block text-gray-400 mb-2 text-lg' }
             }) }}
             {{ form_widget(contactForm.type, {
-                attr: {
-                    class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition'
-                }
+            attr: {
+            class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
+            focus:ring-2 focus:ring-white focus:border-white transition'
+            }
             }) }}
         </div>
 
         <!-- Message -->
         <div class="mb-6">
             {{ form_widget(contactForm.message, {
-                attr: {
-                    class: 'w-full placeholder:text-white border border-gray-600 rounded px-4 py-3 h-32 resize-none focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
-                    placeholder: 'Votre message...'
-                }
+            attr: {
+            class: 'w-full placeholder:text-white border border-gray-600 rounded px-4 py-3 h-32 resize-none
+            focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
+            placeholder: 'Votre message...'
+            }
             }) }}
         </div>
 
