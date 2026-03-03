@@ -3,8 +3,7 @@
 {% block title %}Calendrier des événements{% endblock %}
 
 {% block body %}
-    <h1>Calendrier des événements</h1>
-
+    <h1 id="calendarTitle">Calendrier des événements</h1>
     <div id="calendar"></div>
 {% endblock %}
 
@@ -34,6 +33,7 @@
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'fr', // ✅ met tout en français
+                height: 600,
                 buttonText: {
                     today: "Aujourd'hui",
                     month: "Mois",

@@ -2,15 +2,20 @@
 
 body {
     background-color: #19243b;
+    font-family: 'Poppins', sans-serif;
     color: #F8F8F8;
 }
 
+/* ==== Calendrier */
+
 #calendar {
-    background-color: #f8f8f8;
-    color: black;
+    background-color: #ededf0c4;
+    color: #101828;
     border-radius: 12px 12px 0 0;
     font-family: 'Poppins', sans-serif;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
@@ -23,13 +28,65 @@ body {
     font-size: 1.75em;
     margin: 0px;
     text-transform: capitalize;
+    color: #E6D4B5;
 }
 .fc .fc-toolbar {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    background-color: #FFA500;
+    background-color: #101828;
     margin-bottom: unset;
+}
+
+.btn-fixed-10 {
+    position: fixed;
+    bottom: 10%;
+    right: 20px; /* ou left: 20px; */
+    z-index: 1050; /* au-dessus du contenu */
+}
+
+.fc .fc-button-primary {
+    background-color: #E6D4B5;
+    color: #101828;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active
+{
+    background-color: #b1a081;
+    color: #101828;
+}
+
+.fc .fc-button-primary:disabled {
+    background-color: #b1a081;
+    color: #101828;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: #b1a081;
+    color: #101828;
+}
+
+.fc-theme-standard .fc-list-day-cushion {
+    background-color: #101828;
+}
+
+:root{
+    --fc-list-event-hover-bg-color: #b1a081;
+    --fc-list-event-hover-text-color: #101828;
+    --fc-today-bg-color: #90909bc4;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: #90909bc4;
+    color: #101828;
+}
+#calendarTitle {
+    color: #E6D4B5;
+    font-size: 1.75em;
+    margin: 0px;
+    text-transform: capitalize;
+    text-align: center;
+    padding: 1rem 1rem;
 }
 
 /* ===== Hero Section avec Image ===== */
@@ -105,11 +162,11 @@ body {
     .hero-section {
         height: 400px;
     }
-    
+
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .hero-content .btn {
         font-size: 1rem;
         padding: 0.75rem 2rem;
@@ -120,7 +177,7 @@ body {
     .hero-section {
         height: 350px;
     }
-    
+
     .hero-title {
         font-size: 1.5rem;
     }
