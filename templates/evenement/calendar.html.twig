@@ -3,8 +3,33 @@
 {% block title %}Calendrier des événements{% endblock %}
 
 {% block body %}
-    <h1 id="calendarTitle">Calendrier des événements</h1>
-    <div id="calendar"></div>
+    <h1 id="calendarTitle" class="text-center text-3xl font-bold mb-8">
+    Calendrier des évènements
+</h1>
+
+<div id="calendar" class="mb-10"></div>
+
+<div class="flex justify-center mt-12 mb-16">
+    <a
+        href="{{ path('app_evenement') }}"
+        class="relative inline-block
+        px-8 py-3 rounded-lg text-lg font-semibold
+        text-[#101828] shadow-md overflow-hidden
+        bg-gradient-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+        before:absolute before:inset-0
+        before:bg-gradient-to-tr
+        before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+        before:opacity-0
+        before:transition-opacity before:duration-500 before:ease-in-out
+        hover:before:opacity-100
+        before:content-['']
+        transition duration-200 hover:scale-105">
+
+        <span class="relative z-10">
+            Voir tous les évènements
+        </span>
+    </a>
+</div>
 {% endblock %}
 
 {% block stylesheets %}
@@ -42,6 +67,7 @@
                     list: "Liste"
                 },
                 allDayText: "Toute la journée",
+                noEventsContent: "Aucun évènement à afficher",
                 headerToolbar: {
                     left: 'prev,next today', // "today" est le bouton
                     center: 'title',
