@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="min-h-screen flex items-center justify-center bg-gray-900 px-6 py-12">
+<div class="flex items-center justify-center bg-gray-800 px-6 py-24">
 
     <form method="post" class="w-full max-w-md">
 
@@ -37,14 +37,8 @@
             <label for="email" class="block text-gray-400 mb-2 text-sm">
                 Adresse email
             </label>
-            <input type="email"
-                   value="{{ last_username }}"
-                   name="_username"
-                   id="email"
-                   autocomplete="email"
-                   required
-                   autofocus
-                   class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
+            <input type="email" value="{{ last_username }}" name="_username" id="email" autocomplete="email" required
+                autofocus class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
                           focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition">
         </div>
 
@@ -53,11 +47,7 @@
             <label for="password" class="block text-gray-400 mb-2 text-sm">
                 Mot de passe
             </label>
-            <input type="password"
-                   name="_password"
-                   id="password"
-                   required
-                   class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
+            <input type="password" name="_password" id="password" required class="w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3
                           focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition">
         </div>
 
@@ -65,26 +55,30 @@
 
         <!-- Remember me -->
         <div class="flex items-center mb-6">
-            <input type="checkbox"
-                   name="_remember_me"
-                   id="remember_me"
-                   class="w-4 h-4 bg-gray-800 border-gray-600 rounded focus:ring-white">
+            <input type="checkbox" name="_remember_me" id="remember_me"
+                class="w-4 h-4 bg-gray-800 border-gray-600 rounded focus:ring-white">
             <label for="remember_me" class="ml-3 text-gray-400 text-sm">
                 Se souvenir de moi
             </label>
         </div>
 
         <!-- Bouton -->
-        <button type="submit"
-            class="w-full bg-white text-black font-semibold py-3 rounded
-                   hover:bg-gray-200 transition duration-300 shadow-lg hover:shadow-2xl">
-            Se connecter
-        </button>
+        <Button class="relative w-full inline-block cursor-pointer
+            px-8 py-3 rounded-lg text-lg font-semibold
+            text-gray-900 shadow-md overflow-hidden text-center
+            bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+            before:absolute before:inset-0
+            before:bg-linear-to-tr
+            before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+            before:opacity-0
+            before:transition-opacity before:duration-600 before:ease-in-out
+            hover:before:opacity-100
+            before:content-['']">
 
-        <!-- Footer -->
-        <p class="mt-10 text-center text-gray-500 text-sm">
-            © {{ "now"|date("Y") }} Mappix
-        </p>
+            <span class="relative z-10">
+                S'inscrire
+            </span>
+        </Button>
 
     </form>
 
