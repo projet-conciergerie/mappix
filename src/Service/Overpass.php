@@ -101,27 +101,46 @@ OVERPASS;
                 $address = $tags['contact:full'];
             } else if (isset($tags['addr:city']) || isset($tags['addr:postcode'])) {
                 $housename = $tags['addr:housename'] ?? '';
+                $housenumber = $tags['addr:housenumber'] ?? '';
+                $street = $tags['addr:street'] ?? '';
+                $postcode = $tags['addr:postcode'] ?? '';
+                $city = $tags['addr:city'] ?? '';
 
-                $address = ($tags['addr:housenumber'] ?? '') . ' '
-                    . ($tags['addr:street'] ?? '') . ', '
+                $address = ($housenumber ? $housenumber . ' ' : '')
+                    . ($street ? $street . ', ' : '')
                     . ($housename ? $housename . ', ' : '')
-                    . ($tags['addr:postcode'] ?? '') . ' '
-                    . ($tags['addr:city'] ?? '');
+                    . ($postcode ? $postcode . ' ' : '')
+                    . ($city ? $city : '');
             } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
-                $address = ($tags['contact:housenumber'] ?? '') . ' '
-                    . ($tags['contact:street'] ?? '') . ', '
-                    . ($tags['contact:postcode'] ?? '') . ' '
-                    . ($tags['contact:city'] ?? '');
+                $housenumber = $tags['contact:housenumber'] ?? '';
+                $street = $tags['contact:street'] ?? '';
+                $postcode = $tags['contact:postcode'] ?? '';
+                $city = $tags['contact:city'] ?? '';
+
+                $address = ($housenumber ? $housenumber . ' ' : '')
+                    . ($street ? $street . ', ' : '')
+                    . ($postcode ? $postcode . ' ' : '')
+                    . ($city ? $city : '');
             }
 
-            $website = $tags['website'] ?? $tags['url'] ?? $tags['brand:website'] ?? null;
+            $website = $tags['website'] ??
+                $tags['url'] ??
+                $tags['brand:website'] ??
+                $tags['contact:website'] ?? null;
 
             $name = $tags['name'] ?? $tags['official_name'] ?? null;
 
             // Liste des tags utilisés
             $usedTags = [
+                // category
+                'tourism',
+                'amenity',
+                'historic',
+                'leisure',
+
                 'name',
                 'official_name',
+                'operator',
 
                 'email',
 
@@ -129,12 +148,17 @@ OVERPASS;
                 'website',
                 'url',
                 'brand:website',
+                'contact:website',
 
                 // social media
                 'facebook',
                 'contact:facebook',
                 'instagram',
                 'contact:instagram',
+                'wikipedia',
+                'brand:wikipedia',
+                'twitter',
+                'contact:twitter',
 
                 // address
                 'addr:housenumber',
@@ -142,15 +166,28 @@ OVERPASS;
                 'addr:housename',
                 'addr:postcode',
                 'addr:city',
+                'addr:full',
 
                 // contact address
                 'contact:housenumber',
                 'contact:street',
                 'contact:postcode',
                 'contact:city',
+                'contact:full',
 
                 // Phone number
                 'phone',
+
+                // Thumbnail
+                'image',
+                'contact:image',
+                'brand:image',
+                'logo',
+                'contact:logo',
+                'brand:logo',
+
+                'wikidata',
+                'brand:wikidata',
             ];
 
             $remainingTags = array_diff_key(
@@ -174,6 +211,44 @@ OVERPASS;
                 }
             }
 
+            $twitter = $tags['contact:twitter'] ?? $tags['twitter'] ?? null;
+            if ($twitter) {
+                if (!str_starts_with($twitter, 'http')) {
+                    $twitter = 'https://www.twitter.com/' . ltrim($twitter, '/');
+                }
+            }
+
+            // Uniformisation des liens vers Wikipedia
+            $wikipedia = null;
+            if (isset($tags['wikipedia'])) {
+                $wikipedia = $tags['wikipedia'];
+                if (!str_starts_with($wikipedia, 'http')) {
+                    $wikipedia = 'https://en.wikipedia.org/wiki/' . ltrim($wikipedia, '/');
+                }
+            } else if (isset($tags['brand:wikipedia'])) {
+                $wikipedia = $tags['brand:wikipedia'];
+                if (!str_starts_with($wikipedia, 'http')) {
+                    $wikipedia = 'https://en.wikipedia.org/wiki/' . ltrim($wikipedia, '/');
+                }
+            }
+
+            $thumbnail = null;
+            if (isset($tags['image'])) {
+                $thumbnail = $tags['image'];
+            } else if (isset($tags['contact:image'])) {
+                $thumbnail = $tags['contact:image'];
+            } else if (isset($tags['brand:image'])) {
+                $thumbnail = $tags['brand:image'];
+            } else if (isset($tags['logo'])) {
+                $thumbnail = $tags['logo'];
+            } else if (isset($tags['contact:logo'])) {
+                $thumbnail = $tags['contact:logo'];
+            } else if (isset($tags['brand:logo'])) {
+                $thumbnail = $tags['brand:logo'];
+            }
+
+            $wikidata = $tags['wikidata'] ?? $tags['brand:wikidata'] ?? null;
+
             $results[] = [
                 'name' => $name,
                 'address' => trim($address),
@@ -182,6 +257,10 @@ OVERPASS;
                 'website' => $website,
                 'instagram' => $instagram,
                 'facebook' => $facebook,
+                'twitter' => $twitter,
+                'wikipedia' => $wikipedia,
+                'thumbnail' => $thumbnail,
+                'wikidata' => $wikidata,
                 'lat' => $lat,
                 'lon' => $lon,
                 'tags' => $remainingTags
@@ -209,4 +288,31 @@ OVERPASS;
         return $results;
     }
 
+    public function getWikidataThumbnail(string $wikidataId): ?string
+    {
+        $endpoint = 'https://www.wikidata.org/w/api.php';
+
+        try {
+            $response = $this->client->request('GET', $endpoint, [
+                'query' => [
+                    'action' => 'wbgetentities',
+                    'ids' => $wikidataId,
+                    'format' => 'json',
+                    'props' => 'claims'
+                ]
+            ]);
+
+            $data = $response->toArray();
+
+            if (isset($data['entities'][$wikidataId]['claims']['P18'][0]['mainsnak']['datavalue']['value'])) {
+                $url = 'https://commons.wikimedia.org/wiki/Special:FilePath/';
+                $url .= $data['entities'][$wikidataId]['claims']['P18'][0]['mainsnak']['datavalue']['value'];
+                return $url;
+            }
+        } catch (\RuntimeException $e) {
+            // Handle error if needed
+        }
+
+        return null;
+    }
 }
