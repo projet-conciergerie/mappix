@@ -96,6 +96,18 @@ export default class extends Controller {
                 }
             }
         })
+
+        // close layers menu on map click
+        this.map.on('click', () => {
+            if (this.layerMenuOpenned) {
+                this.layerMenuOpenned = false;
+                groupdiv.classList.add('hidden');
+            }
+        });
+    }
+
+    disconnect() {
+        this.map.remove();
     }
 
     loadMarkers() {

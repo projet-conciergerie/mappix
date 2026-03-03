@@ -122,6 +122,23 @@
     background-color: rgb(12, 136, 12);
     box-shadow: 0 0 0.2rem rgb(7, 82, 7);
     border-radius: 50%;
+
+    /* cœur lumineux */
+    background: radial-gradient(circle at 30% 30%,
+            #ffffff 0%,
+            #66ff99 15%,
+            #00ff55 40%,
+            #009933 75%,
+            #003311 100%);
+
+    /* halo lumineux */
+    box-shadow:
+        0 0 5px #00ff55,
+        0 0 15px #00ff55,
+        0 0 30px #00ff55,
+        0 0 60px rgba(0, 255, 85, 0.6);
+
+    transition: all 0.3s ease;
 }
 
 .map-layer-toggle-active {
@@ -138,6 +155,23 @@
         background-color: #d23131;
         box-shadow: 0 0 0.2rem #7c2121;
         border-radius: 50%;
+
+        /* cœur lumineux */
+        background: radial-gradient(circle at 30% 30%,
+                #ffffff 0%,
+                #ff4d4d 15%,
+                #ff0000 40%,
+                #990000 75%,
+                #330000 100%);
+
+        /* halo lumineux */
+        box-shadow:
+            0 0 5px #ff0000,
+            0 0 15px #ff0000,
+            0 0 30px #ff0000,
+            0 0 60px rgba(255, 0, 0, 0.6);
+
+        transition: all 0.3s ease;
     }
 }
 

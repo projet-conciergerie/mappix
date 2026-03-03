@@ -23,19 +23,31 @@
 
 		{% if website %}
 			<p>Site web :
-				<a href="{{ website }}" class="text-blue-500 hover:underline">{{ website }}</a>
+				<a href="{{ website }}" class="text-blue-500 hover:underline" target="_blank">{{ website }}</a>
+			</p>
+		{% endif %}
+
+		{% if wikipedia %}
+			<p>Wikipedia :
+				<a href="{{ wikipedia }}" class="text-blue-500 hover:underline" target="_blank">{{ wikipedia }}</a>
 			</p>
 		{% endif %}
 
 		{% if instagram %}
 			<p>Instagram :
-				<a href="{{ instagram }}" class="text-blue-500 hover:underline">{{ instagram }}</a>
+				<a href="{{ instagram }}" class="text-blue-500 hover:underline" target="_blank">{{ instagram }}</a>
 			</p>
 		{% endif %}
 
 		{% if facebook %}
 			<p>Facebook :
-				<a href="{{ facebook }}" class="text-blue-500 hover:underline">{{ facebook }}</a>
+				<a href="{{ facebook }}" class="text-blue-500 hover:underline" target="_blank">{{ facebook }}</a>
+			</p>
+		{% endif %}
+
+		{% if thumbnail %}
+			<p>Thumbnail :
+				<img src="{{ thumbnail }}" alt="Thumbnail" class="w-32 h-32 object-cover rounded-lg">
 			</p>
 		{% endif %}
 

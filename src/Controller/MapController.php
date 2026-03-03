@@ -41,6 +41,8 @@ final class MapController extends AbstractController
                     'website' => $data['website'],
                     'instagram' => $data['instagram'],
                     'facebook' => $data['facebook'],
+                    'wikipedia' => $data['wikipedia'],
+                    'thumbnail' => $data['thumbnail'],
                     'datas' => $data['tags']
                 ]);
             }

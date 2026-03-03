@@ -114,7 +114,10 @@ OVERPASS;
                     . ($tags['contact:city'] ?? '');
             }
 
-            $website = $tags['website'] ?? $tags['url'] ?? $tags['brand:website'] ?? null;
+            $website = $tags['website'] ??
+                $tags['url'] ??
+                $tags['brand:website'] ??
+                $tags['contact:website'] ?? null;
 
             $name = $tags['name'] ?? $tags['official_name'] ?? null;
 
@@ -129,12 +132,15 @@ OVERPASS;
                 'website',
                 'url',
                 'brand:website',
+                'contact:website',
 
                 // social media
                 'facebook',
                 'contact:facebook',
                 'instagram',
                 'contact:instagram',
+                'wikipedia',
+                'brand:wikipedia',
 
                 // address
                 'addr:housenumber',
@@ -151,6 +157,14 @@ OVERPASS;
 
                 // Phone number
                 'phone',
+
+                // Thumbnail
+                'image',
+                'contact:image',
+                'brand:image',
+                'logo',
+                'contact:logo',
+                'brand:logo',
             ];
 
             $remainingTags = array_diff_key(
@@ -174,6 +188,36 @@ OVERPASS;
                 }
             }
 
+            // Uniformisation des liens vers Wikipedia
+            $wikipedia = null;
+            if (isset($tags['wikipedia'])) {
+                $wikipedia = $tags['wikipedia'];
+                if (!str_starts_with($wikipedia, 'http')) {
+                    $wikipedia = 'https://en.wikipedia.org/wiki/' . ltrim($wikipedia, '/');
+                }
+            } else if (isset($tags['brand:wikipedia'])) {
+                $wikipedia = $tags['brand:wikipedia'];
+                if (!str_starts_with($wikipedia, 'http')) {
+                    $wikipedia = 'https://en.wikipedia.org/wiki/' . ltrim($wikipedia, '/');
+                }
+            }
+
+            $thumbnail = null;
+            if (isset($tags['image'])) {
+                $thumbnail = $tags['image'];
+            } else if (isset($tags['contact:image'])) {
+                $thumbnail = $tags['contact:image'];
+            } else if (isset($tags['brand:image'])) {
+                $thumbnail = $tags['brand:image'];
+            } else if (isset($tags['logo'])) {
+                $thumbnail = $tags['logo'];
+            } else if (isset($tags['contact:logo'])) {
+                $thumbnail = $tags['contact:logo'];
+            } else if (isset($tags['brand:logo'])) {
+                $thumbnail = $tags['brand:logo'];
+            }
+
+
             $results[] = [
                 'name' => $name,
                 'address' => trim($address),
@@ -182,6 +226,8 @@ OVERPASS;
                 'website' => $website,
                 'instagram' => $instagram,
                 'facebook' => $facebook,
+                'wikipedia' => $wikipedia,
+                'thumbnail' => $thumbnail,
                 'lat' => $lat,
                 'lon' => $lon,
                 'tags' => $remainingTags
