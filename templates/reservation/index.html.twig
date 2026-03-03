@@ -3,36 +3,100 @@
 {% block title %}Mes Réservations{% endblock %}
 
 {% block body %}
-    <h1>Mes réservations</h1>
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }}" role="alert">
-                {{ message }}
-            </div>
+
+<div class="min-h-screen bg-[#19243b] text-[#f8f8f8] py-12 px-6">
+
+    <div class="max-w-4xl mx-auto">
+
+        <h1 class="text-3xl font-bold text-[#E6D4B5] mb-8">
+            Mes réservations
+        </h1>
+
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="mb-4 px-4 py-3 rounded-lg bg-[#101828] border border-[#E6D4B5] text-[#E6D4B5]">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
 
-    <ul>
-        {% for reservation in reservations %}
-            <li>
-                {{ reservation.evenement.nom }}
+        {% if reservations is not empty %}
+            <div class="space-y-6">
 
-                <a href="{{ path('app_evenement_show', { id: reservation.evenement.id }) }}">
-                    Voir l'évènement
+                {% for reservation in reservations %}
+                    <div class="bg-[#101828] rounded-2xl shadow-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                        <div>
+                            <h2 class="text-xl font-semibold text-[#E6D4B5]">
+                                {{ reservation.evenement.nom }}
+                            </h2>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3">
+
+                            <a href="{{ path('app_evenement_show', { id: reservation.evenement.id }) }}"
+                            class="relative inline-block
+                                    px-5 py-2 rounded-lg text-sm font-semibold
+                                    text-[#101828] shadow-md overflow-hidden
+                                    bg-gradient-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+                                    before:absolute before:inset-0
+                                    before:bg-gradient-to-tr
+                                    before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+                                    before:opacity-0
+                                    before:transition-opacity before:duration-500 before:ease-in-out
+                                    hover:before:opacity-100
+                                    before:content-['']
+                                    transition duration-200 hover:scale-105">
+
+                        <span class="relative z-10">
+                                Voir l'évènement
+                            </a>
+
+                            <form method="post"
+                                  action="{{ path('app_reservation_delete', { id: reservation.id }) }}"
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+
+                                <button type="submit"
+                                        class="px-5 py-2 rounded-lg text-sm font-semibold
+                                                border border-[#E6D4B5]
+                                                text-[#E6D4B5]
+                                                hover:bg-[#E6D4B5]
+                                                hover:text-[#101828]
+                                                transition duration-200">
+                                    Annuler
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="bg-[#101828] rounded-2xl shadow-xl p-8 text-center">
+
+                <p class="text-gray-300 mb-6">
+                    Vous n'avez encore effectué aucune réservation.
+                </p>
+
+                <a href="{{ path('app_evenements') }}" data-turbo="false"
+                   class="px-6 py-3 rounded-lg font-semibold text-[#101828]
+                          bg-gradient-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+                          hover:scale-105 transition duration-200 shadow-lg">
+                    Voir le calendrier
                 </a>
 
-                <form method="post"
-                    action="{{ path('app_reservation_delete', { id: reservation.id }) }}"
-                    style="display:inline;">
-                    <button type="submit"
-                            onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
-                        Annuler
-                    </button>
-                </form>
-            </li>
-        {% else %}
-            <p>Aucune réservation</p>
-            <a href="{{path('app_evenements')}}" data-turbo="false">Voir le calendrier</a>
-        {% endfor %}
-    </ul>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
 {% endblock %}

@@ -38,7 +38,8 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/tourisme, roles: ROLE_TOURISME }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/evenements, roles: ROLE_USER }
+        - { path: ^/reservation, roles: ROLE_USER }
 
 when@test:
     security:
