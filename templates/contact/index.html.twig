@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter - Mappix{% endblock %}
+
+{% block body %}
+
+<div class="flex items-center justify-center bg-gray-800 px-6 py-16">
+
+    <div class="w-full max-w-md">
+
+        <!-- Logo + Titre -->
+        <div class="text-center mb-10 flex flex-col items-center">
+            <img src="{{ asset('images/logo1.png') }}" alt="Mappix" class="w-48">
+            <h1 class="text-2xl text-white font-semibold mt-4">
+                Nous contacter
+            </h1>
+        </div>
+
+        {{ form_start(contactForm) }}
+
+        {{ form_errors(contactForm) }}
+
+        <!-- Email -->
+        <div class="mb-5">
+            {{ form_widget(contactForm.email, {
+                attr: {
+                    class: 'w-full bg-gray-800 placeholder:text-white border border-gray-600 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
+                    placeholder: 'Adresse email'
+                }
+            }) }}
+        </div>
+
+        <!-- Type (SELECT basé sur ENUM) -->
+        <div class="mb-5">
+            {{ form_label(contactForm.type, null, {
+                label_attr: { class: 'block text-gray-400 mb-2 text-lg' }
+            }) }}
+            {{ form_widget(contactForm.type, {
+                attr: {
+                    class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition'
+                }
+            }) }}
+        </div>
+
+        <!-- Message -->
+        <div class="mb-6">
+            {{ form_widget(contactForm.message, {
+                attr: {
+                    class: 'w-full placeholder:text-white border border-gray-600 rounded px-4 py-3 h-32 resize-none focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition',
+                    placeholder: 'Votre message...'
+                }
+            }) }}
+        </div>
+
+        <!-- Bouton -->
+        <button class="relative w-full inline-block cursor-pointer
+            px-8 py-3 rounded-lg text-lg font-semibold
+            text-gray-900 shadow-md overflow-hidden text-center
+            bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+            before:absolute before:inset-0
+            before:bg-linear-to-tr
+            before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+            before:opacity-0
+            before:transition-opacity before:duration-600 before:ease-in-out
+            hover:before:opacity-100
+            before:content-['']">
+
+            <span class="relative z-10">
+                Envoyer
+            </span>
+        </button>
+
+        {{ form_end(contactForm) }}
+
+    </div>
+
+</div>
+
+{% endblock %}
