@@ -20,7 +20,8 @@
 
 	<body>
 		<!-- Header / Navigation -->
-		<nav class="fixed top-0 w-full bg-gray-900 text-white z-50" style="height: 112px;">
+		<nav class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
+			
 			<div
 				class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
 
@@ -30,8 +31,8 @@
 				</a>
 
 				<!-- Bouton Burger (visible seulement mobile) -->
-				<button id="menu-btn" class="md:hidden focus:outline-none">
-					<svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+				<button id="menu-btn" class="md:hidden focus:outline-none flex justify-end flex-1">
+					<svg class="w-8 h-8 mr-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
 					</svg>
 				</button>
@@ -78,6 +79,18 @@
 						</li>
 					{% endif %}
 				</ul>
+
+				<div class="relative group">
+					<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
+						LANGUE
+					</button>
+					<div class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-t">Français</a>
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-b">Español</a>
+					</div>
+				</div>
+
 			</div>
 
 			<!-- Menu Mobile -->
@@ -124,8 +137,11 @@
 					{% endif %}
 				</ul>
 			</div>
+
 		</nav>
-		
+
+		<div class="mt-28"></div>
+
 		<script>
 			const btn = document.getElementById('menu-btn');
 			const menu = document.getElementById('mobile-menu');
@@ -135,7 +151,6 @@
 			});
 		</script>
 
-		<div class="mt-28"></div>
 		{% block body %}{% endblock %}
 		<!-- Footer -->
 		<footer class="bg-gray-900 text-white py-8">
