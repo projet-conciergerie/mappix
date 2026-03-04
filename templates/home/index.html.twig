@@ -1,197 +1,198 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MAPPIX - Conciergerie Rouen{% endblock %}
+{% block title %}MAPPIX - Conciergerie Rouen
+{% endblock %}
 
 {% block body %}
 
-<div class="w-full max-w-1920px mx-auto">
+	<div
+		class="w-full max-w-1920px mx-auto">
 
-  <!-- Hero Section -->
-  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+		<!-- Hero Section -->
+		<section
+			class="relative h-screen flex items-center justify-center overflow-hidden">
 
-    <!-- Image -->
-    <img src="{{ asset('images/img_hero_homepage.jpg') }}" alt="Rouen - Conciergerie"
-      class="absolute inset-0 w-full h-full object-cover">
+			<!-- Image -->
+			<img
+			src="{{ asset('images/img_hero_homepage.jpg') }}" alt="Rouen - Conciergerie" class="absolute inset-0 w-full h-full object-cover">
 
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/40"></div>
+			<!-- Overlay -->
+			<div class="absolute inset-0 bg-black/40"></div>
 
-    <!-- Contenu centré -->
-    <div class="relative z-10 flex flex-col items-center text-center gap-10 px-6">
+			<!-- Contenu centré -->
+			<div
+				class="relative z-10 flex flex-col items-center text-center gap-10 px-6">
 
-      <!-- Titre -->
-      <h1 class="text-white text-5xl md:text-7xl font-bold drop-shadow-lg">
-        Bienvenue sur Mappix
-      </h1>
+				<!-- Titre -->
+				<h1 class="text-white text-5xl md:text-7xl font-bold drop-shadow-lg">
+					Bienvenue sur Mappix
+				</h1>
 
-      <!-- Bloc description -->
-      <div class="bg-black/50 w-full max-w-xl p-8 rounded">
-        <h2 class="text-white text-base md:text-lg mb-6">
-          Repérez-vous en un instant et découvrez tout ce dont
-          vous avez besoin pendant votre séjour grâce à notre carte interactive.
-        </h2>
+				<!-- Bloc description -->
+				<div class="bg-black/50 w-full max-w-xl p-8 rounded">
+					<h2 class="text-white text-base md:text-lg mb-6">
+						Repérez-vous en un instant et découvrez tout ce dont
+												          vous avez besoin pendant votre séjour grâce à notre carte interactive.
+					</h2>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						Bonjour
+						{{ app.user.email }}
+					{% else %}
+						<a href="{{ path('app_register') }}" class="inline-block bg-white text-black px-8 py-3 text-lg font-semibold rounded shadow-lg
+																                  hover:scale-105 hover:shadow-2xl transition duration-300">
+							S'inscrire
+						</a>
+					{% endif %}
+				</div>
 
-        <a href="{{ path('app_register') }}" class="inline-block bg-white text-black px-8 py-3 text-lg font-semibold rounded shadow-lg
-                  hover:scale-105 hover:shadow-2xl transition duration-300">
-          S'inscrire
-        </a>
-      </div>
+			</div>
+		</section>
+	</div>
 
-    </div>
-  </section>
-</div>
+	<!-- Section Evénements -->
+	{% if recentEvents is defined and recentEvents|length > 0 %}
+		<section class="py-16">
+			<div class="max-w-7xl mx-auto px-6">
+				<h2 class="text-center text-3xl font-bold mb-10">Événements à venir</h2>
 
-<!-- Section Evénements -->
-{% if recentEvents is defined and recentEvents|length > 0 %}
-<section class="py-16">
-  <div class="max-w-7xl mx-auto px-6">
-    <h2 class="text-center text-3xl font-bold mb-10">Événements à venir</h2>
+				<div class="grid md:grid-cols-3 gap-8">
+					{% for event in recentEvents %}
+						<div class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border-gray-100 border card">
 
-    <div class="grid md:grid-cols-3 gap-8">
-      {% for event in recentEvents %}
-      <div
-        class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border-gray-100 border card">
+							<h5 class="font-bold text-center mb-4 text-lg">{{ event.nom }}</h5>
 
-        <h5 class="font-bold text-center mb-4 text-lg">{{ event.nom }}</h5>
+							<p class="grow text-sm text-gray-300">
+								{{ event.description|length > 150 ? event.description|slice(0, 150) ~ '...' : event.description }}
+							</p>
 
-        <p class="grow text-sm text-gray-300">
-          {{ event.description|length > 150 ? event.description|slice(0, 150) ~ '...' : event.description }}
-        </p>
+							{% if event.startAt %}
+								<div class="text-gray-300 text-sm mt-3 mb-3 flex items-center">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+									</svg>
+									{{ event.startAt|date('d/m/Y') }}
+								</div>
+							{% endif %}
 
-        {% if event.startAt %}
-        <div class="text-gray-300 text-sm mt-3 mb-3 flex items-center">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          {{ event.startAt|date('d/m/Y') }}
-        </div>
-        {% endif %}
+							<a href="#" class="mt-auto border border-white px-4 py-2 text-center rounded
+																		                    hover:bg-white hover:text-gray-900 transition">
+								En savoir plus
+							</a>
+						</div>
+					{% endfor %}
+				</div>
 
-        <a href="#" class="mt-auto border border-white px-4 py-2 text-center rounded
-                    hover:bg-white hover:text-gray-900 transition">
-          En savoir plus
-        </a>
-      </div>
-      {% endfor %}
-    </div>
+				<div class="text-center mt-10">
+					<a href="{{ path('app_evenements') }}" class="relative inline-block
+														            px-8 py-3 rounded-lg text-lg font-semibold
+														            text-gray-900 shadow-md overflow-hidden
+														            bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
+														            before:absolute before:inset-0
+														            before:bg-linear-to-tr
+														            before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
+														            before:opacity-0
+														            before:transition-opacity before:duration-600 before:ease-in-out
+														            hover:before:opacity-100
+														            before:content-['']">
 
-    <div class="text-center mt-10">
-      <a href="{{ path('app_evenements') }}" class="relative inline-block
-            px-8 py-3 rounded-lg text-lg font-semibold
-            text-gray-900 shadow-md overflow-hidden
-            bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
-            before:absolute before:inset-0
-            before:bg-linear-to-tr
-            before:from-[#f5e23ad2] before:via-[#dbbe67] before:to-[#f7f1e5]
-            before:opacity-0
-            before:transition-opacity before:duration-600 before:ease-in-out
-            hover:before:opacity-100
-            before:content-['']">
+						<span class="relative z-10">
+							Voir tous les événements
+						</span>
+					</a>
+				</div>
+			</section>
+		{% endif %}
 
-        <span class="relative z-10">
-          Voir tous les événements
-        </span>
-      </a>
-    </div>
-</section>
-{% endif %}
+		<!-- Section Services (Lieux de la carte) -->
+		{% if services is defined and services|length > 0 %}
+			<section class="py-16">
+				<div class="max-w-7xl mx-auto px-6">
+					<h2 class="text-center text-3xl font-bold mb-10">Nos Services</h2>
 
-<!-- Section Services (Lieux de la carte) -->
-{% if services is defined and services|length > 0 %}
-<section class="py-16">
-  <div class="max-w-7xl mx-auto px-6">
-    <h2 class="text-center text-3xl font-bold mb-10">Nos Services</h2>
+					<div class="grid md:grid-cols-3 gap-8">
+						{% for service in services %}
+							<div
+								class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border border-gray-100 card">
 
-    <div class="grid md:grid-cols-3 gap-8">
-      {% for service in services %}
-      <div
-        class="bg-gray-900 text-white rounded-lg shadow-lg flex flex-col p-6 hover:shadow-2xl transition border border-gray-100 card">
+								{# En-tête avec catégorie #}
+								<div class="flex items-start justify-between mb-4">
+									<h5 class="font-bold text-lg flex-1">{{ service.nom }}</h5>
+									<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2 whitespace-nowrap">
+										{{ service.category }}
+									</span>
+								</div>
 
-        {# En-tête avec catégorie #}
-        <div class="flex items-start justify-between mb-4">
-          <h5 class="font-bold text-lg flex-1">{{ service.nom }}</h5>
-          <span
-            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2 whitespace-nowrap">
-            {{ service.category }}
-          </span>
-        </div>
+								{# Description #}
+								<p class="grow text-sm text-white mb-4">
+									{{ service.description }}
+								</p>
 
-        {# Description #}
-        <p class="grow text-sm text-white mb-4">
-          {{ service.description }}
-        </p>
+								{# Informations de contact #}
+								<div
+									class="space-y-2 mb-4 border-t border-gray-100 pt-4">
+									{# Adresse #}
+									{% if service.address and service.address != 'Adresse non disponible' %}
+										<div class="flex items-start text-sm text-gray-300">
+											<svg class="w-4 h-4 mr-2 mt-0.5 shrink-0 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+											</svg>
+											<span>{{ service.address }}</span>
+										</div>
+									{% endif %}
 
-        {# Informations de contact #}
-        <div class="space-y-2 mb-4 border-t border-gray-100 pt-4">
-          {# Adresse #}
-          {% if service.address and service.address != 'Adresse non disponible' %}
-          <div class="flex items-start text-sm text-gray-300">
-            <svg class="w-4 h-4 mr-2 mt-0.5 shrink-0 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span>{{ service.address }}</span>
-          </div>
-          {% endif %}
+									{# Téléphone #}
+									{% if service.phone %}
+										<div class="flex items-center text-sm text-gray-300">
+											<svg class="w-4 h-4 mr-2 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+											</svg>
+											<a href="tel:{{ service.phone }}" class="hover:text-blue-600 transition">
+												{{ service.phone }}
+											</a>
+										</div>
+									{% endif %}
 
-          {# Téléphone #}
-          {% if service.phone %}
-          <div class="flex items-center text-sm text-gray-300">
-            <svg class="w-4 h-4 mr-2 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-            <a href="tel:{{ service.phone }}" class="hover:text-blue-600 transition">
-              {{ service.phone }}
-            </a>
-          </div>
-          {% endif %}
+									{# Email (optionnel) #}
+									{% if service.email %}
+										<div class="flex items-center text-sm text-gray-300">
+											<svg class="w-4 h-4 mr-2 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+											</svg>
+											<a href="mailto:{{ service.email }}" class="hover:text-blue-600 transition truncate">
+												{{ service.email }}
+											</a>
+										</div>
+									{% endif %}
 
-          {# Email (optionnel) #}
-          {% if service.email %}
-          <div class="flex items-center text-sm text-gray-300">
-            <svg class="w-4 h-4 mr-2 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            <a href="mailto:{{ service.email }}" class="hover:text-blue-600 transition truncate">
-              {{ service.email }}
-            </a>
-          </div>
-          {% endif %}
+									{# Si aucune information de contact #}
+									{% if not service.address or service.address == 'Adresse non disponible' %}
+										{% if not service.phone and not service.email %}
+											<div class="text-sm text-gray-400 italic">
+												Informations de contact non disponibles
+											</div>
+										{% endif %}
+									{% endif %}
+								</div>
 
-          {# Si aucune information de contact #}
-          {% if not service.address or service.address == 'Adresse non disponible' %}
-          {% if not service.phone and not service.email %}
-          <div class="text-sm text-gray-400 italic">
-            Informations de contact non disponibles
-          </div>
-          {% endif %}
-          {% endif %}
-        </div>
+								{# Bouton d'action #}
+								<a href="{{ path('app_map_goto') }}?id={{ service.id }}&category={{ service.categoryKey }}" class="mt-auto border border-white px-4 py-2 text-center rounded
+																				                    hover:bg-white hover:text-gray-900 transition">
+									Voir sur la carte
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</section>
+			{% endif %}
 
-        {# Bouton d'action #}
-        <a href="{{ path('app_map_goto') }}?id={{ service.id }}&category={{ service.categoryKey }}" class="mt-auto border border-white px-4 py-2 text-center rounded
-                    hover:bg-white hover:text-gray-900 transition">
-          Voir sur la carte
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-</section>
-{% endif %}
+			<!-- Bouton scroll top - VOTRE STRUCTURE ORIGINALE -->
+			<div class="fixed bottom-[20%] right-5 z-50" id="scrollTopContainer">
+				<a href="javascript:void(0);" id="scrollTopBtn" class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 text-black flex items-center justify-center w-12 h-12">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+					</svg>
+				</a>
+			</div>
 
-<!-- Bouton scroll top - VOTRE STRUCTURE ORIGINALE -->
-<div class="fixed bottom-[20%] right-5 z-50" id="scrollTopContainer">
-  <a href="javascript:void(0);" id="scrollTopBtn"
-    class="bg-white p-3 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 text-black flex items-center justify-center w-12 h-12">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-    </svg>
-  </a>
-</div>
-
-{% endblock %}
+		{% endblock %}

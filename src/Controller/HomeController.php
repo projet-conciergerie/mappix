@@ -11,18 +11,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(
+    private function renderAcceuil(
         EvenementRepository $evenementRepository,
         ServiceRepository $serviceRepository,
-        Overpass $overpass
-    ): Response {
-
-        // Rediriger vers /map si l'utilisateur est connecté
-        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('app_map');
-        }
-
+        Overpass $overpass,
+        int $quantity
+    ) {
         // Récupérer les 3 derniers événements à venir
         $recentEvents = $evenementRepository->findBy(
             [],
@@ -33,7 +27,7 @@ class HomeController extends AbstractController
         // ========================================
         // Récupérer les services depuis Overpass
         // ========================================
-        
+
         // Définir les catégories à afficher
         $categories = [
             'bars' => 'Bars',
@@ -51,7 +45,7 @@ class HomeController extends AbstractController
         // Récupérer les services de toutes les catégories
         foreach ($categories as $categoryKey => $categoryDisplay) {
             $servicesData = $overpass->getInArea('Rouen', $categoryKey);
-            
+
             foreach ($servicesData as $id => $service) {
                 // Ne garder que les services avec un nom
                 if (empty($service['name'])) {
@@ -87,7 +81,7 @@ class HomeController extends AbstractController
         }
 
         // Trier par nom (ASC)
-        usort($allServices, function($a, $b) {
+        usort($allServices, function ($a, $b) {
             return strcmp($a['nom'], $b['nom']);
         });
 
@@ -96,12 +90,12 @@ class HomeController extends AbstractController
         if (count($allServices) > 0) {
             // Mélanger le tableau
             shuffle($allServices);
-            
-            // Prendre les 3 premiers (ou moins si pas assez de services)
-            $randomServices = array_slice($allServices, 0, min(3, count($allServices)));
-            
-            // Re-trier les 3 sélectionnés par nom (ASC)
-            usort($randomServices, function($a, $b) {
+
+            // Prendre les $quantity premiers (ou moins si pas assez de services)
+            $randomServices = array_slice($allServices, 0, min($quantity, count($allServices)));
+
+            // Re-trier les $quantity sélectionnés par nom (ASC)
+            usort($randomServices, function ($a, $b) {
                 return strcmp($a['nom'], $b['nom']);
             });
         }
@@ -110,6 +104,30 @@ class HomeController extends AbstractController
             'recentEvents' => $recentEvents,
             'services' => $randomServices, // Services depuis Overpass
         ]);
+    }
+
+    #[Route('/actu', name: 'app_actu')]
+    public function actu(
+        EvenementRepository $evenementRepository,
+        ServiceRepository $serviceRepository,
+        Overpass $overpass
+    ) {
+        return $this->renderAcceuil($evenementRepository, $serviceRepository, $overpass, 6);
+    }
+
+    #[Route('/', name: 'app_home')]
+    public function index(
+        EvenementRepository $evenementRepository,
+        ServiceRepository $serviceRepository,
+        Overpass $overpass
+    ): Response {
+
+        // Rediriger vers /map si l'utilisateur est connecté
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_map');
+        }
+
+        return $this->renderAcceuil($evenementRepository, $serviceRepository, $overpass, 3);
     }
 
     /**
