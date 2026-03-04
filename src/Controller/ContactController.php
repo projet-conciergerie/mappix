@@ -15,6 +15,7 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // throw new \Exception('Erreur test 500'); // Test de la page 500
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
@@ -29,7 +30,6 @@ class ContactController extends AbstractController
                 'success',
                 'Votre message a bien été envoyé et sera traité dans les meilleurs délais.'
             );
-
             return $this->redirectToRoute('app_contact');
         }
 

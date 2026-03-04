@@ -43,6 +43,7 @@ final class EvenementController extends AbstractController
     #[Route('/calendrier', name: 'app_evenements')]
     public function calendrier(): Response
     {
+        // throw $this->createAccessDeniedException(); // Test de la page 403
         return $this->render('evenement/calendar.html.twig');
     }
     #[Route('/evenement/{id}', name: 'app_evenement_show')]

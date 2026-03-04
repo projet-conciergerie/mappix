@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur serveur - Mappix{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white text-center px-6">
+
+    <h1 class="text-6xl font-bold mb-6">Erreur 500</h1>
+
+    <p class="text-xl text-gray-300 mb-8">
+        Une erreur interne est survenue. Nous travaillons à la corriger dans les plus brefs délais.
+    </p>
+
+    <a href="{{ path('app_home') }}"
+       class="px-6 py-3 rounded-lg font-semibold text-gray-900
+              bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]">
+        Retour à l'accueil
+    </a>
+
+</div>
+{% endblock %}
