@@ -3,8 +3,8 @@
 {% block title %}Calendrier des événements{% endblock %}
 
 {% block body %}
-    <h1 id="calendarTitle" class="text-center text-3xl font-bold mb-8">
-    Calendrier des évènements
+<h1 id="calendarTitle" class="text-center text-3xl font-bold mb-8">
+Calendrier des évènements
 </h1>
 
 <div id="calendar" class="mb-10"></div>
@@ -38,26 +38,19 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+   {{ parent() }}
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
     <script>
-        let calendar = null;
-
-        document.addEventListener('turbo:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
             const calendarEl = document.getElementById('calendar');
             if (!calendarEl) return;
 
-            if (calendar !== null) {
-                calendar.destroy();
-                calendar = null;
-            }
-
-            calendar = new FullCalendar.Calendar(calendarEl, {
+            const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                locale: 'fr', // ✅ met tout en français
+                locale: 'fr',
                 height: 600,
                 buttonText: {
                     today: "Aujourd'hui",
@@ -69,22 +62,14 @@
                 allDayText: "Toute la journée",
                 noEventsContent: "Aucun évènement à afficher",
                 headerToolbar: {
-                    left: 'prev,next today', // "today" est le bouton
+                    left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,listWeek'
                 },
                 events: '/api/evenements'
             });
 
-
             calendar.render();
-        });
-
-        document.addEventListener('turbo:before-cache', function () {
-            if (calendar !== null) {
-                calendar.destroy();
-                calendar = null;
-            }
         });
     </script>
 {% endblock %}
