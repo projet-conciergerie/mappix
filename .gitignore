@@ -23,7 +23,7 @@
 ###< symfony/asset-mapper ###
 *.sql
 
-/migration/
+/migrations/
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
