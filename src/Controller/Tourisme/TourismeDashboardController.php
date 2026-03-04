@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Tourisme;
 
 use App\Entity\Category;
 use App\Entity\Evenement;
@@ -8,15 +8,18 @@ use App\Entity\Localisation;
 use App\Entity\Reservation;
 use App\Entity\Service;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[AdminDashboard(routePath: '/tourisme', routeName: 'tourisme')]
+#[IsGranted('ROLE_TOURISME')]
 class TourismeDashboardController extends AbstractDashboardController
 {
-    #[Route('/tourisme', name: 'tourisme_dashboard')]
     public function index(): Response
     {
         return $this->render('tourisme_dashboard/dashboard.html.twig');
@@ -30,13 +33,12 @@ class TourismeDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
-        yield MenuItem::linkToCrud('Evénements', 'fas fa-list', Evenement::class);
-        yield MenuItem::linkToCrud('Reservations', 'fas fa-list', Reservation::class);
-        yield MenuItem::linkToCrud('Services', 'fas fa-list', Service::class);
+        yield MenuItem::linkToDashboard('Acceuil', 'fa fa-home');
 
-        // yield MenuItem::linkToCrud('Localisations', 'fas fa-list', Localisation::class);
+        yield MenuItem::linkToRoute('Utilisateurs', 'fas fa-list', 'tourisme_user_index');
+        yield MenuItem::linkToRoute('Categories', 'fas fa-list', 'tourisme_category_index');
+        yield MenuItem::linkToRoute('Evènements', 'fas fa-list', 'tourisme_evenement_index');
+        yield MenuItem::linkToRoute('Réservations', 'fas fa-list', 'tourisme_reservation_index');
+        yield MenuItem::linkToRoute('Services', 'fas fa-list', 'tourisme_service_index');
     }
 }
