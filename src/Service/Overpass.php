@@ -194,6 +194,7 @@ OVERPASS;
 
                 'wikidata',
                 'brand:wikidata',
+                'operator:wikidata'
             ];
 
             $remainingTags = array_diff_key(
@@ -253,7 +254,7 @@ OVERPASS;
                 $thumbnail = $tags['brand:logo'];
             }
 
-            $wikidata = $tags['wikidata'] ?? $tags['brand:wikidata'] ?? null;
+            $wikidata = $tags['wikidata'] ?? $tags['brand:wikidata'] ?? $tags['operator:wikidata'] ?? null;
 
             $description = null;
             if (isset($tags['description:fr'])) {
