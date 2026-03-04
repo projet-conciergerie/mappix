@@ -20,7 +20,7 @@
 
 	<body>
 		<!-- Header / Navigation -->
-		<nav class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
+		<nav id="navbar" data-turbo-permanent class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
 
 			<div
 				class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
@@ -154,12 +154,16 @@
 		<div class="mt-28"></div>
 
 		<script>
-			const btn = document.getElementById('menu-btn');
-			const menu = document.getElementById('mobile-menu');
+			document.addEventListener('turbo:load', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const menu = document.getElementById('mobile-menu');
 
-			btn.addEventListener('click', () => {
-				menu.classList.toggle('hidden');
-			});
+            if (menuBtn && menu) {
+                menuBtn.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+            }
+        });
 		</script>
 
 		{% block body %}{% endblock %}
