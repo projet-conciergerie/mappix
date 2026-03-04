@@ -41,7 +41,7 @@
 				<ul class="hidden md:flex space-x-6 font-medium items-center">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<li>
-							<a class="hover:text-[#e6d4b6]" href="{{ path('app_actu') }}">ACTUALITES</a>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_actu') }}">ACTUALITÉS</a>
 						</li>
 					{% endif %}
 					<li>
@@ -62,22 +62,25 @@
 						<li>
 							<a class="hover:text-[#e6d4b6]" href="{{ path('app_evenements') }}">CALENDRIER</a>
 						</li>
-						<li>
-							<a class="hover:text-[#e6d4b6]" href="{{ path('my_reservation_list') }}">RESERVATIONS</a>
-						</li>
-						<li>
-							<a class="hover:text-[#e6d4b6]" href="#">PROFIL</a>
-						</li>
-						<li>
-							<a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a>
-						</li>
+
+						<div class="relative group">
+							<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
+								USER
+							</button>
+							<div class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="#">PROFIL</a>
+								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('my_reservation_list') }}">RÉSERVATIONS</a>
+								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('app_logout') }}">DÉCONNEXION</a>
+								{% if is_granted('ROLE_ADMIN') %}
+									<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('admin') }}">ADMIN</a>
+								{% endif %}
+								{% if is_granted('ROLE_TOURISME') %}
+									<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('tourisme_dashboard') }}">TOURISME</a>
+								{% endif %}
+							</div>
+						</div>
 					{% endif %}
 
-					{% if is_granted('ROLE_ADMIN') %}
-						<li>
-							<a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a>
-						</li>
-					{% endif %}
 				</ul>
 
 				<div class="relative group">
@@ -125,9 +128,6 @@
 						<li>
 							<a class="hover:text-[#e6d4b6]" href="#">PROFIL</a>
 						</li>
-						<li>
-							<a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a>
-						</li>
 					{% endif %}
 
 					{% if is_granted('ROLE_ADMIN') %}
@@ -135,6 +135,17 @@
 							<a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a>
 						</li>
 					{% endif %}
+
+					{% if is_granted('ROLE_TOURISME') %}
+						<a class="hover:text-[#e6d4b6]" href="{{ path('tourisme_dashboard') }}">TOURISME</a>
+					{% endif %}
+
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a>
+						</li>
+					{% endif %}
+
 				</ul>
 			</div>
 
