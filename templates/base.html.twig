@@ -40,6 +40,9 @@
 				<li><a class="hover:text-[#e6d4b6]" href="#">PROFIL</a></li>
 				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
 				{% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a></li>
+                {% endif %}
 			</ul>
 
 			<!-- Dropdown langue -->
