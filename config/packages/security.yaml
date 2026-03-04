@@ -43,6 +43,7 @@ security:
         - { path: ^/reservation, roles: ROLE_USER }
         - { path: ^/evenements, roles: ROLE_USER }
         - { path: ^/map, roles: ROLE_USER }
+        - { path: ^/profil, roles: ROLE_USER }
 
 when@test:
     security:
