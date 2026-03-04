@@ -1,91 +1,184 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="UTF-8">
-	<title>
-		{% block title %}Welcome!
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+
+		{% block stylesheets %}
+			{{ vite_entry_link_tags('app') }}
 		{% endblock %}
-	</title>
 
-	{% block stylesheets %}
-	{{ vite_entry_link_tags('app') }}
-	{% endblock %}
+		{% block javascripts %}
+			{{ vite_entry_script_tags('app') }}
+		{% endblock %}
 
-	{% block javascripts %}
-	{{ vite_entry_script_tags('app') }}
-	{% endblock %}
+	</head>
 
-</head>
+	<body>
+		<!-- Header / Navigation -->
+		<nav class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
+			
+			<div
+				class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
 
-<body>
-	<!-- Header / Navigation -->
-	<nav class="fixed top-0 w-full bg-gray-900 text-white z-500" style="height: 112px;">
-		<div class="max-w-7xl mx-auto px-6 flex items-center justify-between py-4">
+				<!-- Logo -->
+				<a href="{{ path('app_home') }}">
+					<img src="{{ asset('images/logo1.png') }}" alt="Logo Mappix" class="w-32">
+				</a>
 
-			<a href="{{ path('app_home') }}">
-				<img src="{{ asset('images/logo1.png') }}" alt="Logo Mappix" class="w-32">
-			</a>
-
-			<ul class="flex space-x-6 font-medium">
-				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_actu') }}">ACTUALITES</a></li>
-				{% endif %}
-				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_contact') }}">CONTACT</a></li>
-				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">S'INSCRIRE</a></li>
-				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_login') }}">SE CONNECTER</a></li>
-				{% else %}
-                <li><a class="hover:text-[#e6d4b6]" href="{{ path('app_map') }}">CARTE</a></li>
-                <li><a class="hover:text-[#e6d4b6]" href="{{ path('app_evenements') }}">CALENDRIER</a></li>
-                <li><a class="hover:text-[#e6d4b6]" href="{{ path('my_reservation_list') }}">RESERVATIONS</a></li>
-				<li><a class="hover:text-[#e6d4b6]" href="#">PROFIL</a></li>
-				<li><a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a></li>
-				{% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
-                <li><a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a></li>
-                {% endif %}
-			</ul>
-
-			<!-- Dropdown langue -->
-			<div class="relative group">
-				<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
-					LANGUE
+				<!-- Bouton Burger (visible seulement mobile) -->
+				<button id="menu-btn" class="md:hidden focus:outline-none flex justify-end flex-1">
+					<svg class="w-8 h-8 mr-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+					</svg>
 				</button>
-				<div
-					class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
-					<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-t">Français</a>
-					<a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
-					<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-b">Español</a>
+
+				<!-- Menu Desktop -->
+				<ul class="hidden md:flex space-x-6 font-medium items-center">
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_actu') }}">ACTUALITES</a>
+						</li>
+					{% endif %}
+					<li>
+						<a class="hover:text-[#e6d4b6]" href="{{ path('app_contact') }}">CONTACT</a>
+					</li>
+
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">S'INSCRIRE</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_login') }}">SE CONNECTER</a>
+						</li>
+					{% else %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_map') }}">CARTE</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_evenements') }}">CALENDRIIER</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('my_reservation_list') }}">RESERVATIONS</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="#">PROFIL</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a>
+						</li>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a>
+						</li>
+					{% endif %}
+				</ul>
+
+				<div class="relative group">
+					<button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
+						LANGUE
+					</button>
+					<div class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-t">Français</a>
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100">English</a>
+						<a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-b">Español</a>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Menu Mobile -->
+			<div id="mobile-menu" class="hidden md:hidden bg-gray-900 px-6 pb-4">
+				<ul class="flex flex-col space-y-4 font-medium">
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_actu') }}">ACTUALITES</a>
+						</li>
+					{% endif %}
+					<li>
+						<a class="hover:text-[#e6d4b6]" href="{{ path('app_contact') }}">CONTACT</a>
+					</li>
+
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">S'INSCRIRE</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_login') }}">SE CONNECTER</a>
+						</li>
+					{% else %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_map') }}">CARTE</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_evenements') }}">CALENDRIER</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('my_reservation_list') }}">RESERVATIONS</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="#">PROFIL</a>
+						</li>
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('app_logout') }}">DÉCONNEXION</a>
+						</li>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a class="hover:text-[#e6d4b6]" href="{{ path('admin') }}">ADMIN</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+
+		</nav>
+
+		<div class="mt-28"></div>
+
+		<script>
+			const btn = document.getElementById('menu-btn');
+			const menu = document.getElementById('mobile-menu');
+
+			btn.addEventListener('click', () => {
+				menu.classList.toggle('hidden');
+			});
+		</script>
+
+		{% block body %}{% endblock %}
+		<!-- Footer -->
+		<footer class="bg-gray-900 text-white py-8">
+			<div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+
+				<div class="ml-40">
+					<img src="{{ asset('images/logo1.png') }}" alt="" class="w-32">
+				</div>
+
+				<div class="md:text-right text-sm mt-4">
+					<p>Copyright © 2013 - 2025 Mappix</p>
+					<p class="space-x-2">
+						<a href="#" class="hover:underline">Mentions légales</a>
+						/
+						<a href="#" class="hover:underline">CGU</a>
+						/
+						<a href="#" class="hover:underline">Informations sur les cookies</a>
+						/
+						<a href="#" class="hover:underline">Confidentialité</a>
+						/
+						<a href="#" class="hover:underline">Nous contacter</a>
+					</p>
 				</div>
 			</div>
-		</div>
-	</nav>
-	<div class="mt-28"></div>
-	{% block body %}{% endblock %}
-	<!-- Footer -->
-	<footer class="bg-gray-900 text-white py-8">
-		<div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
 
-			<div class="ml-40">
-				<img src="{{ asset('images/logo1.png') }}" alt="" class="w-32">
-			</div>
+		</footer>
 
-			<div class="md:text-right text-sm mt-4">
-				<p>Copyright © 2013 - 2025 Mappix</p>
-				<p class="space-x-2">
-					<a href="#" class="hover:underline">Mentions légales</a> /
-					<a href="#" class="hover:underline">CGU</a> /
-					<a href="#" class="hover:underline">Informations sur les cookies</a> /
-					<a href="#" class="hover:underline">Confidentialité</a> /
-					<a href="#" class="hover:underline">Nous contacter</a>
-				</p>
-			</div>
-		</div>
-
-	</footer>
-
-	<div data-controller="return_home"></div>
-</body>
+		<div data-controller="return_home"></div>
+	</body>
 
 </html>
