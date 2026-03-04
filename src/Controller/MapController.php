@@ -144,6 +144,7 @@ final class MapController extends AbstractController
                 'facebook' => $data['facebook'],
                 'twitter' => $data['twitter'],
                 'wikipedia' => $data['wikipedia'],
+                'openhours' => $data['openhours'],
                 'thumbnail' => $thumbnail,
                 'datas' => $data['tags']
             ]);

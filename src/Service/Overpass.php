@@ -24,8 +24,7 @@ class Overpass
 
     public function __construct(
         private HttpClientInterface $client
-    ) {
-    }
+    ) {}
 
     /**
      * Récupère tous les bars dans une zone géographique définie.
@@ -144,11 +143,14 @@ OVERPASS;
 
                 'email',
 
+                // opening hours
+                'opening_hours',
+
                 // description
                 'description:fr',
                 'description:en',
                 'description',
-                
+
                 // website
                 'website',
                 'url',
@@ -267,6 +269,15 @@ OVERPASS;
 
             $phone = $tags['phone'] ?? $tags['contact:phone'] ?? null;
 
+            $openhours = null;
+            $rawOpenHours = $tags['opening_hours'] ?? null;
+            if ($rawOpenHours) {
+                $parser = new OpeningHoursParser();
+
+                $parsedOpenHours = $parser->parse($rawOpenHours);
+                $openhours = $parser->toStandardString($parsedOpenHours);
+            }
+
             $results[] = [
                 'description' => $description,
                 'name' => $name,
@@ -280,6 +291,7 @@ OVERPASS;
                 'wikipedia' => $wikipedia,
                 'thumbnail' => $thumbnail,
                 'wikidata' => $wikidata,
+                'openhours' => $openhours,
                 'lat' => $lat,
                 'lon' => $lon,
                 'tags' => $remainingTags

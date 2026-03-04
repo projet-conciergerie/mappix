@@ -163,4 +163,82 @@ class OpeningHoursParser
             ]
         ];
     }
+
+    private function compressDays(array $days): string
+    {
+        $order = $this->getDaysOrder();
+        $indexes = array_map(fn($d) => array_search($d, $order), $days);
+        sort($indexes);
+
+        $ranges = [];
+        $start = $prev = array_shift($indexes);
+
+        foreach ($indexes as $i) {
+            if ($i === $prev + 1) {
+                $prev = $i;
+                continue;
+            }
+
+            $ranges[] = [$start, $prev];
+            $start = $prev = $i;
+        }
+
+        $ranges[] = [$start, $prev];
+
+        $result = [];
+
+        foreach ($ranges as [$s, $e]) {
+            if ($s === $e) {
+                $result[] = ucfirst($order[$s]);
+            } else {
+                $result[] = ucfirst($order[$s]) . '-' . ucfirst($order[$e]);
+            }
+        }
+
+        return implode(',', $result);
+    }
+
+    public function toStandardString(array $parsed): string
+    {
+        if ($parsed['meta']['always_open'] ?? false) {
+            return '24/7';
+        }
+
+        $order = $this->getDaysOrder();
+
+        // Grouper les jours ayant les mêmes horaires
+        $groups = [];
+
+        foreach ($order as $day) {
+            $slots = $parsed[$day] ?? [];
+
+            if (empty($slots)) {
+                $key = 'off';
+            } else {
+                $ranges = array_map(
+                    fn($s) => $s['start'] . '-' . $s['end'],
+                    $slots
+                );
+                sort($ranges);
+                $key = implode(',', $ranges);
+            }
+
+            $groups[$key][] = $day;
+        }
+
+        $parts = [];
+
+        foreach ($groups as $time => $days) {
+
+            $dayString = $this->compressDays($days);
+
+            if ($time === 'off') {
+                $parts[] = $dayString . ' off';
+            } else {
+                $parts[] = $dayString . ' ' . $time;
+            }
+        }
+
+        return implode('; ', $parts);
+    }
 }
