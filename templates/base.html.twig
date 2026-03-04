@@ -70,14 +70,14 @@
 
 							<div id="user-menu"
 								class="hidden absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg transition-all duration-200">
-								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="#">PROFIL</a>
-								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('my_reservation_list') }}">RÉSERVATIONS</a>
-								<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('app_logout') }}">DÉCONNEXION</a>
+								<a class="block px-4 py-2 hover:bg-gray-100" href="#">PROFIL</a>
+								<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('my_reservation_list') }}">RÉSERVATIONS</a>
+								<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('app_logout') }}">DÉCONNEXION</a>
 								{% if is_granted('ROLE_ADMIN') %}
-									<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('admin') }}">ADMIN</a>
+									<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('admin') }}">ADMIN</a>
 								{% endif %}
 								{% if is_granted('ROLE_TOURISME') %}
-									<a class="hover:text-[#e6d4b6] block px-4 py-2 hover:bg-gray-100" href="{{ path('tourisme_dashboard') }}">TOURISME</a>
+									<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('tourisme_dashboard') }}">TOURISME</a>
 								{% endif %}
 							</div>
 						</div>
