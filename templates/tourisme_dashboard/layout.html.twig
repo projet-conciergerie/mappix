@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block body_class %}ea-dashboard-tourisme{% endblock %}
+
+{% block configured_body_contents %}
+    <div class="bg-gray-50 min-h-screen">
+        {{ parent() }}
+    </div>
+{% endblock %}

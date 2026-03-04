@@ -1,0 +1,34 @@
+body.ea-dashboard-tourisme .content-header-title {
+    display: none;
+}
+
+body.ea-dashboard-tourisme .content-wrapper {
+    background: #f8f9fa;
+}
+
+body.ea-dashboard-tourisme .sidebar {
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    border-right: 2px solid #dbbe67;
+}
+
+body.ea-dashboard-tourisme .sidebar .menu-item a {
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
+}
+
+body.ea-dashboard-tourisme .sidebar .menu-item a:hover {
+    background: rgba(219, 190, 103, 0.1);
+    color: #dbbe67;
+    padding-left: 20px;
+}
+
+body.ea-dashboard-tourisme .sidebar .menu-item.active a {
+    background: rgba(219, 190, 103, 0.15);
+    color: #dbbe67;
+    border-left: 3px solid #dbbe67;
+}
+
+body.ea-dashboard-tourisme .main-header {
+    background: white;
+    border-bottom: 2px solid #dbbe67;
+}
