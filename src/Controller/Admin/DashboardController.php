@@ -51,17 +51,16 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Mappix');
     }
-
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Service', 'fas fa-list', Service::class);
-        yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('Reservation', 'fas fa-list', Reservation::class);
-        // yield MenuItem::linkToCrud('Localisation', 'fas fa-list', Localisation::class);
-        yield MenuItem::linkToCrud('Evenement', 'fas fa-list', Evenement::class);
-        yield MenuItem::linkToCrud('Contact', 'fas fa-list', Contact::class);
-        yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
-        yield MenuItem::linkToCrud('Avis', 'fas fa-list', Avis::class);
+
+        yield MenuItem::linkToRoute('Service', 'fas fa-list', 'admin_service_index');
+        yield MenuItem::linkToRoute('User', 'fas fa-list', 'admin_user_index');
+        yield MenuItem::linkToRoute('Reservation', 'fas fa-list', 'admin_reservation_index');
+        yield MenuItem::linkToRoute('Evenement', 'fas fa-list', 'admin_evenement_index');
+        yield MenuItem::linkToRoute('Contact', 'fas fa-list', 'admin_contact_index');
+        yield MenuItem::linkToRoute('Category', 'fas fa-list', 'admin_category_index');
+        yield MenuItem::linkToRoute('Avis', 'fas fa-list', 'admin_avis_index');
     }
 }
