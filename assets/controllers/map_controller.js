@@ -25,7 +25,7 @@ export default class extends Controller {
     connect() {
         // if position value is provided, we consider the position is fixed by the user search and not by geolocation
         this.positionSet = Object.keys(this.positionValue).length !== 0;
-        
+
         this.map = L.map(this.element, {
             gestureHandling: true,
             gestureHandlingOptions: {
@@ -46,11 +46,6 @@ export default class extends Controller {
         this.map.addLayer(this.clusterGroup)
 
         this.loadMarkers()
-
-        // Center map on searched object if position value is provided
-        if (this.positionSet) {
-            this.map.setView([this.positionValue.lat, this.positionValue.lon], 19)
-        }
 
         // create layer toggles
 
@@ -125,6 +120,26 @@ export default class extends Controller {
                 groupdiv.classList.add('hidden');
             }
         });
+
+        // If the position was set on an object at loading, update contents of the details card with the object details
+        if (this.positionSet) {
+            // Center map on searched object if position value is provided
+            this.map.setView([this.positionValue.lat, this.positionValue.lon], 19)
+            
+            // Load the details of the searched object in the details card
+            fetch('/map/data', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    _token: this.tokenValue,
+                    category: this.positionValue.category,
+                    idElement: this.positionValue.id
+                })
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('map-details').innerHTML = html;
+                })
+        }
 
         // dispatch event to let know the map is loaded and provide the map instance for other controllers
         // Let know if the position is fixed by the user search or if we should use geolocation

@@ -120,34 +120,34 @@ final class MapController extends AbstractController
             return new Response('Bad Request', 400);
         }
 
-            $data = $datas[$idElement];
+        $data = $datas[$idElement];
 
-            $thumbnail = null;
-            if (isset($data['thumbnail'])) {
-                $thumbnail = $data['thumbnail'];
-            } else {
-                $wikidata = $data['wikidata'] ?? null;
-                if ($wikidata) {
-                    $thumbnail = $overpass->getWikidataThumbnail($wikidata);
-                }
+        $thumbnail = null;
+        if (isset($data['thumbnail'])) {
+            $thumbnail = $data['thumbnail'];
+        } else {
+            $wikidata = $data['wikidata'] ?? null;
+            if ($wikidata) {
+                $thumbnail = $overpass->getWikidataThumbnail($wikidata);
             }
+        }
 
-            return $this->render('map/_map_details.html.twig', [
-                'category' => $this->categories[$category]['display'] ?? $category,
-                'description' => $data['description'],
-                'name' => $data['name'],
-                'address' => $data['address'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'website' => $data['website'],
-                'instagram' => $data['instagram'],
-                'facebook' => $data['facebook'],
-                'twitter' => $data['twitter'],
-                'wikipedia' => $data['wikipedia'],
-                'openhours' => $data['openhours'],
-                'thumbnail' => $thumbnail,
-                'datas' => $data['tags']
-            ]);
+        return $this->render('map/_map_details.html.twig', [
+            'category' => $this->categories[$category]['display'] ?? $category,
+            'description' => $data['description'],
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'website' => $data['website'],
+            'instagram' => $data['instagram'],
+            'facebook' => $data['facebook'],
+            'twitter' => $data['twitter'],
+            'wikipedia' => $data['wikipedia'],
+            'openhours' => $data['openhours'],
+            'thumbnail' => $thumbnail,
+            'datas' => $data['tags']
+        ]);
     }
 
     #[Route('/map/goto', name: 'app_map_goto', methods: ['GET'])]
@@ -196,6 +196,7 @@ final class MapController extends AbstractController
         return $this->render('map/index.html.twig', [
             'position' => [
                 'category' => $category,
+                'id' => $idElement,
                 'lat' => $data['lat'],
                 'lon' => $data['lon']
             ],
