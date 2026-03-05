@@ -36,7 +36,7 @@
 					</h2>
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						Bonjour
-						{{ app.user.email }}
+						{{ app.user.prenom }}
 					{% else %}
 						<a href="{{ path('app_register') }}" class="inline-block bg-white text-black px-8 py-3 text-lg font-semibold rounded shadow-lg
 																                  hover:scale-105 hover:shadow-2xl transition duration-300">
