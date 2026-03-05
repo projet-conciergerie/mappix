@@ -221,13 +221,5 @@
 }
 
 #map-details {
-    margin-top: 1.5rem;
-
-    background-color: #333;
-    color: #EEE;
-    width: 100%;
     min-height: 300px;
-
-    border-radius: 0.5rem;
-    padding: 1rem;
 }

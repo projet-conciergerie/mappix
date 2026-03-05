@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<h1 class="text-3xl font-bold mt-3 mb-3 text-center">Carte des lieux d'intérêt</h1>
+	<h1 class="text-3xl font-bold pt-3 mb-5 text-center">Carte des lieux d'intérêt</h1>
 
-	<div class="map-container">
+	<div class="max-w-7xl mx-auto map-container">
 		<div class="map-layers">
 			<div class="map-layers-button">
 				<img class="map-layers-icon" src="{{ asset('icons/layers_map.png') }}" alt="Layers Map">
@@ -16,8 +16,9 @@
 		<div data-controller="map geolocate" data-action="map:loaded->geolocate#onMapLoaded" data-map-categories-value="{{ categories|json_encode }}" data-map-token-value="{{ csrf_token }}" {% if position is defined %} data-map-position-value="{{ position|json_encode|default('') }}" {% endif %} style="height: 100%; width: 100%;"></div>
 
 	</div>
-
-	<div id="map-details">
-		{% include 'map/_map_details_none.html.twig' %}
+	<div class="max-w-7xl mx-auto px-6 mb-6 mt-6 bg-gray-900 text-white rounded-lg shadow-lg p-6 border border-gray-100">
+		<div id="map-details">
+			{% include 'map/_map_details_none.html.twig' %}
+		</div>
 	</div>
 {% endblock %}
