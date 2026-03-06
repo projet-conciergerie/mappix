@@ -200,42 +200,52 @@
 
 		<script>
 			//
-// Gestion du menu burger
-//
-const menuBtn = document.getElementById('menu-btn');
-const menu = document.getElementById('mobile-menu');
+			// Gestion du menu burger
+			//
+			const menuBtn = document.getElementById('menu-btn');
+			const menu = document.getElementById('mobile-menu');
 
-menuBtn.addEventListener('click', () => {
-menu.classList.toggle('hidden');
-});
+			menuBtn.addEventListener('click', () => {
+			menu.classList.toggle('hidden');
+			});
 
-//
-// Gestion des menu langues et user
-//
-// langues
-const langBtn = document.getElementById('lang-btn');
-const langMenu = document.getElementById('lang-menu');
-// user
-const userBtn = document.getElementById('user-btn');
-const userMenu = document.getElementById('user-menu');
+			//
+			// Gestion des menu langues et user
+			//
+			// langues
+			const langBtn = document.getElementById('lang-btn');
+			const langMenu = document.getElementById('lang-menu');
+			// user
+			const userBtn = document.getElementById('user-btn');
+			const userMenu = document.getElementById('user-menu');
 
-langBtn.addEventListener('click', (e) => {
-e.stopPropagation();
-langMenu.classList.toggle('hidden');
-userMenu.classList.add('hidden');
-});
+			if (langBtn) {
+				langBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (langMenu)
+					langMenu.classList.toggle('hidden');
+				if (userMenu)
+					userMenu.classList.add('hidden');
+				});
+			}
 
-userBtn.addEventListener('click', (e) => {
-e.stopPropagation();
-userMenu.classList.toggle('hidden');
-langMenu.classList.add('hidden');
-});
+			if (userBtn) {
+				userBtn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (userMenu)
+					userMenu.classList.toggle('hidden');
+				if (langMenu)
+					langMenu.classList.add('hidden');
+				});
+			}
 
-// Fermer si on click ailleurs
-document.addEventListener('click', () => {
-userMenu.classList.add('hidden');
-langMenu.classList.add('hidden');
-});
+			// Fermer si on click ailleurs
+			document.addEventListener('click', () => {
+				if (userMenu)
+					userMenu.classList.add('hidden');
+				if (langMenu)
+					langMenu.classList.add('hidden');
+			});
 		</script>
 	</body>
 </html>
