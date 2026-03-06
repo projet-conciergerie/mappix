@@ -1,1 +1,47 @@
-<p class="text-2xl font-bold">Choisissez un élément sur la carte pour obtenir plus d'informations.</p>
+<p class="text-2xl font-bold mb-6">Utilisez les boutons sur la carte pour personnaliser votre expérience :</p>
+
+<div class="flex items-center">
+	<div class="mr-4 bg-[#f4f4f4] border border-black shadow-[0.1rem_0.1rem_0.5rem_black] rounded w-fit flex items-center justify-center map-layers-button">
+		<div class="w-6 h-6 m-2 text-black text-4xl flex items-center justify-center">
+			<img class="w-6 h-6 m-2 object-contain map-layers-icon" src="{{ asset('icons/layers_map.png') }}" alt="Layers Map">
+		</div>
+	</div>
+
+	<div class="text-lg ml-4">
+		<strong>Le bouton "Couches" :</strong>
+		Permet de choisir les types de lieux d'intérêt que vous souhaitez afficher (restaurants, musées, parcs, etc.).
+	</div>
+</div>
+
+<div class="flex items-center mt-6">
+	<div class="mr-4 bg-[#f4f4f4] border border-black shadow-[0.1rem_0.1rem_0.5rem_black] rounded w-fit flex items-center justify-center map-layers-button">
+		<div class="w-6 h-6 m-2 text-black text-4xl flex items-center justify-center">
+			<img class="w-6 h-6 m-2 object-contain map-layers-icon" src="{{ asset('icons/center_map.png') }}" alt="Layers Map">
+		</div>
+	</div>
+
+	<div class="text-lg ml-4">
+		<strong>Le bouton "Centrer" :</strong>
+		Permet de recentrer la carte sur votre position actuelle.
+	</div>
+</div>
+
+<div class="flex items-center mt-6">
+	<div class="mr-4 bg-[#f4f4f4] border border-black shadow-[0.1rem_0.1rem_0.5rem_black] rounded w-fit flex items-center justify-center map-layers-button">
+		<div class="w-6 h-6 m-2 text-black text-4xl flex items-center justify-center">
+			+
+		</div>
+	</div>
+	<div class="mr-4 bg-[#f4f4f4] border border-black shadow-[0.1rem_0.1rem_0.5rem_black] rounded w-fit flex items-center justify-center map-layers-button">
+		<div class="w-6 h-6 m-2 text-black text-4xl flex items-center justify-center">
+			-
+		</div>
+	</div>
+
+	<div class="text-lg ml-4">
+		<strong>Les boutons + et - :</strong>
+		Permettent de zoomer sur la carte pour affiner la localisation.
+	</div>
+</div>
+
+<p class="text-2xl mt-6">Choisissez un élément sur la carte pour obtenir plus d'informations.</p>

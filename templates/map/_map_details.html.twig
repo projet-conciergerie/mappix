@@ -8,9 +8,7 @@
 		{% if thumbnail %}
 			<img src="{{ thumbnail }}" alt="Thumbnail" class="w-32 h-32 object-cover rounded-lg">
 		{% else %}
-			<div class="w-32 h-32 bg-gray-300 flex items-center justify-center rounded-lg">
-				<span class="text-gray-500">No image</span>
-			</div>
+			<img src="{{ asset('images/no_thumbnail.jpg') }}" alt="No thumbnail" class="w-32 h-32 object-cover rounded-lg">
 		{% endif %}
 	</div>
 
