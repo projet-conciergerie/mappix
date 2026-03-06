@@ -35,10 +35,15 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->disable(Action::NEW);      // désactive création
-        // ->disable(Action::EDIT);     // désactive modification
-        // ->disable(Action::DELETE);  // optionnel
+        $actions = $actions->disable(Action::NEW);
+
+        if ($this->isGranted('ROLE_TOURISME', 'ROLE_USER')) {
+            // Le tourisme ne peut pas modifier
+            $actions = $actions->disable(Action::DELETE);
+            $actions = $actions->disable(Action::EDIT);
+        }
+
+        return $actions;
     }
     public function configureFields(string $pageName): iterable
     {

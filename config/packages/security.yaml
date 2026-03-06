@@ -45,6 +45,7 @@ security:
         - { path: ^/map, roles: ROLE_USER }
         - { path: ^/profil, roles: ROLE_USER }
 
+
 when@test:
     security:
         password_hashers:

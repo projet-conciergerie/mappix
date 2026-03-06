@@ -16,10 +16,14 @@ class ReservationCrudController extends AbstractCrudController
 {
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-        ->disable(Action::NEW)    // désactive création
-        ->disable(Action::EDIT);   // désactive modification
-        // ->disable(Action::DELETE);  // optionnel
+        $actions = $actions->disable(Action::NEW);
+        $actions = $actions->disable(Action::EDIT);
+
+        if ($this->isGranted('ROLE_TOURISME', 'ROLE_USER')) {
+            $actions = $actions->disable(Action::DELETE);
+        }
+
+        return $actions;
     }
     public static function getEntityFqcn(): string
     {

@@ -15,13 +15,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EvenementCrudController extends AbstractCrudController
 {
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            ->disable(Action::NEW)      // désactive création
-            ->disable(Action::EDIT);     // désactive modification
-        // ->disable(Action::DELETE);  // optionnel
-    }
     public static function getEntityFqcn(): string
     {
         return Evenement::class;
