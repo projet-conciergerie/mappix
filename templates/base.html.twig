@@ -67,18 +67,22 @@
 								USER
 							</button>
 
-							<div id="user-menu" class="hidden absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg transition-all duration-200">
+							<div id="user-menu" class="hidden absolute right-0 mt-2  w-fit bg-white text-gray-900 rounded shadow-lg transition-all duration-200">
 								<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('app_profil') }}">PROFIL</a>
 								<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('my_reservation_list') }}">RÉSERVATIONS</a>
-								<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('app_logout') }}">DÉCONNEXION</a>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('admin') }}">ADMIN</a>
 								{% endif %}
 								{% if is_granted('ROLE_TOURISME') %}
 									<a class="block px-4 py-2 hover:bg-gray-100" href="{{ path('tourisme') }}">TOURISME</a>
 								{% endif %}
+								<a class="px-4 py-2 hover:bg-gray-100 flex items-center w-fit" href="{{ path('app_logout') }}">
+									<img class="w-6 h-6 m-2 object-contain inline-block" src="icons/sign-out.png" alt="Icon logout">
+									DÉCONNEXION
+								</a>
 							</div>
 						</div>
+
 						<div class="relative group">
 							<div class="absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200"></div>
 						</div>
