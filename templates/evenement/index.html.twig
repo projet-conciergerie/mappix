@@ -4,6 +4,8 @@
 
 {% block body %}
 
+<main class="flex-1 flex items-center ">
+
 <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center" id="listeEvenements">
 
     <h1 class="text-4xl font-bold text-center text-[#f8f8f8] mb-14">
@@ -65,7 +67,7 @@
                        class="block text-center px-6 py-3 rounded-lg font-semibold
                        text-[#101828] shadow-md
                        bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
-                       transition duration-200 hover:scale-105">
+                       transition duration-200">
                         Réserver
                     </a>
                 {% else %}
@@ -88,5 +90,7 @@
     </div>
 
 </div>
+
+</main>
 
 {% endblock %}
