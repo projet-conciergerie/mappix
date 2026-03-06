@@ -64,7 +64,13 @@
 
 						<div class="relative">
 							<button id="user-btn" class="border border-white px-4 py-2 rounded hover:bg-white hover:text-gray-900 transition cursor-pointer">
-								USER
+								{% if is_granted('ROLE_ADMIN') %}
+                                    <img src="./icons/admin-panel.png" alt="" class="w-7">
+                                {% elseif is_granted('ROLE_TOURISME') %}
+                                    <img src="./icons/tourism.png" alt="" class="w-7">
+                                {% else %}
+                                    <img src="./icons/user.png" alt="" class="w-7">
+                                {% endif %}
 							</button>
 
 							<div id="user-menu" class="hidden absolute right-0 mt-2 w-40 bg-white text-gray-900 rounded shadow-lg transition-all duration-200">
