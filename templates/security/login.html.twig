@@ -4,9 +4,9 @@
 
 {% block body %}
 
-<div class="flex items-center justify-center bg-gray-800 px-6 py-24">
+<main class="flex-1 flex items-center justify-center">
 
-    <form method="post" class="w-full max-w-md">
+    <form method="post" class="w-full max-w-md my-6">
 
         <!-- Logo + Titre -->
         <div class="text-center mb-10 flex flex-col items-center">
@@ -80,8 +80,10 @@
             </span>
         </Button>
 
+        <p class="text-gray-400 mt-3">Si vous n'avez pas déjà de compte. <a class="hover:text-[#e6d4b6]" href="{{ path('app_register') }}">Créer un compte</a></p>
+
     </form>
 
-</div>
+</main>
 
 {% endblock %}
