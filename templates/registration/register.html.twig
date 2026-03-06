@@ -18,7 +18,12 @@
 
         {{ form_start(registrationForm) }}
 
-        {{ form_errors(registrationForm) }}
+        <!-- Messages d'erreur globaux -->
+        {% if form_errors(registrationForm) %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5">
+            {{ form_errors(registrationForm) }}
+        </div>
+        {% endif %}
 
         <!-- Nom -->
         <div class="mb-5">
@@ -29,6 +34,7 @@
             placeholder: 'Nom'
             }
             }) }}
+            {{ form_errors(registrationForm.nom) }}
         </div>
 
         <!-- Prénom -->
@@ -40,6 +46,7 @@
             placeholder: 'Prénom'
             }
             }) }}
+            {{ form_errors(registrationForm.prenom) }}
         </div>
 
         <!-- Pseudo -->
@@ -51,6 +58,7 @@
             placeholder: 'Pseudo'
             }
             }) }}
+            {{ form_errors(registrationForm.pseudo) }}
         </div>
 
         <!-- Email -->
@@ -62,6 +70,7 @@
             placeholder: 'Email'
             }
             }) }}
+            {{ form_errors(registrationForm.email) }}
         </div>
 
         <!-- Mot de passe -->
@@ -73,10 +82,25 @@
             placeholder: 'Mot de passe'
             }
             }) }}
+
+            {# Indicateur des exigences du mot de passe #}
+            <div class="mt-2 text-sm text-gray-400 bg-gray-900 p-3 rounded border border-gray-700">
+                <p class="font-semibold mb-2">Votre mot de passe doit contenir :</p>
+                <ul class="space-y-1">
+                    <li class="flex flex-col items-start">
+                        <span class="text-gray-300 mr-2">• Au moins 8 caractères</span>
+                        <span class="text-gray-300 mr-2">• Au moins une lettre majuscule et une lettre minuscule</span>
+                        <span class="text-gray-300 mr-2">• Au un caractère spécial</span>
+
+                    </li>
+                </ul>
+            </div>
+
+            {{ form_errors(registrationForm.plainPassword) }}
         </div>
 
         <!-- Confirmation du mot de passe -->
-        <div class="mb-2">
+        <div class="mb-5">
             {{ form_widget(registrationForm.confirmPassword, {
             attr: {
             class: 'w-full bg-gray-800 text-white border border-gray-600 rounded px-4 py-3 focus:outline-none
@@ -84,6 +108,12 @@
             placeholder: 'Confirmer le mot de passe'
             }
             }) }}
+            {# Affichage de l'erreur de confirmation #}
+            {% if form_errors(registrationForm.confirmPassword) %}
+            <div class="text-red-400 text-sm mt-2">
+                {{ form_errors(registrationForm.confirmPassword) }}
+            </div>
+            {% endif %}
         </div>
 
         <!-- Langue -->
@@ -97,22 +127,30 @@
             focus:ring-2 focus:ring-white focus:border-white transition'
             }
             }) }}
+            {{ form_errors(registrationForm.langue) }}
         </div>
 
         <!-- Checkbox -->
-        <div class="flex items-center mb-6">
+        <div class="flex items-start mb-6">
             {{ form_widget(registrationForm.agreeTerms, {
             attr: {
-            class: 'w-4 h-4 text-white bg-gray-800 border-gray-600 rounded focus:ring-white'
+            class: 'w-4 h-4 text-white bg-gray-800 border-gray-600 rounded focus:ring-white mt-1'
             }
             }) }}
-            {{ form_label(registrationForm.agreeTerms, null, {
-            label_attr: { class: 'ml-3 text-gray-400 text-sm' }
-            }) }}
+            <div class="ml-3">
+                {{ form_label(registrationForm.agreeTerms, null, {
+                label_attr: { class: 'text-gray-400 text-sm' }
+                }) }}
+                {% if form_errors(registrationForm.agreeTerms) %}
+                <div class="text-red-400 text-sm mt-1">
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Bouton -->
-        <Button class="relative w-full inline-block cursor-pointer
+        <button type="submit" class="relative w-full inline-block cursor-pointer
             px-8 py-3 rounded-lg text-lg font-semibold
             text-gray-900 shadow-md overflow-hidden text-center
             bg-linear-to-tr from-[#f7f1e5] via-[#dbbe67] to-[#f5e23ad2]
@@ -127,7 +165,7 @@
             <span class="relative z-10">
                 S'inscrire
             </span>
-        </Button>
+        </button>
 
         <!-- Lien login -->
         <p class="mt-6 text-center text-gray-400 text-sm">
