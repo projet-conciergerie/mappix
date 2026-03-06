@@ -158,6 +158,11 @@ body {
     box-shadow: none;
 }
 
+#listeEvenements {
+    min-height: 70.5vh;
+}
+
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .hero-section {
