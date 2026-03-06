@@ -33,10 +33,8 @@ class TourismeDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Acceuil', 'fa fa-home');
-
+        yield MenuItem::linkToDashboard('Accueil', 'fa fa-home');
         yield MenuItem::linkToRoute('Utilisateurs', 'fas fa-list', 'tourisme_user_index');
-        yield MenuItem::linkToRoute('Categories', 'fas fa-list', 'tourisme_category_index');
         yield MenuItem::linkToRoute('Evènements', 'fas fa-list', 'tourisme_evenement_index');
         yield MenuItem::linkToRoute('Réservations', 'fas fa-list', 'tourisme_reservation_index');
         yield MenuItem::linkToRoute('Services', 'fas fa-list', 'tourisme_service_index');
