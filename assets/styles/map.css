@@ -190,6 +190,14 @@
     border-radius: 0.25rem;
 }
 
+.map-center-button {
+    top: 1.5rem;
+    left: auto;
+    right: 1.5rem;
+    bottom: auto;
+    cursor: pointer;
+}
+
 .map-layers {
     top: 1.5rem;
     left: 1.5rem;
@@ -203,12 +211,18 @@
 }
 
 .map-center-button,
-.map-layers-button {
+.map-layers-button,
+.leaflet-touch .leaflet-control-zoom-in,
+.leaflet-touch .leaflet-control-zoom-out
+{
     transition: all 0.3s;    
 }
 
 .map-center-button:hover,
-.map-layers-button:hover {
+.map-layers-button:hover,
+.leaflet-touch .leaflet-control-zoom-in:hover,
+.leaflet-touch .leaflet-control-zoom-out:hover
+{
     transition: all 0.3s;
     background-color: #d2d2d2;
 }
@@ -221,14 +235,6 @@
     user-select: none;
     pointer-events: none;
     display: inline-block;
-}
-
-.map-center-button {
-    top: 1.5rem;
-    left: auto;
-    right: 1.5rem;
-    bottom: auto;
-    cursor: pointer;
 }
 
 #map-details {
