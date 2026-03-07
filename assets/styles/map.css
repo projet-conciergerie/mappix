@@ -202,6 +202,17 @@
     width: fit-content;
 }
 
+.map-center-button,
+.map-layers-button {
+    transition: all 0.3s;    
+}
+
+.map-center-button:hover,
+.map-layers-button:hover {
+    transition: all 0.3s;
+    background-color: #d2d2d2;
+}
+
 .map-layers-icon,
 .map-center-icon {
     margin: 0.5rem;
