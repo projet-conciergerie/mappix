@@ -188,15 +188,17 @@ export default class extends Controller {
 
                 const marker = L.marker([item.lat, item.lon], { icon })
 
+                const address = item.address.split(",").join("<br>");
+
                 const popup = `
                     <h3 class="text-2xl font-bold">${items.display}</h3>
                     <p class="text-xl font-bold">${item.name ? item.name : 'Pas de Nom disponible'}</p>
-                    <p class="text-lg">${item.address}</p>
+                    <p class="text-lg">${address}</p>
                     <form data-turbo="false">
                         <input type="hidden" name="_token" value="${this.tokenValue}">
                         <input type="hidden" name="category" value="${category}">
                         <input type="hidden" name="idElement" value="${index}">
-                        <input class="cursor-pointer bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Infos">
+                        <input class="cursor-pointer bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded" type="submit" value="Infos">
                     </form>
                 `
 

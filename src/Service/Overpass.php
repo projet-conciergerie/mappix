@@ -24,7 +24,42 @@ class Overpass
 
     public function __construct(
         private HttpClientInterface $client
-    ) {}
+    ) {
+    }
+
+    private function getAddressString(string $housename, string $housenumber, string $street, string $postcode, string $city)
+    {
+        $adrline0 = $housename;
+
+        $adrline1 = $housenumber;
+        if ($street != '') {
+            if ($adrline1 != '')
+                $adrline1 .= ' ';
+            $adrline1 .= ' ' . $street;
+        }
+
+        $adrline2 = $postcode;
+        if ($city != '') {
+            if ($adrline2 != '')
+                $adrline2 .= ' ';
+            $adrline2 .= $city;
+        }
+
+        $address = $adrline0;
+        if ($adrline1 != '') {
+            if ($address != '')
+                $address .= ',';
+            $address .= $adrline1;
+        }
+        if ($adrline2 != '') {
+            if ($address != '')
+                $address .= ',';
+            $address .= $adrline2;
+        }
+
+        return $address;
+    }
+
 
     /**
      * Récupère tous les bars dans une zone géographique définie.
@@ -105,21 +140,16 @@ OVERPASS;
                 $postcode = $tags['addr:postcode'] ?? '';
                 $city = $tags['addr:city'] ?? '';
 
-                $address = ($housenumber ? $housenumber . ' ' : '')
-                    . ($street ? $street . ', ' : '')
-                    . ($housename ? $housename . ', ' : '')
-                    . ($postcode ? $postcode . ' ' : '')
-                    . ($city ? $city : '');
+                $address = $this->getAddressString($housename, $housenumber, $street, $postcode, $city);
+
             } else if (isset($tags['contact:city']) || isset($tags['contact:postcode'])) {
+                $housename = $tags['contact:housename'] ?? '';
                 $housenumber = $tags['contact:housenumber'] ?? '';
                 $street = $tags['contact:street'] ?? '';
                 $postcode = $tags['contact:postcode'] ?? '';
                 $city = $tags['contact:city'] ?? '';
 
-                $address = ($housenumber ? $housenumber . ' ' : '')
-                    . ($street ? $street . ', ' : '')
-                    . ($postcode ? $postcode . ' ' : '')
-                    . ($city ? $city : '');
+                $address = $this->getAddressString($housename, $housenumber, $street, $postcode, $city);
             }
 
             $website = $tags['website'] ??
@@ -176,6 +206,7 @@ OVERPASS;
                 'addr:full',
 
                 // contact address
+                'contact:housename',
                 'contact:housenumber',
                 'contact:street',
                 'contact:postcode',

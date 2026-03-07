@@ -215,7 +215,7 @@
 .leaflet-touch .leaflet-control-zoom-in,
 .leaflet-touch .leaflet-control-zoom-out
 {
-    transition: all 0.3s;    
+    transition: all 0.3s ease;    
 }
 
 .map-center-button:hover,
@@ -223,7 +223,7 @@
 .leaflet-touch .leaflet-control-zoom-in:hover,
 .leaflet-touch .leaflet-control-zoom-out:hover
 {
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     background-color: #d2d2d2;
 }
 
