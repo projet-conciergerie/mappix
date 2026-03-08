@@ -17,13 +17,13 @@ class HomeController extends AbstractController
         Overpass $overpass,
         int $quantity
     ) {
-        // Récupérer les 3 derniers événements à venir
+        // Récupérer les $quantity derniers événements à venir
         $recentEvents = $evenementRepository->findBy(
             [],
             ['startAt' => 'ASC'],
-            3
+            $quantity
         );
-
+        
         // ========================================
         // Récupérer les services depuis Overpass
         // ========================================
