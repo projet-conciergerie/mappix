@@ -7,8 +7,10 @@ export default defineConfig(({ mode }) => {
 
     const env = loadEnv(mode, process.cwd(), '')
 
-    const devUrl = env.VITE_DEV_SERVER_URL || 'https://localhost:5173'
-    const url = new URL(devUrl)
+    const devUrlServer = env.VITE_DEV_SERVER_URL || 'http://localhost:5173'
+    const devUrlAnonce = env.VITE_DEV_ANNONCE_URL || 'http://localhost:5173'
+
+    const url = new URL(devUrlServer)
 
     const isHttps = url.protocol === 'https:'
 
@@ -24,7 +26,10 @@ export default defineConfig(({ mode }) => {
                     key: fs.readFileSync('./cert/localhost.key'),
                     cert: fs.readFileSync('./cert/localhost.crt')
                 }
-                : false
+                : false,
+
+            // URL envoyée au navigateur
+            origin: devUrlAnonce,
         },
 
         plugins: [
