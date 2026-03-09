@@ -2,11 +2,14 @@
 
 {% block body %}
 
-<main class="flex-1 flex items-center justify-center">
-	<div class="w-full">
+<main class="flex-1">
+
+	<div class="max-w-7xl mx-auto h-full">
+
 		<h1 class="text-3xl font-bold pt-3 mb-5 text-center">Carte des lieux d'intérêt</h1>
 
-		<div class="max-w-7xl mx-auto map-container">
+		<div class="map-container w-full h-[50vh] md:h-[60vh] lg:h-[70vh] relative">
+
 			<div class="map-layers">
 				<div class="cursor-pointer m-fit map-layers-button">
 					<img class="w-6 h-6 m-2 object-contain map-layers-icon" src="{{ asset('icons/layers_map.png') }}" alt="Layers Map">
@@ -16,9 +19,10 @@
 				<img class="w-6 h-6 m-2 object-contain map-center-icon" src="{{ asset('icons/center_map.png') }}" alt="Center Map">
 			</div>
 
-			<div data-controller="map geolocate" data-action="map:loaded->geolocate#onMapLoaded" data-map-categories-value="{{ categories|json_encode }}" data-map-token-value="{{ csrf_token }}" {% if position is defined %} data-map-position-value="{{ position|json_encode|default('') }}" {% endif %} style="height: 100%; width: 100%;"></div>
+			<div data-controller="map geolocate" data-action="map:loaded->geolocate#onMapLoaded" data-map-categories-value="{{ categories|json_encode }}" data-map-token-value="{{ csrf_token }}" {% if position is defined %} data-map-position-value="{{ position|json_encode|default('') }}" {% endif %} class="w-full h-full"></div>
 
 		</div>
+		
 		<div class="max-w-7xl mx-auto px-6 mb-6 mt-6 bg-gray-900 text-white rounded-lg shadow-lg p-6 border border-gray-100">
 			<div id="map-details">
 				{% include 'map/_map_details_none.html.twig' %}
